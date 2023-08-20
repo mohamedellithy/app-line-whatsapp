@@ -19,5 +19,5 @@ Route::get('/', function () {
 
 
 Route::get('/salla-callback', [App\Http\Controllers\AppController::class, 'salla_callback']);
-Route::post('/app-events', [App\Http\Controllers\AppController::class, 'make_event']);
+Route::get('/app-events', [App\Http\Controllers\AppController::class, 'make_event']);
 
