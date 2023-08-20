@@ -1,11 +1,11 @@
 <?php
-namespace App\AppServices\SallaServices;
+namespace App\Services\SallaServices;
 
 use App\Models\FailedMessagesModel;
 use App\Models\SuccessTempModel;
 use App\Models\ReviewRequest;
-use App\AppServices\AppSettings\AppMerchant;
-use App\AppServices\AppSettings\AppEvent;
+use App\Services\AppSettings\AppMerchant;
+use App\Services\AppSettings\AppEvent;
 use Log;
 class Order extends AppMerchant implements AppEvent{
 

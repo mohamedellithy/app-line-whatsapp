@@ -3,8 +3,8 @@ namespace App\Http\Controllers\SallaServices;
 
 use App\Models\FailedMessagesModel;
 use App\Models\SuccessTempModel;
-use App\AppServices\AppSettings\AppMerchant;
-use App\AppServices\AppSettings\AppEvent;
+use App\Services\AppSettings\AppMerchant;
+use App\Services\AppSettings\AppEvent;
 use Log;
 class OtpRequest extends AppMerchant implements AppEvent{
     public $data;

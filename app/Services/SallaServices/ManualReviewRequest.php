@@ -1,7 +1,7 @@
 <?php
-namespace App\AppServices\SallaServices;
-use App\AppServices\AppSettings\KarzounRequest;
-use App\AppServices\AppSettings\AppEvent;
+namespace App\Services\SallaServices;
+use App\Services\AppSettings\KarzounRequest;
+use App\Services\AppSettings\AppEvent;
 use Log;
 class ManualReviewRequest implements AppEvent{
     public $data;

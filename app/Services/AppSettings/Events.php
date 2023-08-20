@@ -1,5 +1,5 @@
 <?php
-namespace App\EventsServices\EventSettings;
+namespace App\Services\AppSettings;
 
 use Log;
 abstract class Events

@@ -1,7 +1,7 @@
 <?php
-namespace App\AppServices\AppSettings;// اسم مميز للكلاس
+namespace App\Services\AppSettings;// اسم مميز للكلاس
 
-use App\AppServices\AppSettings\AppEvent;
+use App\Services\AppSettings\AppEvent;
 use App\Models\AbandBaskts;
 use Log;
 class AbandonedCart implements AppEvent{

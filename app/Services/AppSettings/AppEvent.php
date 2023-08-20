@@ -1,5 +1,5 @@
 <?php
-namespace App\AppServices\AppSettings;
+namespace App\Services\AppSettings;
 
 interface AppEvent {
 

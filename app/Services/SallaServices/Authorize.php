@@ -1,7 +1,7 @@
 <?php
-namespace App\AppServices\SallaServices;
+namespace App\Services\SallaServices;
 
-use App\AppServices\AppSettings\AppEvent;
+use App\Services\AppSettings\AppEvent;
 use Log;
 class Authorize implements AppEvent{
     public $data;

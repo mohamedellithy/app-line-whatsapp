@@ -1,9 +1,9 @@
 <?php
-namespace App\AppServices\SallaServices;
+namespace App\Services\SallaServices;
 
 use App\Models\FailedMessagesModel;
 use App\Models\SuccessTempModel;
-use App\AppServices\AppSettings\AppEvent;
+use App\Services\AppSettings\AppEvent;
 use Log;
 class CustomerCreated implements AppEvent{
     public $data;

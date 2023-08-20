@@ -1,7 +1,7 @@
 <?php
-namespace App\AppServices\SallaServices;
+namespace App\Services\SallaServices;
 
-use App\AppServices\AppSettings\Events;
+use App\Services\AppSettings\Events;
 use Log;
 class AppEvents extends Events{
     public $events = array();

@@ -1,5 +1,5 @@
 <?php
-namespace App\AppServices\AppSettings;
+namespace App\Services\AppSettings;
 
 use App\Models\Team;
 use App\Models\SpPermession;

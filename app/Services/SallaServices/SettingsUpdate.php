@@ -1,8 +1,8 @@
 <?php
-namespace App\AppServices\SallaServices;
+namespace App\Services\SallaServices;
 
 use App\Models\Team;
-use App\AppServices\AppSettings\AppEvent;
+use App\Services\AppSettings\AppEvent;
 use Log;
 class SettingsUpdate implements AppEvent{
 

@@ -1,5 +1,5 @@
 <?php
-namespace App\AppServices\SallaServices;
+namespace App\Services\SallaServices;
 
 use App\Models\SpUser;
 use App\Models\Team;
