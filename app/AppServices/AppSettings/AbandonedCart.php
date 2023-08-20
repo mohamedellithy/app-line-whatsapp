@@ -1,0 +1,44 @@
+<?php
+namespace App\AppServices\AppSettings;// اسم مميز للكلاس
+
+use App\AppServices\AppSettings\AppEvent;
+use App\Models\AbandBaskts;
+use Log;
+class AbandonedCart implements AppEvent{
+
+    public $data;
+    public $source = 'salla';
+
+    public function __construct($data){
+        // set data
+        $this->data = $data;
+
+        // track event by using Log
+        $this->set_log();
+    }
+
+    public function set_log(){
+        // encode log
+        $log = json_encode($this->data, JSON_UNESCAPED_UNICODE) . PHP_EOL;
+
+        // set log data
+        Log::build([
+            'driver' => 'single',
+            'path' => storage_path('logs/abandoned_cart.log'),
+        ])->info($this->data);
+    }
+
+    public function resolve_event(){
+        // call events
+        $id_data = $this->data->data->id;
+        $check_if_aband = AbandBaskts::where("data", "like", "%$id_data%")->Andwhere('source',$this->source)->first();
+        if (empty($check_if_aband)) {
+            $appand_baskts          = new AbandBaskts();
+            $appand_baskts->source  = $this->source;
+            $appand_baskts->data    = json_encode($this->data);
+            $appand_baskts->save();
+        }
+
+        // here
+    }
+}
