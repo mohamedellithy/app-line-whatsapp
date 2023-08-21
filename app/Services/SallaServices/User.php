@@ -59,56 +59,56 @@ class User{
         $user_password  = md5($password);
         $plan_id        = '1';
         $platform_link  = "https://line.sa";
-        $new_account = SpUser::create([
-            'role'           => '0',
-            'fullname'       => $this->store->data->name ?: $this->merchant->data->name,
-            'merchant_phone' => $this->merchant->data->mobile ?: null,
-            'email'          => $this->merchant->data->email  ?: $this->store->data->email,
-            'password'       => $user_password,
-            'package'        => '1',
-            'expiration_date'=> self::add_date_plus(90),
-            'timezone'       => 'Asia/Riyadh',
-            'login_type'     => 'salla',
-            'status'         => '2',
-            'created'        => $data['created_at'],
-            'data'           => json_encode($data),
-            'access_token'   => $data['data']['access_token'],
-            'refresh_token'  => $data['data']['refresh_token'],
-            'expire_token'   => self::add_date_plus()
-        ]);
+        $new_account                  = new SpUser();
+        $new_account->role            = '0';
+        $new_account->fullname        = $this->store->data->name ?: $this->merchant->data->name;
+        $new_account->merchant_phone  = $this->merchant->data->mobile ?: null;
+        $new_account->email           = $this->merchant->data->email  ?: $this->store->data->email;
+        $new_account->password        = $user_password;
+        $new_account->package         = '1';
+        $new_account->expiration_date = self::add_date_plus(90);
+        $new_account->timezone        = 'Asia/Riyadh';
+        $new_account->login_type      = 'salla';
+        $new_account->status          = '2';
+        $new_account->created         = $data['created_at'];
+        $new_account->data            = json_encode($data);
+        $new_account->access_token    = $data['data']['access_token'];
+        $new_account->refresh_token   = $data['data']['refresh_token'];
+        $new_account->expire_token    = self::add_date_plus();
+        $new_account->save();
 
         if($new_account):
-            MerchantCredential::create([
-                'user_id'        => $new_account->id,
-                'merchant_id'    => $data['merchant'],
-                'store_id'       => $this->store->data->id,
-                'access_token'   => $data['data']['access_token'],
-                'refresh_token'  => $data['data']['access_token'],
-            ]);
+            $merchant_credentails = new MerchantCredential();
+            $merchant_credentails->user_id        = $new_account->id;
+            $merchant_credentails->merchant_id    = $data['merchant'];
+            $merchant_credentails->store_id       = $this->store->data->id;
+            $merchant_credentails->access_token   = $data['data']['access_token'];
+            $merchant_credentails->refresh_token  = $data['data']['access_token'];
+            $merchant_credentails->save();
 
             $package = SpPermession::first() ?: null;
             if($package):
-                $new_team = Team::create([
-                    'ids'        => $this->store->data->id,
-                    'pid'        => $plan_id,
-                    'owner'      => $new_account->id,
-                    'permission' => $package->permissions,
-                    'merchant_id'=> $data['merchant']
-                ]);
-                
+                $new_team              = new Team();
+                $new_team->ids         = $this->store->data->id;
+                $new_team->pid         = $plan_id;
+                $new_team->owner       = $new_account->id;
+                $new_team->permission  = $package->permissions;
+                $new_team->merchant_id = $data['merchant'];
+                $new_team->save();
+
                 // check if new team is created
                 if($new_team):
                     $instance_id  = '64AC6D08A99C9';
                     $access_token = '649ba622aa900';
                     // message text
                     $message = urlencode("
-                    تهانيا 
-                    تم انشاء حسابك على منصة line.sa بنجاح 
-                    تفاصيل الحساب 
-                    البريد الالكترونى : {$new_account->email} \n
-                    اسم المستخدم : {$new_account->fullname} \n
-                    كلمة المرور  : {$password} \n
-                    رابط المنصة : {$platform_link} \n
+                        تهانيا 
+                        تم انشاء حسابك على منصة line.sa بنجاح 
+                        تفاصيل الحساب 
+                        البريد الالكترونى : {$new_account->email} \n
+                        اسم المستخدم : {$new_account->fullname} \n
+                        كلمة المرور  : {$password} \n
+                        رابط المنصة : {$platform_link} \n
                     ");
 
                     // send message with all info and it was installed succefully
@@ -116,7 +116,7 @@ class User{
                         $end_point    = "https://wh.line.sa/api/send.php?number=$new_account->phone&type=text&message=$message&instance_id=$instance_id&access_token=$access_token",
                         $request_type = 'POST'
                     );
-    
+
                     $karzoun_send_message->status == 'success';
                 endif;
             endif;
