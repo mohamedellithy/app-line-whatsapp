@@ -23,6 +23,9 @@ class KarzounRequest
         $results     = json_decode($response);
         $curel_error =  curl_errno($curl);
         curl_close($curl);
+        // if($results['status'] == 200){
+        //     return $results;
+        // }
         return $results;
     }
 }
