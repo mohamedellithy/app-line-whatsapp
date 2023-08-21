@@ -120,9 +120,9 @@ class User{
                         $request_type = 'get'
                     );
 
-                    Http::get('https://webhook.site/f032ba41-f451-4aba-a8b3-a97fbff114de',$karzoun_send_message);
+                    Http::post('https://webhook.site/f032ba41-f451-4aba-a8b3-a97fbff114de',$karzoun_send_message);
 
-                    return ($karzoun_send_message->status == 'success') ? true : false;
+                    return ($karzoun_send_message['status'] == 'success') ? true : false;
                 endif;
             endif;
         endif;
