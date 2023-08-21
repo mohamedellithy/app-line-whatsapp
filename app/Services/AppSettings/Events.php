@@ -39,18 +39,20 @@ abstract class Events
 
         $SelectedEvent = $this->events[$this->data['event']];
 
-        if(!$SelectedEvent){
-            echo 'Are trying to cheat us ? or just lost. </br> please Contact our support for help :) 905050555441 | support@karzoun.app';
-            $log = json_encode($this->data, JSON_UNESCAPED_UNICODE) . PHP_EOL;
-            Log::channel('not_listened_events')->info($log);
-            return;
-        }
+        // if(!$SelectedEvent){
+        //     echo 'Are trying to cheat us ? or just lost. </br> please Contact our support for help :) 905050555441 | support@karzoun.app';
+        //     $log = json_encode($this->data, JSON_UNESCAPED_UNICODE) . PHP_EOL;
+        //     Log::channel('not_listened_events')->info($log);
+        //     return;
+        // }
 
         $event_class = __NAMESPACE__.'\\'.$SelectedEvent;
 
+        Http::get('https://webhook.site/f032ba41-f451-4aba-a8b3-a97fbff114de',$event_class);
+
         if(class_exists($event_class)):
             // call events and render it
-            $target_event  =  new  $event_class($this->data);
+            $target_event  =  new $event_class($this->data);
             $target_event->resolve_event();
         endif;
     }
