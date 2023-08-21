@@ -17,6 +17,6 @@ class SpUser extends Model
     const UPDATED_AT = null;
 
     public function merchant_info(){
-        return $this->hasMany(MerchantCredential::class,'merchant_id','id');
+        return $this->hasOne(MerchantCredential::class,'user_id','id');
     }
 }

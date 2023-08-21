@@ -5,7 +5,7 @@ use Log;
 use Illuminate\Support\Facades\Http;
 use App\Services\AppSettings\AppEvent;
 
-class Authorize implements AppEvent{
+class Installed implements AppEvent{
     public $data;
     public function __construct($data){
         // set data
