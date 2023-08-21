@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->BigInteger('merchant_id')->unsigned();
             $table->foreign('merchant_id')->on('sp_users')->references('id')->onDelete('cascade');
+            $table->integer('merchant_id');
+            $table->integer('store_id')->nullable();
             $table->text('access_token');
             $table->text('refresh_token');
             $table->timestamps();
