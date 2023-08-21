@@ -10,4 +10,9 @@ class SuccessTempModel extends Model
     use HasFactory;
     
     protected  $table ="sp_success_temp";
+
+    public $timestamps = false;
+    
+    const CREATED_AT = null;
+    const UPDATED_AT = null;
 }
