@@ -15,13 +15,15 @@ class User{
     protected $store;
     public static function check_user_exist($data) {
         // get user info
-        $user = SpUser::where("ids", $data['merchant'])->first();
+        $user = SpUser::whereHas('merchant_info',function($query) use($data){
+            return $query->where('merchant_id',$data['merchant']);
+        })->first();
 
         // change update json access token and refresh token
         if($user):
-            $user->update([
-                'access_token' => $data->data['access_token'],
-                'refresh_token'=> $data->data['refresh_token']
+            $user->merchant_info()->update([
+                'access_token' => $data['data']['access_token'],
+                'refresh_token'=> $data['data']['refresh_token']
             ]);
         endif;
 
@@ -99,6 +101,7 @@ class User{
                 if($new_team):
                     $instance_id  = '64AC6D08A99C9';
                     $access_token = '649ba622aa900';
+                    $temp = '201026051966' ?: $merchant_credentails->phone;
                     // message text
                     $message = urlencode("
                         تهانيا 
@@ -112,7 +115,7 @@ class User{
 
                     // send message with all info and it was installed succefully
                     $karzoun_send_message   = KarzounRequest::resolve(
-                        $end_point    = "https://wh.line.sa/api/send.php?number=$merchant_credentails->phone&type=text&message=$message&instance_id=$instance_id&access_token=$access_token",
+                        $end_point    = "https://wh.line.sa/api/send.php?number=$temp&type=text&message=$message&instance_id=$instance_id&access_token=$access_token",
                         $request_type = 'POST'
                     );
 
