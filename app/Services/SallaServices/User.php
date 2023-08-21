@@ -238,7 +238,7 @@ class User{
     }
 
     public static function add_date_plus($days = 12){
-        $date = Carbon::now();
+        $date = Carbon::now('Y-m-d');
         $date->addDays($days);
         return $date->toDateTimeString();
     }
