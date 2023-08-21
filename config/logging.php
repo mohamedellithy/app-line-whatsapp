@@ -60,10 +60,10 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 
-        'SallaEvents' => [
+        'salla_events' => [
             'driver' => 'single',
             'path' => storage_path('logs/salla_events.log'),
-            'level' => env('LOG_LEVEL', 'debug'),
+            'level' => 'info',
         ],
 
         'daily' => [
