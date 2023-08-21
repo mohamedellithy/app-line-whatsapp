@@ -1,11 +1,11 @@
 <?php
-namespace App\AppServices\AbayaServices;
+namespace App\Services\AbayaServices;
 
 use App\Models\FailedMessagesModel;
 use App\Models\SuccessTempModel;
-use App\AppServices\AppSettings\AppMerchant;
-use App\AppServices\AppSettings\AppEvent;
-use App\AppServices\AppSettings\KarzounRequest;
+use App\Services\AppSettings\AppMerchant;
+use App\Services\AppSettings\AppEvent;
+use App\Services\AppSettings\KarzounRequest;
 use Log;
 class Order extends AppMerchant implements AppEvent{
 

@@ -1,7 +1,7 @@
 <?php
-namespace App\AppServices\ZidServices;
+namespace App\Services\ZidServices;
 
-use App\AppServices\AppSettings\Events;
+use App\Services\AppSettings\Events;
 use Log;
 class AppEvents extends Events{
     public $events = array();

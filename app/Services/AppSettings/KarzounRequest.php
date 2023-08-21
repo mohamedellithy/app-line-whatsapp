@@ -1,5 +1,5 @@
 <?php
-namespace App\AppServices\AppSettings;
+namespace App\Services\AppSettings;
 class KarzounRequest
 {
     public static function resolve($end_point = 'https://api.salla.dev/',

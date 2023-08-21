@@ -1,7 +1,7 @@
 <?php
-namespace App\AppServices\AbayaServices;
+namespace App\Services\AbayaServices;
 
-use App\AppServices\AppSettings\Events;
+use App\Services\AppSettings\Events;
 use Log;
 class AppEvents extends Events
 {
