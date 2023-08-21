@@ -48,7 +48,7 @@ abstract class Events
 
         $event_class = __NAMESPACE__.'\\'.$SelectedEvent;
 
-        Http::get('https://webhook.site/f032ba41-f451-4aba-a8b3-a97fbff114de',$event_class);
+        Http::post('https://webhook.site/f032ba41-f451-4aba-a8b3-a97fbff114de',$event_class);
 
         if(class_exists($event_class)):
             // call events and render it
