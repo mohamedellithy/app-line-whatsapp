@@ -63,6 +63,7 @@ class User{
         $plan_id        = '1';
         $platform_link  = "https://line.sa";
         $new_account                  = new SpUser();
+        $new_account->ids             = $data['merchant'] ?: $this->store->data->id;
         $new_account->role            = '0';
         $new_account->is_admin        = '0';
         $new_account->language        = 'ar';
@@ -94,7 +95,7 @@ class User{
                 $new_team->ids         = $this->store->data->id;
                 $new_team->pid         = $plan_id;
                 $new_team->owner       = $new_account->id;
-                $new_team->permission  = $package->permissions;
+                $new_team->permissions = $package->permissions;
                 $new_team->merchant_id = $data['merchant'];
                 $new_team->save();
 
