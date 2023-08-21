@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('merchant_credentials', function (Blueprint $table) {
             $table->id();
             $table->BigInteger('merchant_id')->unsigned();
-            $table->foreign('merchant_id')->on('sp_users')->references('id')->onDelete('casade');
+            $table->foreign('merchant_id')->on('sp_users')->references('id')->onDelete('cascade');
             $table->text('access_token');
             $table->text('refresh_token');
             $table->timestamps();
