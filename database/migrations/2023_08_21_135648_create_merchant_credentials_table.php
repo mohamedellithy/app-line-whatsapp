@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('merchant_credentials', function (Blueprint $table) {
             $table->id();
-            $table->BigInteger('merchant_id')->unsigned();
-            $table->foreign('merchant_id')->on('sp_users')->references('id')->onDelete('cascade');
+            $table->BigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->on('sp_users')->references('id')->onDelete('cascade');
             $table->integer('merchant_id');
             $table->integer('store_id')->nullable();
             $table->text('access_token');
