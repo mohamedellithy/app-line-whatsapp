@@ -24,8 +24,8 @@ abstract class Events
     }
 
     public function get_json_data(){
-        $request_data = file_get_contents('php://input');
-        return json_decode($request_data);
+        $request_data = request()->all();
+        return $request_data;
     }
 
     public function make_event(){
