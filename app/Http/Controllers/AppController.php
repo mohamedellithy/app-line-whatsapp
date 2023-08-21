@@ -13,6 +13,5 @@ class AppController extends Controller
     }
     public function make_event(Request $request){
        $send =  Http::get('https://webhook.site/f032ba41-f451-4aba-a8b3-a97fbff114de');
-       dd($send->body());
     }
 }
