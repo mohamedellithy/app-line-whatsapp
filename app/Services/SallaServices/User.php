@@ -69,7 +69,7 @@ class User{
         $new_account->timezone        = 'Asia/Riyadh';
         $new_account->login_type      = 'salla';
         $new_account->status          = '2';
-        $new_account->created         = $data['created_at'];
+        $new_account->created         = strtotime($data['created_at']);
         $new_account->data            = json_encode($data);
         $new_account->save();
 
