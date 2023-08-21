@@ -24,10 +24,11 @@ class Authorize implements AppEvent{
     }
 
     public function resolve_event(){
+        $user = new User();
         if (User::check_user_exist($this->data)) {
             echo "user exist before";
         } else {
-            User::create_new_user($this->data);
+            $user->create_new_user($this->data);
         }
     }
 
