@@ -92,11 +92,10 @@ class User{
             $package = SpPlan::first() ?: null;
             if($package):
                 $new_team              = new Team();
-                $new_team->ids         = $this->store->data->id;
+                $new_team->ids         = $data['merchant'] ?: $this->store->data->id;
                 $new_team->pid         = $plan_id;
                 $new_team->owner       = $new_account->id;
                 $new_team->permissions = $package->permissions;
-                $new_team->merchant_id = $data['merchant'];
                 $new_team->save();
 
                 // check if new team is created
