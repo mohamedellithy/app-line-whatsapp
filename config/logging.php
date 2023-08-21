@@ -61,7 +61,7 @@ return [
         ],
 
         'SallaEvents' => [
-            'driver' => 'single',
+            'driver' => 'SallaEvents',
             'path' => storage_path('logs/salla_events.log'),
             'level' => env('LOG_LEVEL', 'debug'),
         ],
