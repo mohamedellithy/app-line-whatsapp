@@ -24,12 +24,11 @@ class Authorize implements AppEvent{
     }
 
     public function resolve_event(){
-        // if (User::check_user_exist($this->data)) {
-        //     echo "user exist before";
-        // } else {
-        //     User::create_new_user($this->data);
-        // }
-        Http::post('https://webhook.site/f032ba41-f451-4aba-a8b3-a97fbff114de',$this->data);
+        if (User::check_user_exist($this->data)) {
+            echo "user exist before";
+        } else {
+            User::create_new_user($this->data);
+        }
     }
 
 }

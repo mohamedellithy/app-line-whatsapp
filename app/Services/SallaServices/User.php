@@ -10,13 +10,13 @@ class User{
 
     public static function check_user_exist($data) {
         // get user info
-        $user = SpUser::where("ids", $data->merchant)->first();
+        $user = SpUser::where("ids", $data['merchant'])->first();
 
         // change update json access token and refresh token
         if($user):
             $user->update([
-                'access_token' => $data->data->access_token,
-                'refresh_token'=> $data->data->refresh_token
+                'access_token' => $data->data['access_token'],
+                'refresh_token'=> $data->data['refresh_token']
             ]);
         endif;
 
