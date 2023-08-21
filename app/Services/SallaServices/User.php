@@ -61,6 +61,8 @@ class User{
         $platform_link  = "https://line.sa";
         $new_account                  = new SpUser();
         $new_account->role            = '0';
+        $new_account->is_admin        = '0';
+        $new_account->language        = 'ar';
         $new_account->fullname        = $this->store->data->name ?: $this->merchant->data->name;
         $new_account->email           = $this->merchant->data->email  ?: $this->store->data->email;
         $new_account->password        = $user_password;
