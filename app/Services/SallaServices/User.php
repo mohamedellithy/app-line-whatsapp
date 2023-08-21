@@ -49,10 +49,10 @@ class User{
 
     public function create_new_user($data){
         // get merchant information
-        $this->get_merchant_info($data['access_token']);
+        $this->get_merchant_info($data['data']['access_token']);
 
         // get store information
-        $this->get_store_info($data['access_token']);
+        $this->get_store_info($data['data']['access_token']);
 
         /*** generate password to send to clinet ***/
         $password       = Str::random(10);
@@ -72,8 +72,8 @@ class User{
             'status'         => '2',
             'created'        => $data['created_at'],
             'data'           => json_encode($data),
-            'access_token'   => $data['access_token'],
-            'refresh_token'  => $data['access_token'],
+            'access_token'   => $data['data']['access_token'],
+            'refresh_token'  => $data['data']['refresh_token'],
             'expire_token'   => self::add_date_plus()
         ]);
 
@@ -82,8 +82,8 @@ class User{
                 'user_id'        => $new_account->id,
                 'merchant_id'    => $data['merchant'],
                 'store_id'       => $this->store->data->id,
-                'access_token'   => $data['access_token'],
-                'refresh_token'  => $data['access_token'],
+                'access_token'   => $data['data']['access_token'],
+                'refresh_token'  => $data['data']['access_token'],
             ]);
 
             $package = SpPermession::first() ?: null;
