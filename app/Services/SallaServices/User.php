@@ -66,7 +66,7 @@ class User{
             'email'          => $this->merchant->data->email  ?: $this->store->data->email,
             'password'       => $user_password,
             'package'        => '1',
-            'expiration_date'=> '2022-09-09',
+            'expiration_date'=> self::add_date_plus(90),
             'timezone'       => 'Asia/Riyadh',
             'login_type'     => 'salla',
             'status'         => '2',
