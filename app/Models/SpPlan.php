@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SpPermession extends Model
+class SpPlan extends Model
 {
     use HasFactory;
-    protected $table = "sp_package_manager";
+    protected $table = "sp_plans";
 }

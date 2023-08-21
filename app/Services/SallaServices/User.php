@@ -4,9 +4,9 @@ namespace App\Services\SallaServices;
 use Log;
 use Carbon\Carbon;
 use App\Models\Team;
+use App\Models\SpPlan;
 use App\Models\SpUser;
 use Illuminate\Support\Str;
-use App\Models\SpPermession;
 use App\Models\MerchantCredential;
 use Illuminate\Support\Facades\Http;
 use App\Services\AppSettings\KarzounRequest;
@@ -88,7 +88,7 @@ class User{
             $merchant_credentails->refresh_token  = $data['data']['refresh_token'];
             $merchant_credentails->save();
 
-            $package = SpPermession::first() ?: null;
+            $package = SpPlan::first() ?: null;
             if($package):
                 $new_team              = new Team();
                 $new_team->ids         = $this->store->data->id;
