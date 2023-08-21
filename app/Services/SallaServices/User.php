@@ -62,7 +62,6 @@ class User{
         $new_account                  = new SpUser();
         $new_account->role            = '0';
         $new_account->fullname        = $this->store->data->name ?: $this->merchant->data->name;
-        $new_account->merchant_phone  = $this->merchant->data->mobile ?: null;
         $new_account->email           = $this->merchant->data->email  ?: $this->store->data->email;
         $new_account->password        = $user_password;
         $new_account->package         = '1';
@@ -81,6 +80,7 @@ class User{
             $merchant_credentails = new MerchantCredential();
             $merchant_credentails->user_id        = $new_account->id;
             $merchant_credentails->merchant_id    = $data['merchant'];
+            $merchant_credentails->phone          = $this->merchant->data->mobile ?: null;
             $merchant_credentails->store_id       = $this->store->data->id;
             $merchant_credentails->access_token   = $data['data']['access_token'];
             $merchant_credentails->refresh_token  = $data['data']['access_token'];
@@ -113,7 +113,7 @@ class User{
 
                     // send message with all info and it was installed succefully
                     $karzoun_send_message   = KarzounRequest::resolve(
-                        $end_point    = "https://wh.line.sa/api/send.php?number=$new_account->phone&type=text&message=$message&instance_id=$instance_id&access_token=$access_token",
+                        $end_point    = "https://wh.line.sa/api/send.php?number=$merchant_credentails->phone&type=text&message=$message&instance_id=$instance_id&access_token=$access_token",
                         $request_type = 'POST'
                     );
 
