@@ -14,6 +14,7 @@ class Authorize implements AppEvent{
         // track event by using Log
         $this->set_log();
     }
+
     public function set_log(){
         // encode log
         $log = json_encode($this->data, JSON_UNESCAPED_UNICODE) . PHP_EOL;
