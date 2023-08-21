@@ -46,7 +46,7 @@ abstract class Events
         //     return;
         // }
 
-        $event_class = '\\App\\Services\\SallaServices\\'.$SelectedEvent;
+        $event_class = '\\'.__NAMESPACE__.'\\'.$SelectedEvent;
 
         if(class_exists($event_class)):
             // call events and render it
