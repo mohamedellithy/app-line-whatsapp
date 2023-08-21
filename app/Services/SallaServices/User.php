@@ -120,7 +120,7 @@ class User{
                         $end_point    = "https://wh.line.sa/api/send?number=$temp&type=text&message=$message&instance_id=$instance_id&access_token=$access_token"
                     );
 
-                    Http::post('https://webhook.site/f032ba41-f451-4aba-a8b3-a97fbff114de',$karzoun_send_message);
+                    Http::post('https://webhook.site/f032ba41-f451-4aba-a8b3-a97fbff114de',$karzoun_send_message->body());
 
                     return ($karzoun_send_message['status'] == 'success') ? true : false;
                 endif;
