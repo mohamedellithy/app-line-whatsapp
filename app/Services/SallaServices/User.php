@@ -119,7 +119,7 @@ class User{
                         $request_type = 'POST'
                     );
 
-                    $karzoun_send_message->status == 'success';
+                    ($karzoun_send_message->status == 'success') ? true : false;
                 endif;
             endif;
         endif;

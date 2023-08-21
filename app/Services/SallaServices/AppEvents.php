@@ -9,7 +9,7 @@ class AppEvents extends Events{
     public $app    = 'Salla';
     public function events(){
         return [
-          'app.installed'            => 'Installed',
+          'app.store.authorize'      => 'Authorize',
           'abandoned.cart'           => 'AbandonedCart',
           'app.settings.updated'     => 'SettingsUpdate',
           'app.subscription.started' => 'Subscription',

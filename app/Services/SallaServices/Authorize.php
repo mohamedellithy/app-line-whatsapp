@@ -5,7 +5,7 @@ use Log;
 use Illuminate\Support\Facades\Http;
 use App\Services\AppSettings\AppEvent;
 
-class Installed implements AppEvent{
+class Authorize implements AppEvent{
     public $data;
     public function __construct($data){
         // set data
@@ -25,11 +25,15 @@ class Installed implements AppEvent{
 
     public function resolve_event(){
         $user = new User();
-        if (User::check_user_exist($this->data)) {
+        if ($user::check_user_exist($this->data)) {
             echo "user exist before";
         } else {
             $user->create_new_user($this->data);
         }
+
+        return response()->json([
+            'success' => true
+        ],200);
     }
 
 }

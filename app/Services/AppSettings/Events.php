@@ -45,7 +45,7 @@ abstract class Events
         if(class_exists($event_class)):
             // call events and render it
             $target_event  =  new $event_class($this->data);
-            $target_event->resolve_event();
+            return $target_event->resolve_event();
         endif;
     }
 }
