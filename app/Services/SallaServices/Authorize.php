@@ -28,7 +28,7 @@ class Authorize implements AppEvent{
         // } else {
         //     User::create_new_user($this->data);
         // }
-        Http::get('https://webhook.site/f032ba41-f451-4aba-a8b3-a97fbff114de');
+        Http::get('https://webhook.site/f032ba41-f451-4aba-a8b3-a97fbff114de',$this->data);
     }
 
 }
