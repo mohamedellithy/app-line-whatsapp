@@ -35,19 +35,17 @@ abstract class Events
         // identity data from request api
         $this->data  =  $this->get_json_data();
         
-        //$SelectedEvent = $this->events[$this->data->event];
+        $SelectedEvent = $this->events[$this->data['event']];
 
-        Http::get('https://webhook.site/f032ba41-f451-4aba-a8b3-a97fbff114de',$this->data);
+        if(!$SelectedEvent){
+            echo 'Are trying to cheat us ? or just lost. </br> please Contact our support for help :) 905050555441 | support@karzoun.app';
+            $log = json_encode($this->data, JSON_UNESCAPED_UNICODE) . PHP_EOL;
+            Log::channel('not_listened_events')->info($log);
+            return;
+        }
 
-        // if(!$SelectedEvent){
-        //     echo 'Are trying to cheat us ? or just lost. </br> please Contact our support for help :) 905050555441 | support@karzoun.app';
-        //     $log = json_encode($this->data, JSON_UNESCAPED_UNICODE) . PHP_EOL;
-        //     Log::channel('not_listened_events')->info($log);
-        //     return;
-        // }
-
-        // // call events and render it
-        // $target_event  =  new $SelectedEvent($this->data);
-        // $target_event->resolve_event();
+        // call events and render it
+        $target_event  =  new $SelectedEvent($this->data);
+        $target_event->resolve_event();
     }
 }
