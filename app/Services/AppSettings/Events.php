@@ -44,7 +44,7 @@ abstract class Events
             return;
         }
 
-        $event_class = __NAMESPACE__.'\\'.$SelectedEvent($this->data);
+        $event_class = __NAMESPACE__.'\\'.$SelectedEvent;
 
         if(class_exists($event_class)):
             // call events and render it
