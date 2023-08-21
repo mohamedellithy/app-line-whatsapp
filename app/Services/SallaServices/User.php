@@ -116,7 +116,7 @@ class User{
 
                     // send message with all info and it was installed succefully
                     $karzoun_send_message   = KarzounRequest::resolve(
-                        $end_point    = "https://wh.line.sa/api/send.php?number=$temp&type=text&message=$message&instance_id=$instance_id&access_token=$access_token",
+                        $end_point    = "https://wh.line.sa/api/send?number=$temp&type=text&message=$message&instance_id=$instance_id&access_token=$access_token",
                         $request_type = 'POST'
                     );
 
