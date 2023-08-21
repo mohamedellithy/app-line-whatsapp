@@ -8,6 +8,7 @@ abstract class Events
 {
     public $events = array();
     public $data   = array();
+    public $app    = '';
     public function events(){
         return [
           'app.store.authorize'      => 'Authorize',
@@ -39,14 +40,7 @@ abstract class Events
 
         $SelectedEvent = $this->events[$this->data['event']];
 
-        // if(!$SelectedEvent){
-        //     echo 'Are trying to cheat us ? or just lost. </br> please Contact our support for help :) 905050555441 | support@karzoun.app';
-        //     $log = json_encode($this->data, JSON_UNESCAPED_UNICODE) . PHP_EOL;
-        //     Log::channel('not_listened_events')->info($log);
-        //     return;
-        // }
-
-        $event_class = '\\App\\Services\\SallaServices\\'.$SelectedEvent;
+        $event_class = '\\App\\Services\\'.$this->app.'Services\\'.$SelectedEvent;
 
         if(class_exists($event_class)):
             // call events and render it

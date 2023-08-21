@@ -6,6 +6,7 @@ use Log;
 class AppEvents extends Events{
     public $events = array();
     public $data   = array();
+    public $app    = 'Salla';
     public function events(){
         return [
           'app.store.authorize'      => 'Authorize',
