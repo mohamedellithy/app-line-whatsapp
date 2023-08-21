@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\SallaServices;
+namespace App\Services\SallaServices;
 
 use App\Models\FailedMessagesModel;
 use App\Models\SuccessTempModel;
