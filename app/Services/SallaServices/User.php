@@ -71,8 +71,6 @@ class User{
         $new_account->status          = '2';
         $new_account->created         = $data['created_at'];
         $new_account->data            = json_encode($data);
-        $new_account->access_token    = $data['data']['access_token'];
-        $new_account->refresh_token   = $data['data']['refresh_token'];
         $new_account->expire_token    = self::add_date_plus();
         $new_account->save();
 
