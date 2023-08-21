@@ -71,7 +71,6 @@ class User{
         $new_account->status          = '2';
         $new_account->created         = $data['created_at'];
         $new_account->data            = json_encode($data);
-        $new_account->expire_token    = self::add_date_plus();
         $new_account->save();
 
         if($new_account):
@@ -81,7 +80,7 @@ class User{
             $merchant_credentails->phone          = $this->merchant->data->mobile ?: null;
             $merchant_credentails->store_id       = $this->store->data->id;
             $merchant_credentails->access_token   = $data['data']['access_token'];
-            $merchant_credentails->refresh_token  = $data['data']['access_token'];
+            $merchant_credentails->refresh_token  = $data['data']['refresh_token'];
             $merchant_credentails->save();
 
             $package = SpPermession::first() ?: null;
