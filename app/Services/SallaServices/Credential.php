@@ -1,5 +1,5 @@
 <?php
-namespace App\Services\SallaService;
+namespace App\Services\SallaServices;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
