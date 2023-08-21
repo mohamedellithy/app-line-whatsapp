@@ -44,8 +44,12 @@ abstract class Events
             return;
         }
 
-        // call events and render it
-        $target_event  =  new $SelectedEvent($this->data);
-        $target_event->resolve_event();
+        $event_class = __NAMESPACE__.'\\'.$SelectedEvent($this->data);
+
+        if(class_exists($event_class)):
+            // call events and render it
+            $target_event  =  new  $event_class($this->data);
+            $target_event->resolve_event();
+        endif;
     }
 }
