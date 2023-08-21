@@ -32,8 +32,10 @@ abstract class Events
 
         // identity data from request api
         $this->data  =  $this->get_json_data();
+        
+        $SelectedEvent = $this->events[$this->data->event];
 
-        if(!$this->events[$this->data->event]){
+        if(!$SelectedEvent){
             echo 'Are trying to cheat us ? or just lost. </br> please Contact our support for help :) 905050555441 | support@karzoun.app';
             $log = json_encode($this->data, JSON_UNESCAPED_UNICODE) . PHP_EOL;
             Log::channel('not_listened_events')->info($log);
@@ -41,7 +43,7 @@ abstract class Events
         }
 
         // call events and render it
-        $target_event  =  new $this->events[$this->data->event]($this->data);
+        $target_event  =  new $SelectedEvent($this->data);
         $target_event->resolve_event();
     }
 }

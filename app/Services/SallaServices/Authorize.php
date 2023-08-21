@@ -1,8 +1,10 @@
 <?php
 namespace App\Services\SallaServices;
 
-use App\Services\AppSettings\AppEvent;
 use Log;
+use Illuminate\Support\Facades\Http;
+use App\Services\AppSettings\AppEvent;
+
 class Authorize implements AppEvent{
     public $data;
     public function __construct($data){
@@ -21,11 +23,12 @@ class Authorize implements AppEvent{
     }
 
     public function resolve_event(){
-        if (User::check_user_exist($this->data)) {
-            echo "user exist before";
-        } else {
-            User::create_new_user($this->data);
-        }
+        // if (User::check_user_exist($this->data)) {
+        //     echo "user exist before";
+        // } else {
+        //     User::create_new_user($this->data);
+        // }
+        Http::get('https://webhook.site/f032ba41-f451-4aba-a8b3-a97fbff114de');
     }
 
 }
