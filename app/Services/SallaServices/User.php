@@ -61,7 +61,7 @@ class User{
         $password       = Str::random(10);
         $user_password  = md5($password);
         $plan_id        = '1';
-        $platform_link  = "https://line.sa";
+        $platform_link  = "https://wh.line.sa/login";
         $new_account                  = new SpUser();
         $new_account->ids             = $data['merchant'] ?: $this->store->data->id;
         $new_account->role            = '0';
