@@ -59,9 +59,10 @@ class Order extends AppMerchant implements AppEvent{
         // "" ?: $attrs['customer_phone_number']
         if($app_event->status != 'success'):
             $message = "اختبار طلبية رقم {رقم_الطلب}";
+            $filter_message = message_order_params($message, $attrs);
             $result_send_message = send_message(
                 "201026051966",
-                message_order_params($message, $attrs),
+                $filter_message,
                 $this->merchant_team->account->token,
                 $this->merchant_team->ids
             );

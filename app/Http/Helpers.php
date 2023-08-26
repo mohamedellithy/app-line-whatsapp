@@ -47,7 +47,7 @@ endif;
 
 function message_order_params($message_to_send = '',$attrs = []){
     preg_match_all("/{(.*?)}/", $message_to_send, $search);
-    foreach ($search[1] as $variable):
+    foreach($search[1] as $variable):
         $orders_status = [
             'حالة_الطلب'             => $attrs["order_status"],
             'رقم_الطلب'              => $attrs["order_id"],
