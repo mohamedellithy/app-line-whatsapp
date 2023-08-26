@@ -25,20 +25,20 @@ class AbandonedCart implements AppEvent{
         Log::build([
             'driver' => 'single',
             'path' => storage_path('logs/abandoned_cart.log'),
-        ])->info($this->data);
+        ])->info($log);
     }
 
     public function resolve_event(){
         // call events
-        $id_data = $this->data->data->id;
-        $check_if_aband = AbandBaskts::where("data", "like", "%$id_data%")->Andwhere('source',$this->source)->first();
+        $cart_id = $this->data['data']['id'];
+        $check_if_aband = AbandBaskts::where("cart_id", $cart_id)->where('source',$this->source)->first();
         if (empty($check_if_aband)) {
-            $appand_baskts          = new AbandBaskts();
-            $appand_baskts->source  = $this->source;
-            $appand_baskts->data    = json_encode($this->data);
+            $appand_baskts              = new AbandBaskts();
+            $appand_baskts->merchant_id = $this->data['merchant'];
+            $appand_baskts->cart_id     = $this->data['data']['id'];
+            $appand_baskts->source      = $this->source;
+            $appand_baskts->data        = json_encode($this->data);
             $appand_baskts->save();
         }
-
-        // here
     }
 }
