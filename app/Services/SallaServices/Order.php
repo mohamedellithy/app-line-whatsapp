@@ -1,14 +1,16 @@
 <?php
 namespace App\Services\SallaServices;
 
-use App\Models\EventStatu;
-use App\Models\FailedMessagesModel;
-use App\Models\SuccessTempModel;
-use App\Models\ReviewRequest;
-use App\Services\AppSettings\AppMerchant;
-use App\Services\AppSettings\AppEvent;
-use Illuminate\Support\Facades\Http;
 use Log;
+use App\Models\EventStatu;
+use App\Models\EventStatus;
+use App\Models\ReviewRequest;
+use App\Models\SuccessTempModel;
+use App\Models\FailedMessagesModel;
+use Illuminate\Support\Facades\Http;
+use App\Services\AppSettings\AppEvent;
+use App\Services\AppSettings\AppMerchant;
+
 class Order extends AppMerchant implements AppEvent{
 
     public $data;
@@ -31,7 +33,19 @@ class Order extends AppMerchant implements AppEvent{
     public function resolve_event(){
         $attrs = formate_order_details($this->data);
         Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',$attrs);
-        EventStatus::
+        $app_event = EventStatus::updateOrCreate([
+            'unique_number' => $this->data['merchant'].$this->data['data']['id']
+        ],[
+            'values'     => json_encode($this->data),
+            'type'       => $this->data['event'],
+            'event_from' => "salla",
+            'status'     => 'failed',
+            'count_of_call' => 1
+        ]);
+
+        $app_event->update([
+            'status' => 'success'
+        ]);
     }
 
     // public function resolve_event(){
