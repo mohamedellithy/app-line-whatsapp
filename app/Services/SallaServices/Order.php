@@ -2,6 +2,8 @@
 namespace App\Services\SallaServices;
 
 use Log;
+use App\Models\Team;
+use App\Models\Account;
 use App\Models\EventStatu;
 use App\Models\EventStatus;
 use App\Models\ReviewRequest;
@@ -16,14 +18,14 @@ use App\Services\AppSettings\AppMerchant;
 class Order extends AppMerchant implements AppEvent{
 
     public $data;
-    protected $merchant_sessions = null;
+    protected $merchant_team = null;
 
     public function __construct($data){
         // set data
         $this->data = $data;
         
         // merchant
-        $this->merchant_sessions = WhatsappSession::where([
+        $this->merchant_team = Team::with('account')->where([
             'ids' => $this->data['merchant']
         ])->first();
 
@@ -57,8 +59,8 @@ class Order extends AppMerchant implements AppEvent{
             $result_send_message = send_message(
                 "201026051966" ?: $attrs['customer_phone_number'],
                 'fisrt message from orders',
-                $this->merchant_sessions->ids,
-                $this->merchant_sessions->instance_id
+                $this->merchant_team->ids,
+                $this->merchant_team->account->token
             );
 
             $app_event->update([

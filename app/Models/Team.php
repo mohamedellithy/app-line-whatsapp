@@ -15,4 +15,8 @@ class Team extends Model
     
     const CREATED_AT = null;
     const UPDATED_AT = null;
+
+    public function account(){
+        return $this->hasOne(Account::class,'team_id','id');
+    }
 }

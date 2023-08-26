@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class WhatsappSession extends Model
+class Account extends Model
 {
     use HasFactory;
 
-    protected $table = "sp_whatsapp_sessions";
+    protected $table = "sp_accounts";
 }
