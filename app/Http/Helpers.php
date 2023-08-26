@@ -6,14 +6,18 @@ if(!function_exists('formate_order_details')):
     function formate_order_details($order_details){
         $attrs = [];
 
-        $attrs['order_status']   = $order_details['data']['status']['slug'];
+        $attrs['order_status']   = $order_details['data']['status']['name'];
+        $attrs['order_id']       = $order_details['data']['id'];
         $attrs['payment_method'] = $order_details['data']['payment_method'];
         $attrs['currency']       = $order_details['data']['currency'];
-        $attrs['amounts']        = $order_details['data']['amounts']['total']['amount'];
+        $attrs['order_amount']   = $order_details['data']['amounts']['total']['amount'];
         $attrs['customer']       = $order_details['data']['customer'];
+        $attrs['customer_full_name']     = $attrs['customer']['first_name'].' '.$attrs['customer']['last_name'];
         $attrs['customer_phone_number']  = $attrs['customer']['mobile_code'].$attrs['customer']['mobile'];
-        $attrs['items']          = $order_details['data']['items'];
-        $attrs['bank']           = $order_details['data']['bank'];
+        $attrs['order_url']              = $order_details['data']['urls']['customer'];
+        $attrs['items']                  = $order_details['data']['items'];
+        $attrs['bank']                   = $order_details['data']['bank'];
+        $attrs['shipping_company']       = $order_details['data']['shipping_company'];
         return $attrs;
     }
 endif;
@@ -51,8 +55,6 @@ function message_order_params($message_to_send = '',$attrs = []){
             'اسم_العميل'             => $attrs["customer_full_name"],
             'العملة'                 => $attrs["currency"],
             'رابط_معلومات_الطلب'    => $attrs["order_url"],
-            'رقم_التتبع'             => $attrs["tracking_number"],
-            'رابط_التتبع'            => $attrs["tracking_link"],
             'شركة_الشحن'             => $attrs["shipping_company"],
             'كود_المنتج'             => "",
             'تفاصيل_منتجات_الطلبية' => "",
