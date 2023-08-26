@@ -55,7 +55,7 @@ class Order extends AppMerchant implements AppEvent{
             'event_from' => "salla"
         ]);
 
-        Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',$this->merchant_team);
+        Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',$this->merchant_team->account->token);
 
         if($app_event->status != 'success'):
             $result_send_message = send_message(
