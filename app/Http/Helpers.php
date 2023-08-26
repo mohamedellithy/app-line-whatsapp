@@ -1,6 +1,18 @@
 <?php
 
 
+function formate_order_details($order_details){
+    $attrs = [];
+
+    $attrs['order_status']   = $order_details['data']['status']['slug'];
+    $attrs['payment_method'] = $order_details['data']['payment_method'];
+    $attrs['currency']       = $order_details['data']['currency'];
+    $attrs['amounts']        = $order_details['data']['amounts']['total']['amount'];
+
+    return $attrs;
+
+}
+
 // function send_message($merchant){
 //     //if($merchant == null)
 //     $instance_id  = '64AC6D08A99C9';
