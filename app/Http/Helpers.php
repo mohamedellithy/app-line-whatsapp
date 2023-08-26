@@ -62,7 +62,7 @@ function message_order_params($message_to_send = '',$attrs = []){
         ];
 
         if($variable == "كود_المنتج"){
-            foreach ($attrs["items"] as $item){
+            foreach($attrs["items"] as $item){
                 foreach ($item->codes as $code){
                     $code_list[] = $item->name.'  :  '.$code->code;
                 }
@@ -73,7 +73,7 @@ function message_order_params($message_to_send = '',$attrs = []){
 
         elseif($variable == "تفاصيل_منتجات_الطلبية"){
             foreach ($attrs["items"] as $item){
-                $product_list[] = $item->name.'  :  '.$item->quantity.'  :  '.$item->amounts;
+                $product_list[] = $item['name'].'  :  '.$item['quantity'].'  :  '.$item['amounts']['total']['amount'].' : '.$item['amounts']['total']['currency'];
             }
 
             $orders_status[$variable] = implode(PHP_EOL, $product_list);
