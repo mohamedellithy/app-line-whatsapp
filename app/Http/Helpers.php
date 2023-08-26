@@ -73,7 +73,7 @@ function message_order_params($message_to_send = '',$attrs = []){
 
         elseif($variable == "تفاصيل_منتجات_الطلبية"){
             foreach ($attrs["items"] as $item){
-                $product_list[] = $item['name'].'  :  '.$item['quantity'].'  :  '.$item['amounts']['total']['amount'].' : '.$item['amounts']['total']['currency'];
+                $product_list[] = $item['name'].'  :  '.$item['quantity'].'  :  '.$item['amounts']['total']['amount'].''.$item['amounts']['total']['currency'];
             }
 
             $orders_status[$variable] = implode(PHP_EOL, $product_list);
