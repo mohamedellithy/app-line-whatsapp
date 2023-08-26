@@ -32,7 +32,6 @@ class Order extends AppMerchant implements AppEvent{
 
     public function resolve_event(){
         $attrs = formate_order_details($this->data);
-        Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',$attrs);
         $app_event = EventStatus::updateOrCreate([
             'unique_number' => $this->data['merchant'].$this->data['data']['id']
         ],[
@@ -46,6 +45,8 @@ class Order extends AppMerchant implements AppEvent{
         $app_event->update([
             'status' => 'success'
         ]);
+
+        Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',$app_event);
     }
 
     // public function resolve_event(){
