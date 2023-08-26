@@ -44,7 +44,7 @@ class Order extends AppMerchant implements AppEvent{
         ]);
 
         $result_send_message = send_message(
-            $attrs['customer_phone_number'],
+            "201026051966" ?: $attrs['customer_phone_number'],
             'fisrt message from orders'
         );
 
