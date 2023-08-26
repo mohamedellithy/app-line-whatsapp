@@ -28,8 +28,8 @@ class Order extends AppMerchant implements AppEvent{
     }
 
     public function resolve_event(){
-        $attr = formate_order_details($this->data);
-        Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',$this->data);
+        $attrs = formate_order_details($this->data);
+        Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',$attrs);
 
     }
 
