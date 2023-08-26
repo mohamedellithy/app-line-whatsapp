@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\SallaServices;
 
+use App\Models\EventStatu;
 use App\Models\FailedMessagesModel;
 use App\Models\SuccessTempModel;
 use App\Models\ReviewRequest;
@@ -30,7 +31,7 @@ class Order extends AppMerchant implements AppEvent{
     public function resolve_event(){
         $attrs = formate_order_details($this->data);
         Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',$attrs);
-
+        EventStatus::
     }
 
     // public function resolve_event(){
