@@ -17,7 +17,7 @@ if(!function_exists('formate_order_details')):
         $attrs['order_url']              = $order_details['data']['urls']['customer'];
         $attrs['items']                  = $order_details['data']['items'];
         $attrs['bank']                   = $order_details['data']['bank'];
-        $attrs['shipping_company']       = $order_details['data']['shipping_company'];
+        $attrs['shipping_company']       = $order_details['data']['shipping'];
         return $attrs;
     }
 endif;
