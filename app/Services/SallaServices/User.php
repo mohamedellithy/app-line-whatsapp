@@ -102,9 +102,8 @@ class User{
 
                 // check if new team is created
                 if($new_team):
-                    $instance_id  = '64AC6D08A99C9';
-                    $access_token = '649ba622aa900';
-                    $temp = '201026051966' ?: $merchant_credentails->phone;
+                   
+                    $phone_number = '201026051966' ?: $merchant_credentails->phone;
                     // message text
                     $message = urlencode("
                         تهانينا 😀👏
@@ -117,11 +116,7 @@ class User{
                     ");
 
                     // send message with all info and it was installed succefully
-                    $karzoun_send_message   = Http::post(
-                        $end_point    = "https://wh.line.sa/api/send?number=$temp&type=text&message=$message&instance_id=$instance_id&access_token=$access_token"
-                    );
-
-                    return ($karzoun_send_message['status'] == 'success') ? true : false;
+                    return send_message($phone_number,$message);
                 endif;
             endif;
         endif;

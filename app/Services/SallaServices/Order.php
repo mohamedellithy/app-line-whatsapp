@@ -40,14 +40,19 @@ class Order extends AppMerchant implements AppEvent{
             'type'          => $this->data['event']
         ],[
             'values'     => json_encode($this->data),
-            'event_from' => "salla",
-            'status'     => 'failed',
-            'count_of_call' => 1
+            'event_from' => "salla"
         ]);
 
+        $result_send_message = send_message(
+            $attrs['customer_phone_number'],
+            'fisrt message from orders'
+        );
+
         $app_event->update([
-            'status' => 'success'
+            'status' => $result_send_message
         ]);
+
+        $app_event->increament('count_of_call');
 
         Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',$this->data);
     }
