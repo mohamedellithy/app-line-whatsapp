@@ -55,23 +55,13 @@ class Order extends AppMerchant implements AppEvent{
             'type'          => $this->data['event']
         ]);
 
-        // if($app_event->type == $this->data['event'].'.'.$this->data['data']['status']['id']):
-        //     if($app_event->status == 'success'):
-        //         return;
-        //     endif;
-        // endif;
-
-
-        // $app_event->update([
-        //     'type'          => $this->data['event'].'.'.$this->data['data']['status']['id'],
-        //     "status"        => "failed"
-        // ]);
-
+       
         // "" ?: $attrs['customer_phone_number']
         if($app_event->status != 'success'):
+            $message = "اختبار طلبية رقم {رقم_الطلب}";
             $result_send_message = send_message(
                 "201026051966",
-                'fisrt message from orders',
+                message_order_params($message, $attrs),
                 $this->merchant_team->account->token,
                 $this->merchant_team->ids
             );
@@ -258,40 +248,4 @@ class Order extends AppMerchant implements AppEvent{
             }
         }
     }
-
-    public function handle_message_to_send($message_to_send = ''){
-        preg_match_all("/{(.*?)}/", $message_to_send, $search);
-        foreach ($search[1] as $variable):
-            $digital_products_codes = '';
-            $orders_status = [
-                'حالة الطلب'          => $this->order_status,
-                'رقم الطلب'           => $this->order_id,
-                'قيمة الطلب'          => $this->order_amount,
-                'اسم العميل'          => $this->customer_full_name,
-                'العملة'              => $this->currency,
-                'رابط معلومات الطلب' => $this->order_url,
-                'رقم التتبع'          => $this->tracking_number,
-                'رابط التتبع'         => $this->tracking_link,
-                'شركة الشحن'          => $this->shipping_company,
-                'كود المنتج'          => $digital_products_codes,
-                'زر التأكيد'          => 'للتأكيد ارسل كلمة نعم, وللإلغاء ارسل كلمة إلغاء',
-            ];
-
-            if ($variable == "كود المنتج"){
-                foreach ($this->data->data->items as $item){
-                    foreach ($item->codes as $code){
-                        $code_list[] = $item->name.'  :  '.$code->code;
-                    }
-                }
-
-                $digital_products_codes = implode(PHP_EOL, $code_list);
-            }
-
-            $message_to_send = str_replace("{" . $variable . "}", $orders_status[$variable], $message_to_send);
-        endforeach;
-
-        $message_to_send = urlencode($message_to_send);
-        return $message_to_send;
-    }
-
 }

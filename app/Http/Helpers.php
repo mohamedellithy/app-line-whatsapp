@@ -38,3 +38,48 @@ if(!function_exists('send_message')):
         return $result_send_message['status'];
     }
 endif;
+
+
+
+function message_order_params($message_to_send = '',$attrs = []){
+    preg_match_all("/{(.*?)}/", $message_to_send, $search);
+    foreach ($search[1] as $variable):
+        $orders_status = [
+            'حالة_الطلب'             => $attrs["order_status"],
+            'رقم_الطلب'              => $attrs["order_id"],
+            'قيمة_الطلب'             => $attrs["order_amount"],
+            'اسم_العميل'             => $attrs["customer_full_name"],
+            'العملة'                 => $attrs["currency"],
+            'رابط_معلومات_الطلب'    => $attrs["order_url"],
+            'رقم_التتبع'             => $attrs["tracking_number"],
+            'رابط_التتبع'            => $attrs["tracking_link"],
+            'شركة_الشحن'             => $attrs["shipping_company"],
+            'كود_المنتج'             => "",
+            'تفاصيل_منتجات_الطلبية' => "",
+            'زر_التأكيد'             => 'للتأكيد ارسل كلمة نعم, وللإلغاء ارسل كلمة إلغاء',
+        ];
+
+        if($variable == "كود_المنتج"){
+            foreach ($attrs["items"] as $item){
+                foreach ($item->codes as $code){
+                    $code_list[] = $item->name.'  :  '.$code->code;
+                }
+            }
+
+            $orders_status[$variable] = implode(PHP_EOL, $code_list);
+        }
+
+        elseif($variable == "تفاصيل_منتجات_الطلبية"){
+            foreach ($attrs["items"] as $item){
+                $product_list[] = $item->name.'  :  '.$item->quantity.'  :  '.$item->amounts;
+            }
+
+            $orders_status[$variable] = implode(PHP_EOL, $product_list);
+        }
+
+        $message_to_send = str_replace("{" . $variable . "}", $orders_status[$variable], $message_to_send);
+    endforeach;
+
+    $message_to_send = urlencode($message_to_send);
+    return $message_to_send;
+}
