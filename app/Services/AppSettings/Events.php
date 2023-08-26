@@ -42,8 +42,6 @@ abstract class Events
 
         $event_class = '\\App\\Services\\'.$this->app.'Services\\'.$SelectedEvent;
 
-        Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',$this->data);
-
         if(class_exists($event_class)):
             // call events and render it
             $target_event  =  new $event_class($this->data);
