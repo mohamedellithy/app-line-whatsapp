@@ -58,7 +58,7 @@ class Order extends AppMerchant implements AppEvent{
        
         // "" ?: $attrs['customer_phone_number']
         if($app_event->status != 'success'):
-            $message = "{العملة} {قيمة_الطلب}  {اسم_العميل}  اختبار طلبية رقم {رقم_الطلب}";
+            $message = "{تفاصيل_منتجات_الطلبية} \n {العملة} {قيمة_الطلب}  {اسم_العميل}  اختبار طلبية رقم {رقم_الطلب}";
             $filter_message = message_order_params($message, $attrs);
             $result_send_message = send_message(
                 "201026051966",
