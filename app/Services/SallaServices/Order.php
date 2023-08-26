@@ -49,10 +49,17 @@ class Order extends AppMerchant implements AppEvent{
         $attrs = formate_order_details($this->data);
         $app_event = EventStatus::updateOrCreate([
             'unique_number' => $this->data['merchant'].$this->data['data']['id'],
-            'type'          => $this->data['event'].'.'.$this->data['data']['status']['id']
         ],[
             'values'     => json_encode($this->data),
             'event_from' => "salla"
+        ]);
+
+        if($app_event->type == $this->data['event'].'.'.$this->data['data']['status']['id']) return;
+
+        if($app_event->status == 'success') return;
+
+        $app_event->update([
+            'type'          => $this->data['event'].'.'.$this->data['data']['status']['id']
         ]);
 
         // "" ?: $attrs['customer_phone_number']
