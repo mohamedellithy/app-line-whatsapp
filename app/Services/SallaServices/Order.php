@@ -5,7 +5,9 @@ use Log;
 use App\Models\EventStatu;
 use App\Models\EventStatus;
 use App\Models\ReviewRequest;
+use App\Models\WhatsappSession;
 use App\Models\SuccessTempModel;
+use App\Models\MerchantCredential;
 use App\Models\FailedMessagesModel;
 use Illuminate\Support\Facades\Http;
 use App\Services\AppSettings\AppEvent;
@@ -14,12 +16,20 @@ use App\Services\AppSettings\AppMerchant;
 class Order extends AppMerchant implements AppEvent{
 
     public $data;
+    protected $merchant_sessions = null;
+
     public function __construct($data){
         // set data
         $this->data = $data;
+        
+        // merchant
+        $this->merchant_sessions = WhatsappSession::where([
+            'ids' => $this->data['merchant']
+        ])->first();
 
         // track event by using Log
         $this->set_log();
+
     }
 
     public function set_log(){
@@ -43,18 +53,22 @@ class Order extends AppMerchant implements AppEvent{
             'event_from' => "salla"
         ]);
 
-        $result_send_message = send_message(
-            "201026051966" ?: $attrs['customer_phone_number'],
-            'fisrt message from orders'
-        );
+        if($app_event->status != 'success'):
+            $result_send_message = send_message(
+                "201026051966" ?: $attrs['customer_phone_number'],
+                'fisrt message from orders',
+                $this->merchant_sessions->ids,
+                $this->merchant_sessions->instance_id
+            );
 
-        $app_event->update([
-            'status' => $result_send_message
-        ]);
+            $app_event->update([
+                'status' => $result_send_message
+            ]);
 
-        $app_event->increament('count_of_call');
+            $app_event->increament('count_of_call');
 
-        Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',$this->data);
+            Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',$this->data);
+        endif;
     }
 
     // public function resolve_event(){

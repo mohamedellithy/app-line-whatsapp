@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('values');
             $table->string('type');
             $table->string('event_from');
-            $table->string('status');
+            $table->string('status')->default('failed');
             $table->integer('count_of_call')->default(0);
             $table->timestamps();
         });
