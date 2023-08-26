@@ -49,7 +49,7 @@ class Order extends AppMerchant implements AppEvent{
             'status' => 'success'
         ]);
 
-        Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',$app_event);
+        Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',$this->data);
     }
 
     // public function resolve_event(){
