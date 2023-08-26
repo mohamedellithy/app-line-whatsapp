@@ -58,10 +58,10 @@ class Order extends AppMerchant implements AppEvent{
        
         // "" ?: $attrs['customer_phone_number']
         if($app_event->status != 'success'):
-            $message = "\n {العملة} {قيمة_الطلب}  {اسم_العميل}  اختبار طلبية رقم {رقم_الطلب} 👈 
-            \n {تفاصيل_منتجات_الطلبية} 👈 
+            $message = "{العملة} {قيمة_الطلب}  {اسم_العميل}  اختبار طلبية رقم {رقم_الطلب} 👈 \n  
+            \n {تفاصيل_منتجات_الطلبية} 👈 \n 
             😀👏
-            شكرا
+            شكرا \n 
             ";
             $filter_message = message_order_params($message, $attrs);
             $result_send_message = send_message(
