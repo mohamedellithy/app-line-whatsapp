@@ -35,6 +35,6 @@ if(!function_exists('send_message')):
             $end_point    = "https://wh.line.sa/api/send?number=$phone_number&type=text&message=$message&instance_id=$instance_id&access_token=$access_token"
         );
 
-        return $result_send_message['status'];
+        return $result_send_message;
     }
 endif;
