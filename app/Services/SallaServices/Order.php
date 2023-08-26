@@ -61,8 +61,8 @@ class Order extends AppMerchant implements AppEvent{
             $result_send_message = send_message(
                 "201026051966" ?: $attrs['customer_phone_number'],
                 'fisrt message from orders',
-                $this->merchant_team->ids,
-                $this->merchant_team->account->token
+                $this->merchant_team->account->token,
+                $this->merchant_team->ids
             );
 
             $app_event->update([
