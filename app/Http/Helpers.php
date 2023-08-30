@@ -49,17 +49,17 @@ function message_order_params($message_to_send = '',$attrs = []){
     preg_match_all("/{(.*?)}/", $message_to_send, $search);
     foreach($search[1] as $variable):
         $orders_status = [
-            'حالة_الطلب'             => $attrs["order_status"],
-            'رقم_الطلب'              => $attrs["order_id"],
-            'قيمة_الطلب'             => $attrs["order_amount"],
-            'اسم_العميل'             => $attrs["customer_full_name"],
-            'العملة'                 => $attrs["currency"],
-            'رابط_معلومات_الطلب'    => $attrs["order_url"],
-            'شركة_الشحن'             => $attrs["shipping_company"],
+            'حالة_الطلب'             => isset($attrs["order_status"]) ? $attrs["order_status"] : null,
+            'رقم_الطلب'              => isset($attrs["order_id"])     ? $attrs["order_id"] : null,
+            'قيمة_الطلب'             => isset($attrs["order_amount"]) ? $attrs["order_amount"] : null,
+            'اسم_العميل'             => isset($attrs["customer_full_name"]) ? $attrs["customer_full_name"] : null,
+            'العملة'                 => isset($attrs["currency"])           ?  $attrs["currency"] : null,
+            'رابط_معلومات_الطلب'    => isset($attrs["order_url"])          ? $attrs["order_url"]: null,
+            'شركة_الشحن'             => isset($attrs["shipping_company"])   ? $attrs["shipping_company"] : null,
             'كود_المنتج'             => "",
             'تفاصيل_منتجات_الطلبية' => "",
             'زر_التأكيد'             => 'للتأكيد ارسل كلمة نعم, وللإلغاء ارسل كلمة إلغاء',
-            'رمز_التحقق'             => $attrs['otp_code']
+            'رمز_التحقق'             => isset($attrs['otp_code'])           ? $attrs['otp_code'] : null
         ];
 
         if($variable == "كود_المنتج"){
