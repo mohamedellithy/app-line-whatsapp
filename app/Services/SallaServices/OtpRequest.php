@@ -49,7 +49,7 @@ class OtpRequest extends AppMerchant implements AppEvent{
 
         $attrs['otp_code'] = $this->data['data']['code'];
 
-        $contact = preg_match('/@/',$this->data['data']['contact']);
+        $contact = filter_var($this->data['data']['contact'],FILTER_VALIDATE_EMAIL);
 
         Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',$contact);
         if($app_event->status != 'success'):
