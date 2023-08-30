@@ -49,7 +49,9 @@ class OtpRequest extends AppMerchant implements AppEvent{
 
         $attrs['otp_code'] = $this->data['data']['code'];
 
-        Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',getType($this->data['data']['contact']));
+        $contact = preg_match('/@/',$this->data['data']['contact']);
+
+        Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',$contact);
         if($app_event->status != 'success'):
             $message = "كود التحقق {رمز_التحقق}";
             $filter_message = message_order_params($message, $attrs);
