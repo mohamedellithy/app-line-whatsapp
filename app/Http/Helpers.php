@@ -96,7 +96,7 @@ function message_order_params($message_to_send = '',$attrs = []){
             'تفاصيل_منتجات_الطلبية' => "",
             'زر_التأكيد'             => 'للتأكيد ارسل كلمة نعم, وللإلغاء ارسل كلمة إلغاء',
 
-            /* OTP */ 
+            /* OTP */
             'رمز_التحقق'             => isset($attrs['otp_code'])         ? $attrs['otp_code'] : null,
 
             /* Customers info */
@@ -113,12 +113,12 @@ function message_order_params($message_to_send = '',$attrs = []){
             'بروفايل_الزبون_على_لوحة_التحكم' => isset($attrs["admin_customer_profile"])   ? $attrs["admin_customer_profile"] : null,
 
             /* Cart details */
-            'اجمالى_السلة'         => isset($attrs["cart_total"])           ? $attrs["cart_total"] : null, ,
-            'عملة_السلة'           => isset($attrs["cart_currency"])        ? $attrs["cart_currency"] : null,,
-            'تخفيض_على_السلة'      => isset($attrs["cart_total_discount"])  ? $attrs["cart_total_discount"] : null,,
-            'رابط_الدفع'           => isset($attrs["cart_checkout_url"])     ? $attrs["cart_checkout_url"] : null, ,
-            'تاريخ_انشاء_الطلب'   => isset($attrs["cart_created_at"])        ? $attrs["cart_created_at"] : null,,
-            'اسم_الزبون_السلة'    => isset($attrs["cart_customer_name"])     ? $attrs["cart_customer_name"] : null, ,
+            'اجمالى_السلة'         => isset($attrs["cart_total"])           ? $attrs["cart_total"] : null,
+            'عملة_السلة'           => isset($attrs["cart_currency"])        ? $attrs["cart_currency"] : null,
+            'تخفيض_على_السلة'      => isset($attrs["cart_total_discount"])  ? $attrs["cart_total_discount"] : null,
+            'رابط_الدفع'           => isset($attrs["cart_checkout_url"])     ? $attrs["cart_checkout_url"] : null,
+            'تاريخ_انشاء_الطلب'   => isset($attrs["cart_created_at"])        ? $attrs["cart_created_at"] : null,
+            'اسم_الزبون_السلة'    => isset($attrs["cart_customer_name"])     ? $attrs["cart_customer_name"] : null,
             'رقم_جوال_زبون_السلة' =>  isset($attrs["cart_customer_mobile"])  ? $attrs["cart_customer_mobile"] : null,
             'دولة_زبون_السلة'     =>  isset($attrs["cart_customer_country"])  ? $attrs["cart_customer_country"] : null,
             'مدينة_زبون_السلة'    => isset($attrs["cart_customer_city"])      ? $attrs["cart_customer_city"] : null
