@@ -23,7 +23,7 @@ class Order extends AppMerchant implements AppEvent{
     public function __construct($data){
         // set data
         $this->data = $data;
-        
+
         // merchant
         $this->merchant_team = Team::with('account')->where([
             'ids' => $this->data['merchant']
@@ -55,7 +55,7 @@ class Order extends AppMerchant implements AppEvent{
             'type'          => $this->data['event']
         ]);
 
-       
+
         // "" ?: $attrs['customer_phone_number']
         if($app_event->status != 'success'):
             $message = "{رقم_الطلب} رقم الطلبية
