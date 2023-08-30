@@ -22,6 +22,23 @@ if(!function_exists('formate_order_details')):
     }
 endif;
 
+if(!function_exists('formate_cart_details')):
+    function formate_cart_details($order_details){
+        $attrs = [];
+
+        $attrs['cart_total']   = $order_details['data']['total']['amount'];
+        $attrs['cart_currency']       = $order_details['data']['total']['currency'];
+        $attrs['cart_total_discount'] = $order_details['data']['total_discount']['amount'];
+        $attrs['cart_checkout_url']   = $order_details['data']['checkout_url'];
+        $attrs['cart_created_at']     = $order_details['data']['created_at']['date'];
+        $attrs['cart_customer_name']     = $order_details['data']['customer']['name'];
+        $attrs['cart_customer_mobile']   = $order_details['data']['customer']['mobile'];
+        $attrs['cart_customer_country']  = $order_details['data']['customer']['country'];
+        $attrs['cart_customer_city']     = $order_details['data']['customer']['city'];
+        return $attrs;
+    }
+endif;
+
 if(!function_exists('formate_customer_details')):
     function formate_customer_details($customer_details){
         $attrs = [];
@@ -64,8 +81,6 @@ if(!function_exists('send_message')):
     }
 endif;
 
-
-
 function message_order_params($message_to_send = '',$attrs = []){
     preg_match_all("/{(.*?)}/", $message_to_send, $search);
     foreach($search[1] as $variable):
@@ -80,8 +95,10 @@ function message_order_params($message_to_send = '',$attrs = []){
             'كود_المنتج'             => "",
             'تفاصيل_منتجات_الطلبية' => "",
             'زر_التأكيد'             => 'للتأكيد ارسل كلمة نعم, وللإلغاء ارسل كلمة إلغاء',
+
             /* OTP */ 
             'رمز_التحقق'             => isset($attrs['otp_code'])         ? $attrs['otp_code'] : null,
+
             /* Customers info */
             'اسم_الاول'             => isset($attrs["first_name"])         ? $attrs["first_name"] : null,
             'اسم_الاخير'            => isset($attrs["last_name"])          ? $attrs["last_name"] : null,
@@ -95,6 +112,16 @@ function message_order_params($message_to_send = '',$attrs = []){
             'بروفايل_الزبون'      => isset($attrs["front_customer_profile"])   ? $attrs["front_customer_profile"] : null,
             'بروفايل_الزبون_على_لوحة_التحكم' => isset($attrs["admin_customer_profile"])   ? $attrs["admin_customer_profile"] : null,
 
+            /* Cart details */
+            'اجمالى_السلة'         => isset($attrs["cart_total"])           ? $attrs["cart_total"] : null, ,
+            'عملة_السلة'           => isset($attrs["cart_currency"])        ? $attrs["cart_currency"] : null,,
+            'تخفيض_على_السلة'      => isset($attrs["cart_total_discount"])  ? $attrs["cart_total_discount"] : null,,
+            'رابط_الدفع'           => isset($attrs["cart_checkout_url"])     ? $attrs["cart_checkout_url"] : null, ,
+            'تاريخ_انشاء_الطلب'   => isset($attrs["cart_created_at"])        ? $attrs["cart_created_at"] : null,,
+            'اسم_الزبون_السلة'    => isset($attrs["cart_customer_name"])     ? $attrs["cart_customer_name"] : null, ,
+            'رقم_جوال_زبون_السلة' =>  isset($attrs["cart_customer_mobile"])  ? $attrs["cart_customer_mobile"] : null,
+            'دولة_زبون_السلة'     =>  isset($attrs["cart_customer_country"])  ? $attrs["cart_customer_country"] : null,
+            'مدينة_زبون_السلة'    => isset($attrs["cart_customer_city"])      ? $attrs["cart_customer_city"] : null
         ];
 
         if($variable == "كود_المنتج"){

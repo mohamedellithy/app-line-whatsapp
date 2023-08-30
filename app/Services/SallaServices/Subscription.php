@@ -1,17 +1,27 @@
 <?php
 namespace App\Services\SallaServices;
 
-use App\Models\Team;
-use App\Services\AppSettings\AppEvent;
-use App\Models\SpPermession;
 use Log;
+use App\Models\Team;
+use App\Models\SpPlan;
+use App\Models\SpUser;
+use App\Models\SpPermession;
+use Illuminate\Support\Facades\Http;
+use App\Services\AppSettings\AppEvent;
+
 class Subscription implements AppEvent{
 
     public $data;
     public $plans;
+    protected $merchant_team = null;
     public function __construct($data){
         // set data
         $this->data = $data;
+
+        // merchant
+        $this->merchant_team = Team::with('account')->where([
+            'ids' => $this->data['merchant']
+        ])->first();
 
         // set plans
         $this->plans = [
@@ -34,32 +44,23 @@ class Subscription implements AppEvent{
     }
 
     public function resolve_event(){
-        $merchant_id   = $this->data->merchant;
-        $end_date_full = $this->data->data->end_date;
+        $end_date_full = $this->data['data']['end_date'];
         $end_date      = substr($end_date_full, 0, 10);
-        $plan_id       = $this->plans[$this->data->data->plan_name] ?: 1;
+        $plan_id       = $this->plans[$this->data['data']['plan_name']] ?: 1;
 
-        $package = SpPermession::find($plan_id) ?: null;
-        if($package){
-            echo ' got package details ------- ';
-        }else{
-            echo "No permessions found";
-        }
+        $package = SpPlan::find($plan_id) ?: null;
+        if($package):
+            $this->merchant_team->update([
+                'pid'         => $plan_id,
+                'permissions' => $package->permissions,
+            ]);
+        endif;
 
-        $update_team = Team::where([
-            'ids'        => $merchant_id,
-        ])->update([
-            'pid'         => $plan_id,
-            'permissions' => $package->permissions,
+        $upgrade_plan = SpUser::where('ids',$this->data['merchant'])->update([
+            'package'        => $plan_id,
+            'expiration_date'=> $end_date
         ]);
 
-        $log = $merchant_id.' '.$this->data->event.' '.$plan_id.' '.$end_date_full.PHP_EOL;
-        if($update_team){
-            Log::channel('subscriptions_success_events')->info($log);
-        }else{
-            Log::channel('subscriptions_failed_events')->error($log);
-        }
-
-        echo SallaUser::upgrade_user_plan($merchant_id,$plan_id,$end_date);
+        Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',$this->data);
     }
 }
