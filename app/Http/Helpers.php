@@ -22,6 +22,27 @@ if(!function_exists('formate_order_details')):
     }
 endif;
 
+if(!function_exists('formate_customer_details')):
+    function formate_customer_details($customer_details){
+        $attrs = [];
+
+        $attrs['first_name']     = $customer_details['data']['first_name'];
+        $attrs['last_name']      = $customer_details['data']['last_name'];
+        $attrs['email']          = $customer_details['data']['email'];
+        $attrs['front_customer_profile']   = $customer_details['data']['urls']['customer'];
+        $attrs['admin_customer_profile']   = $customer_details['data']['urls']['admin'];
+        $attrs['gender']         = $customer_details['data']['gender'];
+        $attrs['birthday']       = $customer_details['data']['birthday']['date'];
+        $attrs['timezone']       = $customer_details['data']['birthday']['timezone'];
+        $attrs['customer_full_name']     = $customer_details['data']['first_name'].' '.$customer_details['data']['last_name'];
+        $attrs['customer_phone_number']  = $customer_details['data']['mobile_code'].$customer_details['data']['mobile'];
+        $attrs['city']                   = $customer_details['data']['city'];
+        $attrs['country']                = $customer_details['data']['country'];
+        $attrs['full_address']           = $customer_details['data']['city'] .'-'. $customer_details['data']['country'];
+        return $attrs;
+    }
+endif;
+
 
 if(!function_exists('send_message')):
     function send_message(
@@ -59,7 +80,21 @@ function message_order_params($message_to_send = '',$attrs = []){
             'كود_المنتج'             => "",
             'تفاصيل_منتجات_الطلبية' => "",
             'زر_التأكيد'             => 'للتأكيد ارسل كلمة نعم, وللإلغاء ارسل كلمة إلغاء',
-            'رمز_التحقق'             => isset($attrs['otp_code'])           ? $attrs['otp_code'] : null
+            /* OTP */ 
+            'رمز_التحقق'             => isset($attrs['otp_code'])         ? $attrs['otp_code'] : null,
+            /* Customers info */
+            'اسم_الاول'             => isset($attrs["first_name"])         ? $attrs["first_name"] : null,
+            'اسم_الاخير'            => isset($attrs["last_name"])          ? $attrs["last_name"] : null,
+            'الاسم_كاملا'            => isset($attrs["customer_full_name"]) ? $attrs["customer_full_name"] : null,
+            'المدينة'              => isset($attrs["city"])               ? $attrs["city"] : null,
+            'الدولة'               => isset($attrs["country"])            ? $attrs["country"] : null,
+            'تاريخ_الميلاد'         => isset($attrs["birthday"])           ? $attrs["birthday"] : null,
+            'البريد_الاكترونى'      => isset($attrs["email"])             ? $attrs["email"] : null,
+            'رقم_الجوال'           => isset($attrs["customer_phone_number"])   ? $attrs["customer_phone_number"] : null,
+            'النوع'                => isset($attrs["gender"])             ? $attrs["gender"] : null,
+            'بروفايل_الزبون'      => isset($attrs["front_customer_profile"])   ? $attrs["front_customer_profile"] : null,
+            'بروفايل_الزبون_على_لوحة_التحكم' => isset($attrs["admin_customer_profile"])   ? $attrs["admin_customer_profile"] : null,
+
         ];
 
         if($variable == "كود_المنتج"){
