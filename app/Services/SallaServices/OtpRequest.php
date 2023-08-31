@@ -5,6 +5,7 @@ use Log;
 use App\Models\Team;
 use App\Models\EventStatus;
 use App\Models\SuccessTempModel;
+use App\Models\MerchantCredential;
 use App\Models\FailedMessagesModel;
 use Illuminate\Support\Facades\Http;
 use App\Services\AppSettings\AppEvent;
@@ -14,6 +15,7 @@ class OtpRequest extends AppMerchant implements AppEvent{
     public $data;
 
     protected $merchant_team = null;
+    protected $settings;
     public function __construct($data){
         // set data
         $this->data = $data;
@@ -22,6 +24,14 @@ class OtpRequest extends AppMerchant implements AppEvent{
          $this->merchant_team = Team::with('account')->where([
             'ids' => $this->data['merchant']
         ])->first();
+
+        $this->settings      = MerchantCredential::where([
+            'merchant_id'    => $this->data['merchant']
+        ])->value('settings');
+
+        if($this->settings != null):
+            $this->settings = json_decode($this->settings,true);
+        endif;
 
         // track event by using Log
         $this->set_log();
@@ -39,6 +49,7 @@ class OtpRequest extends AppMerchant implements AppEvent{
     }
 
     public function resolve_event(){
+        if($this->settings['otp_status'] != 1) return;
         $app_event = EventStatus::updateOrCreate([
             'unique_number' => $this->data['merchant'],
             'values'        => json_encode($this->data)
@@ -52,7 +63,7 @@ class OtpRequest extends AppMerchant implements AppEvent{
         if(filter_var($this->data['data']['contact'],FILTER_VALIDATE_EMAIL)) return;
 
         if($app_event->status != 'success'):
-            $message = "كود التحقق {رمز_التحقق}";
+            $message = isset($this->settings['otp_message']) ? $this->settings['otp_message'] : '';
             $filter_message = message_order_params($message, $attrs);
             $result_send_message = send_message(
                 "201026051966" ?: $this->data['data']['contact'],
