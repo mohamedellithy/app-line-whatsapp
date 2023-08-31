@@ -5,11 +5,15 @@ use App\Models\Team;
 use App\Services\AppSettings\AppEvent;
 use Log;
 class SettingsUpdate implements AppEvent{
-
     public $data;
+    protected $merchant_team = null;
     public function __construct($data){
         // set data
         $this->data = $data;
+
+        $this->merchant_team = Team::with('account')->where([
+            'ids' => $this->data['merchant']
+        ])->first();
 
         // track event by using Log
         $this->set_log();
@@ -20,19 +24,15 @@ class SettingsUpdate implements AppEvent{
         $log = json_encode($this->data, JSON_UNESCAPED_UNICODE) . PHP_EOL;
 
         // set log data
-        Log::channel('settings_update_events')->info($log);
+        Log::build([
+             'driver' => 'single',
+             'path' => storage_path('logs/salla_events.log'),
+        ])->info($log);
     }
 
     public function resolve_event(){
-        $merchant_id = $this->data->merchant;
-        $settings_update = Team::where('ids',$merchant_id)->update([
-            'data' => serialize( $this->data )
+        $this->merchant_team->update([
+            'settings' => json_encode($this->merchant_team['data'])
         ]);
-
-        if ($settings_update) {
-            echo 'saved';
-        } else {
-            echo "Error updating record: ";
-        }
     }
 }
