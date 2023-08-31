@@ -39,7 +39,7 @@ class SettingsUpdate implements AppEvent{
 
         if($merchant_credential):
             $merchant_credential->update([
-                'settings' => json_encode($this->data['data'])
+                'settings' => json_encode($this->data['data']['settings'])
             ]);
         endif;
 
