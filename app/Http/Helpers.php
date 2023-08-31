@@ -126,8 +126,8 @@ function message_order_params($message_to_send = '',$attrs = []){
 
         if($variable == "كود_المنتج"){
             foreach($attrs["items"] as $item){
-                foreach ($item->codes as $code){
-                    $code_list[] = $item->name.'  :  '.$code->code;
+                foreach ($item['codes'] as $code){
+                    $code_list[] = $item['name'].'  :  '.$code['code'];
                 }
             }
 
