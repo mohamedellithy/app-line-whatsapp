@@ -5,6 +5,7 @@ use Log;
 use App\Models\Team;
 use App\Models\AbandBaskts;
 use App\Models\EventStatus;
+use App\Models\MerchantCredential;
 use Illuminate\Support\Facades\Http;
 use App\Services\AppSettings\AppEvent;
 use App\Services\AppSettings\AbandonedCart as  AbandonedCartSettings;
@@ -12,6 +13,8 @@ use App\Services\AppSettings\AbandonedCart as  AbandonedCartSettings;
 class AbandonedCart implements AppEvent{
     public $data;
     protected $merchant_team = null;
+
+    protected $settings;
 
     public function __construct($data){
         // set data
@@ -21,6 +24,14 @@ class AbandonedCart implements AppEvent{
         $this->merchant_team = Team::with('account')->where([
             'ids' => $this->data['merchant']
         ])->first();
+
+        $this->settings      = MerchantCredential::where([
+            'merchant_id'    => $this->data['merchant']
+        ])->value('settings');
+
+        if($this->settings != null):
+            $this->settings = json_decode($this->settings,true);
+        endif;
 
         // track event by using Log
         $this->set_log();
@@ -39,7 +50,8 @@ class AbandonedCart implements AppEvent{
     }
 
     public function resolve_event(){
-        Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',$this->data);
+        if($this->settings['abandoned_cart_status'] != 1) return;
+
         $attrs = formate_cart_details($this->data);
         $app_event = EventStatus::updateOrCreate([
             'unique_number' => $this->data['merchant'].$this->data['data']['id'],
@@ -52,7 +64,7 @@ class AbandonedCart implements AppEvent{
 
         // "" ?: $attrs['customer_phone_number']
         if($app_event->status != 'success'):
-            $message = "سلة متروكة";
+            $message = $this->settings['abandoned_cart_message'] ?: '';
             $filter_message = message_order_params($message, $attrs);
             $result_send_message = send_message(
                 "201026051966" ?: $this->data['data']['customer']['mobile'],

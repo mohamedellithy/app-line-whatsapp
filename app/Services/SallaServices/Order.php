@@ -56,6 +56,19 @@ class Order extends AppMerchant implements AppEvent{
     }
 
     public function resolve_event(){
+        if($this->data['event'] == 'order.created'):
+            if(!in_array("order_created",$this->settings['orders_active_on'])):
+                return;
+            endif;
+        elseif($this->data['event'] == 'order.updated'):
+            if(!in_array($this->data['data']['status']['slug'],$this->settings['orders_active_on'])):
+                return;
+            endif;
+            if($this->settings['order_status'] != 1):
+                return;
+            endif;
+        endif;
+
         $attrs = formate_order_details($this->data);
         $app_event = EventStatus::updateOrCreate([
             'unique_number' => $this->data['merchant'].$this->data['data']['id'],
@@ -69,12 +82,12 @@ class Order extends AppMerchant implements AppEvent{
         // "" ?: $attrs['customer_phone_number']
         if($app_event->status != 'success'):
 
-            if(!in_array($this->data['data']['status']['slug'],$this->settings['orders_active_on'])) return;
-
-            if($this->settings['order_status'] != 1) return;
-
-            $slug = $this->data['data']['status']['slug'];
-            $message = isset($this->settings['order_'.$slug.'_message']) ? $this->settings['order_'.$slug.'_message'] : $this->settings['order_default_message'];
+            if($this->data['event'] == 'order.created'):
+                $message = isset($this->settings['order_created_message']) ? $this->settings['order_created_message'] : $this->settings['order_default_message'];
+            elseif($this->data['event'] == 'order.updated'):
+                $slug = $this->data['data']['status']['slug'];
+                $message = isset($this->settings['order_'.$slug.'_message']) ? $this->settings['order_'.$slug.'_message'] : $this->settings['order_default_message'];
+            endif;
 
             $filter_message = message_order_params($message, $attrs);
             $result_send_message = send_message(
