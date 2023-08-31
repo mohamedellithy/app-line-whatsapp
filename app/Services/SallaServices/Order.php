@@ -36,7 +36,7 @@ class Order extends AppMerchant implements AppEvent{
         ])->value('settings');
 
         if($this->settings != null):
-            $this->settings = json_decode($this->settings);
+            $this->settings = json_decode($this->settings,true);
         endif;
 
         // track event by using Log
