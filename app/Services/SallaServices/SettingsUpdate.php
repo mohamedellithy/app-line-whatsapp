@@ -1,9 +1,11 @@
 <?php
 namespace App\Services\SallaServices;
 
-use App\Models\Team;
-use App\Services\AppSettings\AppEvent;
 use Log;
+use App\Models\Team;
+use App\Models\MerchantCredential;
+use App\Services\AppSettings\AppEvent;
+
 class SettingsUpdate implements AppEvent{
     public $data;
     protected $merchant_team = null;
@@ -31,8 +33,15 @@ class SettingsUpdate implements AppEvent{
     }
 
     public function resolve_event(){
-        $this->merchant_team->update([
-            'settings' => json_encode($this->merchant_team['data'])
-        ]);
+        $merchant_credential = MerchantCredential::where([
+            'merchant_id' => $this->data['merchant']
+        ])->first();
+
+        if($merchant_credential):
+            $merchant_credential->update([
+                'settings' => json_encode($this->data['data'])
+            ]);
+        endif;
+
     }
 }
