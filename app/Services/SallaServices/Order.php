@@ -71,8 +71,8 @@ class Order extends AppMerchant implements AppEvent{
 
             if(!in_array($this->data['data']['status']['slug'],$this->settings['orders_active_on'])) return;
 
-            $slug = isset($this->data['data']['status']['slug']) ? $this->data['data']['status']['slug'] : 'default';
-            $message = $this->settings['order_'.$slug.'_message'] ?: "";
+            $slug = $this->data['data']['status']['slug'];
+            $message = isset($this->settings['order_'.$slug.'_message']) ? $this->settings['order_'.$slug.'_message'] : $this->settings['order_default_message'];
 
             $filter_message = message_order_params($message, $attrs);
             $result_send_message = send_message(
