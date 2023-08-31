@@ -20,6 +20,8 @@ class Order extends AppMerchant implements AppEvent{
     public $data;
     protected $merchant_team = null;
 
+    protected $settings;
+
     public function __construct($data){
         // set data
         $this->data = $data;
@@ -28,6 +30,14 @@ class Order extends AppMerchant implements AppEvent{
         $this->merchant_team = Team::with('account')->where([
             'ids' => $this->data['merchant']
         ])->first();
+
+        $this->settings      = MerchantCredential::where([
+            'merchant_id'    => $this->data['merchant']
+        ])->value('settings');
+
+        if($this->settings != null):
+            $this->settings = json_decode($this->settings);
+        endif;
 
         // track event by using Log
         $this->set_log();
@@ -62,6 +72,9 @@ class Order extends AppMerchant implements AppEvent{
             {العملة} {قيمة_الطلب}  {اسم_العميل}  اختبار طلبية رقم \n
             {تفاصيل_منتجات_الطلبية} \n
             شكرا";
+
+            if(!in_array($this->data['data']['status']['slug'],$this->settings['orders_active_on'])) return;
+
             $filter_message = message_order_params($message, $attrs);
             $result_send_message = send_message(
                 "201026051966",
