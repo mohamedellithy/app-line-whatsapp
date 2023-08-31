@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class MerchantCredential extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['settings'];
 }
