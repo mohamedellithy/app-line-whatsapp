@@ -68,12 +68,11 @@ class Order extends AppMerchant implements AppEvent{
 
         // "" ?: $attrs['customer_phone_number']
         if($app_event->status != 'success'):
-            $message = "{رقم_الطلب} رقم الطلبية
-            {العملة} {قيمة_الطلب}  {اسم_العميل}  اختبار طلبية رقم \n
-            {تفاصيل_منتجات_الطلبية} \n
-            شكرا";
 
             if(!in_array($this->data['data']['status']['slug'],$this->settings['orders_active_on'])) return;
+
+            $index_message = 'orders_'.$this->data['data']['status']['slug'].'_message';
+            $message = isset($this->settings[$index_message]) ? $this->settings[$index_message] : $this->settings['orders_default_message'];
 
             $filter_message = message_order_params($message, $attrs);
             $result_send_message = send_message(
