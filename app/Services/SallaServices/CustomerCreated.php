@@ -64,7 +64,7 @@ class CustomerCreated implements AppEvent{
             $message = isset($this->settings['new_customer_message']) ? $this->settings['new_customer_message'] : '';
             $filter_message = message_order_params($message, $attrs);
             $result_send_message = send_message(
-                "201026051966" ?: $this->data['data']['mobile_code'].$this->data['data']['mobile'],
+                $this->data['data']['mobile_code'].$this->data['data']['mobile'],
                 $filter_message,
                 $this->merchant_team->account->token,
                 $this->merchant_team->ids

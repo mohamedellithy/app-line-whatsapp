@@ -67,7 +67,7 @@ class AbandonedCart implements AppEvent{
             $message = $this->settings['abandoned_cart_message'] ?: '';
             $filter_message = message_order_params($message, $attrs);
             $result_send_message = send_message(
-                "201026051966" ?: $this->data['data']['customer']['mobile'],
+                $this->data['data']['customer']['mobile'],
                 $filter_message,
                 $this->merchant_team->account->token,
                 $this->merchant_team->ids
