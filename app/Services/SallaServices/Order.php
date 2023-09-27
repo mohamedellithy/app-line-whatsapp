@@ -65,7 +65,8 @@ class Order extends AppMerchant implements AppEvent{
                 return;
             endif;
         else:
-            if(!in_array($this->data['data']['status']['slug'],$this->settings['orders_active_on'])):
+            $slug = $this->data['data']['order']['status']['slug'] ?: $this->data['data']['status']['slug'];
+            if(!in_array($slug,$this->settings['orders_active_on'])):
                 return;
             endif;
             if($this->settings['order_status'] != 1):
@@ -89,7 +90,7 @@ class Order extends AppMerchant implements AppEvent{
             if($this->data['event'] == 'order.created'):
                 $message = isset($this->settings['order_created_message']) ? $this->settings['order_created_message'] : $this->settings['order_default_message'];
             elseif($this->data['event'] == 'order.updated'):
-                $slug = $this->data['data']['status']['slug'];
+                $slug = $this->data['data']['order']['status']['slug'] ?: $this->data['data']['status']['slug'];
                 $message = isset($this->settings['order_'.$slug.'_message']) ? $this->settings['order_'.$slug.'_message'] : $this->settings['order_default_message'];
             endif;
 
