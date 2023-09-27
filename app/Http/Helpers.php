@@ -16,8 +16,8 @@ if(!function_exists('formate_order_details')):
         $attrs['customer_phone_number']  = $attrs['customer']['mobile']; //$attrs['customer']['mobile_code'].$attrs['customer']['mobile'];
         $attrs['order_url']              = $order_details['data']['order']['urls']['customer'] ?: $order_details['data']['urls']['customer'];
         $attrs['items']                  = $order_details['data']['order']['items'] ?: $order_details['data']['items'];
-        $attrs['bank']                   = $order_details['data']['order']['bank'] ?: $order_details['data']['bank'];
-        $attrs['shipping_company']       = $order_details['data']['order']['shipping'] ?: $order_details['data']['shipping'];
+        //$attrs['bank']                   = $order_details['data']['order']['bank'] ?: $order_details['data']['bank'];
+        //$attrs['shipping_company']       = $order_details['data']['order']['shipping'] ?: $order_details['data']['shipping'];
         return $attrs;
     }
 endif;
