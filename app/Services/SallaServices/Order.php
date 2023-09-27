@@ -64,7 +64,7 @@ class Order extends AppMerchant implements AppEvent{
             if(!in_array("order_created",$this->settings['orders_active_on'])):
                 return;
             endif;
-        elseif($this->data['event'] == 'order.updated'):
+        else:
             if(!in_array($this->data['data']['status']['slug'],$this->settings['orders_active_on'])):
                 return;
             endif;
