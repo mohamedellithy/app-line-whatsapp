@@ -96,7 +96,7 @@ class Order extends AppMerchant implements AppEvent{
 
             $filter_message = message_order_params($message, $attrs);
             $result_send_message = send_message(
-                "201026051966", // $attrs['customer_phone_number'],
+                $attrs['customer_phone_number'],
                 $filter_message,
                 $this->merchant_team->account->token,
                 $this->merchant_team->ids
