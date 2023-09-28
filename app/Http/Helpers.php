@@ -13,8 +13,8 @@ if(!function_exists('formate_order_details')):
             $attrs['currency']       = $order_details['data']['order']['currency'];
             $attrs['order_amount']   = $order_details['data']['order']['amounts']['total']['amount'];
             $attrs['customer']       = $order_details['data']['order']['customer'];
-            $attrs['customer_full_name']     = $attrs['customer']['name']; 
-            $attrs['customer_phone_number']  = $attrs['customer']['mobile']; 
+            $attrs['customer_full_name']     = $attrs['customer']['name'];
+            $attrs['customer_phone_number']  = $attrs['customer']['mobile'];
             $attrs['order_url']              = $order_details['data']['order']['urls']['customer'];
             $attrs['items']                  = $order_details['data']['order']['items'];
         else:
@@ -28,8 +28,8 @@ if(!function_exists('formate_order_details')):
             $attrs['customer_phone_number']  = $attrs['customer']['mobile_code'].$attrs['customer']['mobile'];
             $attrs['order_url']              = $order_details['data']['urls']['customer'];
             $attrs['items']                  = $order_details['data']['items'];
-            $attrs['bank']                   = $order_details['data']['order']['bank'] ?: $order_details['data']['bank'];
-            $attrs['shipping_company']       = $order_details['data']['order']['shipping'] ?: $order_details['data']['shipping'];
+            // $attrs['bank']                   = $order_details['data']['order']['bank'] ?: $order_details['data']['bank'];
+            // $attrs['shipping_company']       = $order_details['data']['order']['shipping'] ?: $order_details['data']['shipping'];
         endif;
         return $attrs;
     }
