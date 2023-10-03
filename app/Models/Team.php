@@ -11,6 +11,8 @@ class Team extends Model
 
     protected $table = "sp_team";
 
+    protected $fillable = ['pid','permissions'];
+
     public $timestamps = false;
     
     const CREATED_AT = null;
