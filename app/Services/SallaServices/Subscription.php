@@ -39,8 +39,6 @@ class Subscription implements AppEvent{
         // encode log
         $log = json_encode($this->data, JSON_UNESCAPED_UNICODE) . PHP_EOL;
 
-        // set log data
-        Log::channel('subscriptions_events')->info($log);
     }
 
     public function resolve_event(){
