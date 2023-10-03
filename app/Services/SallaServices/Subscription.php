@@ -25,10 +25,10 @@ class Subscription implements AppEvent{
 
         // set plans
         $this->plans = [
-            'مجانا'      => 34,
-            'الانطلاقة'    => 2,
-            'النمو'      => 3,
-            'الإحترافية'  => 4
+            'free'      => 34,
+            'start'     => 2,
+            'growth'    => 3,
+            'Professional'  => 4
         ];
 
         // track event by using Log
@@ -46,7 +46,7 @@ class Subscription implements AppEvent{
     public function resolve_event(){
         $end_date_full = $this->data['data']['end_date'];
         $end_date      = substr($end_date_full, 0, 10);
-        $plan_id       = $this->plans[$this->data['data']['plan_name']] ?: 1;
+        $plan_id       = $this->plans[$this->data['data']['plan_name']] ?: 34;
 
         $package = SpPlan::find($plan_id) ?: null;
         if($package):
