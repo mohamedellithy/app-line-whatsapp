@@ -102,17 +102,17 @@ class User{
 
                 // check if new team is created
                 if($new_team):
-                   
+
                     $phone_number = $merchant_credentails->phone;
                     // message text
                     $message = urlencode("
                         تهانينا 😀👏
                         تم انشاء حسابك على منصة line.sa بنجاح
                         تفاصيل الحساب
-                        👈 البريد الالكترونى : {$new_account->email} \n
-                        👈 اسم المستخدم : {$new_account->username} \n
-                        👈 كلمة المرور  : {$password} \n
-                        👈 رابط المنصة : {$platform_link} \n
+                        👈 البريد الالكترونى : {$new_account->email}\n
+                        👈 اسم المستخدم : {$new_account->username}\n
+                        👈 كلمة المرور  : {$password}\n
+                        👈 رابط المنصة : {$platform_link}\n
                     ");
 
                     // send message with all info and it was installed succefully
