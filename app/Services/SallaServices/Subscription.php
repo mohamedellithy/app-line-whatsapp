@@ -25,10 +25,10 @@ class Subscription implements AppEvent{
 
         // set plans
         $this->plans = [
-            'Free'      => 1,
-            'Pro'       => 2,
-            'Business'  => 3,
-            'Enterprise'=> 4
+            'مجانا'      => 34,
+            'الانطلاقة'    => 2,
+            'النمو'      => 3,
+            'الإحترافية'  => 4
         ];
 
         // track event by using Log
