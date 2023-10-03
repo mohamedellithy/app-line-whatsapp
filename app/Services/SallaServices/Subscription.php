@@ -56,7 +56,7 @@ class Subscription implements AppEvent{
 
         $upgrade_plan = SpUser::where('ids',$this->data['merchant'])->update([
             'plan'          => $plan_id,
-            'expiration_date'=> $end_date
+            'expiration_date'=> strtotime($end_date)
         ]);
     }
 }
