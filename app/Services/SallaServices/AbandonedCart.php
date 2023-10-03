@@ -78,8 +78,6 @@ class AbandonedCart implements AppEvent{
             ]);
 
             $app_event->increment('count_of_call');
-
-            Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',$this->data);
         endif;
     }
 }

@@ -103,7 +103,7 @@ class User{
                 // check if new team is created
                 if($new_team):
                    
-                    $phone_number = '201026051966' ?: $merchant_credentails->phone;
+                    $phone_number = $merchant_credentails->phone;
                     // message text
                     $message = urlencode("
                         تهانينا 😀👏

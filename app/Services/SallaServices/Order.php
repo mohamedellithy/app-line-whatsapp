@@ -56,10 +56,7 @@ class Order extends AppMerchant implements AppEvent{
     }
 
     public function resolve_event(){
-        Http::post('https://webhook.site/452ffb8f-693f-47a1-b5b8-e1afd328e623',[
-            $this->merchant_team->account->token,
-            $this->merchant_team->ids
-        ]);
+        
         if($this->data['event'] == 'order.created'):
             if(!in_array("order_created",$this->settings['orders_active_on'])):
                 return;
@@ -108,7 +105,6 @@ class Order extends AppMerchant implements AppEvent{
 
             $app_event->increment('count_of_call');
 
-            Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',$this->data);
         endif;
     }
 }

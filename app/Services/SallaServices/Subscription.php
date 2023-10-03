@@ -60,7 +60,5 @@ class Subscription implements AppEvent{
             'package'        => $plan_id,
             'expiration_date'=> $end_date
         ]);
-
-        Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',$this->data);
     }
 }
