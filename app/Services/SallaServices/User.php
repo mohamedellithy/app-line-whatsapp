@@ -62,6 +62,7 @@ class User{
         $user_password  = md5($password);
         $plan_id        = '1';
         $platform_link  = "https://wh.line.sa/login";
+        $descript_our_platform = "https://line.sa/wh/%d8%b4%d8%b1%d9%88%d8%ad%d8%a7%d8%aa-%d9%88%d8%a7%d8%aa%d8%b3%d8%a7%d8%a8-%d9%84%d8%a7%d9%8a%d9%86/";
         $new_account                  = new SpUser();
         $new_account->ids             = $data['merchant'] ?: $this->store->data->id;
         $new_account->role            = '0';
@@ -113,6 +114,7 @@ class User{
                         👈 اسم المستخدم : {$new_account->username}\n
                         👈 كلمة المرور  : {$password}\n
                         👈 رابط المنصة : {$platform_link}\n
+                        👈 يمكنك الاطلاع على شروحات منصتنا : {$descript_our_platform}\n
                     ");
 
                     // send message with all info and it was installed succefully
