@@ -92,7 +92,7 @@ class User{
             $merchant_credentails->refresh_token  = $data['data']['refresh_token'];
             $merchant_credentails->save();
 
-            $package = SpPlan::first() ?: null;
+            $package = SpPlan::findOrFail(34) ?: null;
             if($package):
                 $new_team              = new Team();
                 $new_team->ids         = $data['merchant'] ?: $this->store->data->id;
