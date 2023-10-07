@@ -13,6 +13,8 @@ class Subscription implements AppEvent{
 
     public $data;
     public $plans;
+
+    public $sort_plans;
     protected $merchant_team = null;
     public function __construct($data){
         // set data
@@ -29,6 +31,13 @@ class Subscription implements AppEvent{
             'start'     => 2,
             'growth'    => 3,
             'Professional'  => 4
+        ];
+
+        $this->sort_plans = [
+            34 => 1,
+            2  => 2,
+            3  => 3,
+            4  => 4
         ];
 
         // track event by using Log
@@ -58,9 +67,13 @@ class Subscription implements AppEvent{
             // ]);
         endif;
 
-        $upgrade_plan = SpUser::where('ids',$this->data['merchant'])->update([
-            'plan'          => $plan_id,
-            'expiration_date'=> strtotime($end_date)
-        ]);
+        $user = SpUser::where('ids',$this->data['merchant'])->first();
+
+        if($this->sort_plans[$user->plan] < $this->sort_plans[$plan_id] ):
+            $upgrade_plan = SpUser::where('ids',$this->data['merchant'])->update([
+                'plan'          => $plan_id,
+                'expiration_date'=> strtotime($end_date)
+            ]);
+        endif;
     }
 }
