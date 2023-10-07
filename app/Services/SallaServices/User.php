@@ -60,7 +60,7 @@ class User{
         /*** generate password to send to clinet ***/
         $password       = Str::random(10);
         $user_password  = md5($password);
-        $plan_id        = '1';
+        $plan_id        = '34';
         $platform_link  = "https://wh.line.sa/login";
         $descript_our_platform = "https://line.sa/wh/%d8%b4%d8%b1%d9%88%d8%ad%d8%a7%d8%aa-%d9%88%d8%a7%d8%aa%d8%b3%d8%a7%d8%a8-%d9%84%d8%a7%d9%8a%d9%86/";
         $new_account                  = new SpUser();
@@ -92,7 +92,7 @@ class User{
             $merchant_credentails->refresh_token  = $data['data']['refresh_token'];
             $merchant_credentails->save();
 
-            $package = SpPlan::findOrFail(34) ?: null;
+            $package = SpPlan::findOrFail($plan_id) ?: null;
             if($package):
                 $new_team              = new Team();
                 $new_team->ids         = $data['merchant'] ?: $this->store->data->id;
