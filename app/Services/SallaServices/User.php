@@ -14,15 +14,19 @@ use App\Services\AppSettings\KarzounRequest;
 class User{
     protected $merchant;
     protected $store;
-    public static function check_user_exist($data) {
+    public function check_user_exist($data) {
+        // get merchant information
+        $this->get_merchant_info($data['data']['access_token']);
+
         // get user info
-        $user = SpUser::whereHas('merchant_info',function($query) use($data){
-            return $query->where('merchant_id',$data['merchant']);
-        })->first();
+        $user = SpUser::where('email',$this->merchant->data->email  ?: $this->store->data->email)->first();
 
         // change update json access token and refresh token
         if($user):
-            $user->merchant_info()->update([
+            $user->merchant_info()->where([
+                'app_name'    => 'salla',
+                'merchant_id' => $data['merchant'],
+            ])->update([
                 'access_token' => $data['data']['access_token'],
                 'refresh_token'=> $data['data']['refresh_token']
             ]);
@@ -87,6 +91,7 @@ class User{
             $merchant_credentails->user_id        = $new_account->id;
             $merchant_credentails->merchant_id    = $data['merchant'];
             $merchant_credentails->phone          = $this->merchant->data->mobile ?: null;
+            $merchant_credentails->app_name       = 'salla';
             $merchant_credentails->store_id       = $this->store->data->id;
             $merchant_credentails->access_token   = $data['data']['access_token'];
             $merchant_credentails->refresh_token  = $data['data']['refresh_token'];

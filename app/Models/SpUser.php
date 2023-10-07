@@ -12,11 +12,11 @@ class SpUser extends Model
     protected $table = "sp_users";
 
     public $timestamps = false;
-    
+
     const CREATED_AT = null;
     const UPDATED_AT = null;
 
     public function merchant_info(){
-        return $this->hasOne(MerchantCredential::class,'user_id','id');
+        return $this->hasMany(MerchantCredential::class,'user_id','id');
     }
 }

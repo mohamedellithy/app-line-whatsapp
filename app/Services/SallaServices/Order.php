@@ -32,6 +32,7 @@ class Order extends AppMerchant implements AppEvent{
         ])->first();
 
         $this->settings      = MerchantCredential::where([
+            'app_name'       => 'salla',
             'merchant_id'    => $this->data['merchant']
         ])->value('settings');
 
@@ -56,7 +57,7 @@ class Order extends AppMerchant implements AppEvent{
     }
 
     public function resolve_event(){
-        
+
         if($this->data['event'] == 'order.created'):
             if(!in_array("order_created",$this->settings['orders_active_on'])):
                 return;

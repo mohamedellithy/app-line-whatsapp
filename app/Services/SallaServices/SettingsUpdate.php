@@ -34,6 +34,7 @@ class SettingsUpdate implements AppEvent{
 
     public function resolve_event(){
         $merchant_credential = MerchantCredential::where([
+            'app_name'       => 'salla',
             'merchant_id' => $this->data['merchant']
         ])->first();
 

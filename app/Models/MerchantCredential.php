@@ -9,5 +9,6 @@ class MerchantCredential extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['settings'];
+    protected $fillable = ['settings','app_name','access_token','refresh_token','user_id','merchant_id','phone','store_id'];
+
 }

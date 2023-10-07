@@ -26,6 +26,7 @@ class OtpRequest extends AppMerchant implements AppEvent{
         ])->first();
 
         $this->settings      = MerchantCredential::where([
+            'app_name'       => 'salla',
             'merchant_id'    => $this->data['merchant']
         ])->value('settings');
 
