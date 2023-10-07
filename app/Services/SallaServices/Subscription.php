@@ -48,14 +48,14 @@ class Subscription implements AppEvent{
 
         $package = SpPlan::findOrFail($plan_id);
         if($package):
-            $new_team              = Team::where('ids',$this->data['merchant'])->first();
-            $new_team->pid         = $plan_id;
-            $new_team->permissions = $package->permissions;
-            $new_team->save();
-            // $this->merchant_team->update([
-            //     'pid'         => $plan_id,
-            //     'permissions' => $package->permissions,
-            // ]);
+            // $new_team              = Team::where('ids',$this->data['merchant'])->first();
+            // $new_team->pid         = $plan_id;
+            // $new_team->permissions = $package->permissions;
+            // $new_team->save();
+            $this->merchant_team->update([
+                'pid'         => $plan_id,
+                'permissions' => $package->permissions,
+            ]);
         endif;
 
         $upgrade_plan = SpUser::where('ids',$this->data['merchant'])->update([
