@@ -52,10 +52,10 @@ class Subscription implements AppEvent{
             $new_team->pid         = $plan_id;
             $new_team->permissions = $package->permissions;
             $new_team->save();
-            $this->merchant_team->update([
-                'pid'         => $plan_id,
-                'permissions' => $package->permissions,
-            ]);
+            // $this->merchant_team->update([
+            //     'pid'         => $plan_id,
+            //     'permissions' => $package->permissions,
+            // ]);
         endif;
 
         $upgrade_plan = SpUser::where('ids',$this->data['merchant'])->update([
