@@ -44,7 +44,7 @@ class Subscription implements AppEvent{
     public function resolve_event(){
         $end_date_full = $this->data['data']['end_date'];
         $end_date      = substr($end_date_full, 0, 10);
-        $plan_id       = $this->plans[$this->data['data']['plan_name']] ?: 34;
+        $plan_id       = $this->plans[$this->data['data']['plan_name']] ?: 
 
         $package = SpPlan::find($plan_id) ?: null;
         if($package):
