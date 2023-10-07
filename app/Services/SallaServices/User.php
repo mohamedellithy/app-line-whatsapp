@@ -73,7 +73,7 @@ class User{
         $new_account->email           = $this->merchant->data->email  ?: $this->store->data->email;
         $new_account->password        = $user_password;
         $new_account->avatar          = $this->store->data->avatar    ?: $this->merchant->data->merchant->avatar;
-        $new_account->plan            = 1;
+        $new_account->plan            = '34';
         $new_account->expiration_date = self::add_date_plus(90);
         $new_account->timezone        = 'Asia/Riyadh';
         $new_account->login_type      = 'salla';
