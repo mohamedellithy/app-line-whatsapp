@@ -18,18 +18,49 @@ class User{
         // get merchant information
         $this->get_merchant_info($data['data']['access_token']);
 
+        // get store information
+        $this->get_store_info($data['data']['access_token']);
+
         // get user info
         $user = SpUser::where('email',$this->merchant->data->email  ?: $this->store->data->email)->first();
 
         // change update json access token and refresh token
         if($user):
-            $user->merchant_info()->where([
+            $user->merchant_info()->updateOrCreate([
+                'user_id'     => $user->id,
                 'app_name'    => 'salla',
                 'merchant_id' => $data['merchant'],
-            ])->update([
+            ],[
+                'phone'        => $this->merchant->data->mobile ?: null,
+                'store_id'     => $this->store->data->id,
                 'access_token' => $data['data']['access_token'],
                 'refresh_token'=> $data['data']['refresh_token']
             ]);
+
+            $plan_id        = '34';
+            $platform_link  = "https://wh.line.sa/login";
+            $descript_our_platform = "https://line.sa/wh/%d8%b4%d8%b1%d9%88%d8%ad%d8%a7%d8%aa-%d9%88%d8%a7%d8%aa%d8%b3%d8%a7%d8%a8-%d9%84%d8%a7%d9%8a%d9%86/";
+            $package = SpPlan::findOrFail($plan_id) ?: null;
+            if($package):
+                $new_team  = Team::where('owner',$user->id)->firstOrCreate(
+                    ['ids'  => $data['merchant'] ?: $this->store->data->id],
+                    ['pid'  => $plan_id],
+                    ['owner'=> $user->id],
+                    ['permissions' => $package->permissions]
+                );
+            endif;
+            // message text
+            $message = urlencode("
+                تهانينا 😀👏
+                تم تفعيل التطبيق على حسابك line.sa بنجاح
+                تفاصيل الحساب
+                👈 البريد الالكترونى : {$user->email}\n
+                👈 رابط المنصة : {$platform_link}\n
+                👈 يمكنك الاطلاع على شروحات منصتنا : {$descript_our_platform}\n
+            ");
+
+        // send message with all info and it was installed succefully
+        send_message($this->merchant->data->mobile,$message);
         endif;
 
         // return result
