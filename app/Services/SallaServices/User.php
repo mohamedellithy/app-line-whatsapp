@@ -41,16 +41,21 @@ class User{
                 'refresh_token'=> $data['data']['refresh_token']
             ]);
 
-            $plan_id        = '34';
+            $plan_id        = $user->plan;
             $platform_link  = "https://wh.line.sa/login";
             $descript_our_platform = "https://line.sa/wh/%d8%b4%d8%b1%d9%88%d8%ad%d8%a7%d8%aa-%d9%88%d8%a7%d8%aa%d8%b3%d8%a7%d8%a8-%d9%84%d8%a7%d9%8a%d9%86/";
             $package = SpPlan::findOrFail($plan_id) ?: null;
             if($package):
-                $new_team  = Team::where('owner',$user->id)->firstOrCreate(
-                    ['ids'  => $user->ids],
-                    ['pid'  => $plan_id],
-                    ['owner'=> $user->id],
-                    ['permissions' => $package->permissions]
+                $new_team  = Team::updateOrCreate(
+                    [
+                        'owner'=> $user->id,
+                        'ids'  => $user->ids
+                    ],
+                    [
+                        'ids'  => $user->ids,
+                        'pid'  => $plan_id,
+                        'permissions' => $package->permissions
+                    ]
                 );
             endif;
             // message text
