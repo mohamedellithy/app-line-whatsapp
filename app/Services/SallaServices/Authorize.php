@@ -2,6 +2,7 @@
 namespace App\Services\SallaServices;
 
 use Log;
+use App\Services\SallaServices\User;
 use Illuminate\Support\Facades\Http;
 use App\Services\AppSettings\AppEvent;
 
@@ -24,6 +25,9 @@ class Authorize implements AppEvent{
     }
 
     public function resolve_event(){
+        Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',[
+            'tes'
+        ]);
         $user = new User();
         if ($user->check_user_exist($this->data)) {
             echo "user exist before";
