@@ -12,6 +12,6 @@ class MerchantCredential extends Model
     protected $fillable = ['settings','app_name','access_token','refresh_token','user_id','merchant_id','phone','store_id'];
 
     public function user(){
-        return $this->belongTo(User::class,'user_id','id');
+        return $this->belongsTo(User::class,'user_id','id');
     }
 }
