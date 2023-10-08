@@ -43,7 +43,7 @@ class User{
             $package = SpPlan::findOrFail($plan_id) ?: null;
             if($package):
                 $new_team  = Team::where('owner',$user->id)->firstOrCreate(
-                    ['ids'  => $data['merchant'] ?: $this->store->data->id],
+                    ['ids'  => $user->ids],
                     ['pid'  => $plan_id],
                     ['owner'=> $user->id],
                     ['permissions' => $package->permissions]
