@@ -50,6 +50,7 @@ class OtpRequest extends AppMerchant implements AppEvent{
     }
 
     public function resolve_event(){
+        if(!isset($this->settings['otp_status'])) return;
         if($this->settings['otp_status'] != 1) return;
         $app_event = EventStatus::updateOrCreate([
             'unique_number' => $this->data['merchant'],
