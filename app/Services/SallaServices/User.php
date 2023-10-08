@@ -52,7 +52,6 @@ class User{
                         'ids'  => $user->ids
                     ],
                     [
-                        'ids'  => $user->ids,
                         'pid'  => $plan_id,
                         'permissions' => $package->permissions
                     ]
