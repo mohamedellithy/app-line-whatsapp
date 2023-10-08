@@ -13,9 +13,16 @@ class SettingsUpdate implements AppEvent{
         // set data
         $this->data = $data;
 
-        $this->merchant_team = Team::with('account')->where([
-            'ids' => $this->data['merchant']
+        $merchant_info = MerchantCredential::where([
+            'app_name'       => 'salla',
+            'merchant_id'    => $this->data['merchant']
         ])->first();
+
+        // merchant
+        $this->merchant_team = Team::with('account')->where([
+            'ids' => $merchant_info->user->ids
+        ])->first();
+
 
         // track event by using Log
         $this->set_log();

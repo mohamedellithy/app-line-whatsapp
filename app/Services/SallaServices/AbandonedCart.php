@@ -20,15 +20,17 @@ class AbandonedCart implements AppEvent{
         // set data
         $this->data = $data;
 
-        // merchant
-        $this->merchant_team = Team::with('account')->where([
-            'ids' => $this->data['merchant']
-        ])->first();
-
-        $this->settings      = MerchantCredential::where([
+        $merchant_info = MerchantCredential::where([
             'app_name'       => 'salla',
             'merchant_id'    => $this->data['merchant']
-        ])->value('settings');
+        ])->first();
+
+        // merchant
+        $this->merchant_team = Team::with('account')->where([
+            'ids' => $merchant_info->user->ids
+        ])->first();
+
+        $this->settings      = $merchant_info->settings;
 
         if($this->settings != null):
             $this->settings = json_decode($this->settings,true);

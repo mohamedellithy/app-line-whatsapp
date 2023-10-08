@@ -6,6 +6,7 @@ use App\Models\Team;
 use App\Models\SpPlan;
 use App\Models\SpUser;
 use App\Models\SpPermession;
+use App\Models\MerchantCredential;
 use Illuminate\Support\Facades\Http;
 use App\Services\AppSettings\AppEvent;
 
@@ -20,9 +21,14 @@ class Subscription implements AppEvent{
         // set data
         $this->data = $data;
 
+        $merchant_info = MerchantCredential::where([
+            'app_name'       => 'salla',
+            'merchant_id'    => $this->data['merchant']
+        ])->first();
+
         // merchant
         $this->merchant_team = Team::with('account')->where([
-            'ids' => $this->data['merchant']
+            'ids' => $merchant_info->user->ids
         ])->first();
 
         // set plans
