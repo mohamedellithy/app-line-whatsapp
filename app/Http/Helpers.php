@@ -79,8 +79,8 @@ if(!function_exists('send_message')):
         $phone_number = null,$message      = null,
         $instance_id  = null,$access_token = null){
 
-        $instance_id  = $instance_id  ?: '64AC6D08A99C9';
-        $access_token = $access_token ?: '649ba622aa900';
+        $instance_id  = $instance_id  ?: '64B280D831EC1'; // '64AC6D08A99C9';
+        $access_token = $access_token ?: '64b2763270e61'; // '649ba622aa900';
 
         if($phone_number == null) return 'failed';
 
