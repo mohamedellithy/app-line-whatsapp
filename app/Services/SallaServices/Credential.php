@@ -10,10 +10,6 @@ class Credential implements InterfaceCredential {
     private $api_endPoint             = "https://api.salla.dev/admin/v2";
     public  $merchant                 = null;
 
-    public function merchant(): void {
-        $this->merchant = request()->user()->zid_config ?: null;
-    }
-
     public function resolve_call($path = null,$method = 'get',$body = array(),$credentials = array()) : Object
     {
         $Headers = [
@@ -25,7 +21,7 @@ class Credential implements InterfaceCredential {
         if(isset($credentials['access_token']) || isset($this->merchant->access_token)):
             $Headers["Authorization"]     = ' Bearer '.(isset($credentials['access_token']) ? $credentials['access_token'] : $this->merchant->access_token);
         endif;
-        
+
 
         $response = Http::withOptions([
             'verify' => false,
