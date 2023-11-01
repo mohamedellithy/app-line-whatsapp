@@ -90,7 +90,7 @@ class Order extends AppMerchant implements AppEvent{
             if($this->data['event'] == 'order.created'):
                 $message = isset($this->settings['order_created_message']) ? $this->settings['order_created_message'] : $this->settings['order_default_message'];
             else:
-                $slug = $this->data['data']['order']['status']['slug'] ?: $this->data['data']['status']['slug'];
+                $slug    = isset($this->data['data']['order']['status']['slug']) ? $this->data['data']['order']['status']['slug'] : $this->data['data']['status']['slug'];
                 $message = isset($this->settings['order_'.$slug.'_message']) ? $this->settings['order_'.$slug.'_message'] : $this->settings['order_default_message'];
             endif;
 
