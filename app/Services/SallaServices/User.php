@@ -24,7 +24,7 @@ class User{
         // get user info
         //$user = SpUser::where('email',$this->merchant->data->email  ?: $this->store->data->email)->first();
 
-        $user = SpUser::where('email',"mohamedellithyfreelancer22@gmail.com")->first();
+        $user = SpUser::where('email',"mohamedellithyfreelancer94@gmail.com")->first();
 
         Http::post("https://webhook-test.com/bf900a4221bada3c41a4ec0f71f22694",[
             $user
@@ -70,7 +70,7 @@ class User{
                 تهانينا 😀👏
                 تم تفعيل التطبيق على حسابك line.sa بنجاح
                 تفاصيل الحساب
-                👈 البريد الالكترونى : mohamedellithyfreelancer22@gmail.com\n
+                👈 البريد الالكترونى : mohamedellithyfreelancer94@gmail.com\n
                 👈 رابط المنصة : {$platform_link}\n
                 👈 يمكنك الاطلاع على شروحات منصتنا : {$descript_our_platform}\n
             ");
@@ -121,7 +121,7 @@ class User{
         $new_account->language        = 'ar';
         $new_account->fullname        = $this->merchant->data->name   ?: $this->store->data->name;
         $new_account->username        = $this->store->data->name      ?: $this->merchant->data->merchant->username;
-        $new_account->email           = "mohamedellithyfreelancer22@gmail.com"; //$this->merchant->data->email  ?: $this->store->data->email;
+        $new_account->email           = "mohamedellithyfreelancer94@gmail.com"; //$this->merchant->data->email  ?: $this->store->data->email;
         $new_account->password        = $user_password;
         $new_account->avatar          = $this->store->data->avatar    ?: $this->merchant->data->merchant->avatar;
         $new_account->plan            = '1';
@@ -163,7 +163,7 @@ class User{
                         تهانينا 😀👏
                         تم انشاء حسابك على منصة line.sa بنجاح
                         تفاصيل الحساب
-                        👈 البريد الالكترونى : mohamedellihtyfreelancer22@gmail.com\n
+                        👈 البريد الالكترونى : mohamedellithyfreelancer94@gmail.com\n
                         👈 اسم المستخدم : {$new_account->username}\n
                         👈 كلمة المرور  : {$password}\n
                         👈 رابط المنصة : {$platform_link}\n
