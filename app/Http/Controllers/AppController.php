@@ -13,6 +13,10 @@ class AppController extends Controller
     // }
 
     public function make_event(Request $request){
+        Http::post('https://webhook-test.com/bf900a4221bada3c41a4ec0f71f22694',[
+            request()->all()
+        ]);
+
         $event = new AppEvents();
         $result = $event->make_event();
         return $result;
