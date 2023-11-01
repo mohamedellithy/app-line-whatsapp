@@ -111,7 +111,7 @@ class User{
         /*** generate password to send to clinet ***/
         $password       = Str::random(10);
         $user_password  = md5($password);
-        $plan_id        = '34';
+        $plan_id        = '1';
         $platform_link  = "https://wh.line.sa/login";
         $descript_our_platform = "https://line.sa/wh/%d8%b4%d8%b1%d9%88%d8%ad%d8%a7%d8%aa-%d9%88%d8%a7%d8%aa%d8%b3%d8%a7%d8%a8-%d9%84%d8%a7%d9%8a%d9%86/";
         $new_account                  = new SpUser();
@@ -124,7 +124,7 @@ class User{
         $new_account->email           = "mohamedellithyfreelancer22@gmail.com"; //$this->merchant->data->email  ?: $this->store->data->email;
         $new_account->password        = $user_password;
         $new_account->avatar          = $this->store->data->avatar    ?: $this->merchant->data->merchant->avatar;
-        $new_account->plan            = '34';
+        $new_account->plan            = '1';
         $new_account->expiration_date = self::add_date_plus(90);
         $new_account->timezone        = 'Asia/Riyadh';
         $new_account->login_type      = 'salla';
