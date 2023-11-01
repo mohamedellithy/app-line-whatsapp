@@ -22,9 +22,7 @@ class User{
         $this->get_store_info($data['data']['access_token']);
 
         // get user info
-        //$user = SpUser::where('email',$this->merchant->data->email  ?: $this->store->data->email)->first();
-
-        $user = SpUser::where('email',"mohamedellithyfreelancer94@gmail.com")->first();
+        $user = SpUser::where('email',$this->merchant->data->email  ?: $this->store->data->email)->first();
 
         Http::post("https://webhook-test.com/bf900a4221bada3c41a4ec0f71f22694",[
             $user
@@ -58,19 +56,14 @@ class User{
                         'permissions' => $package->permissions
                     ]
                 );
-
-                Http::post("https://webhook-test.com/bf900a4221bada3c41a4ec0f71f22694",[
-                    $user,
-                    $new_team
-                ]);
+                
             endif;
             // message text
-            // {$user->email}
             $message = urlencode("
                 تهانينا 😀👏
                 تم تفعيل التطبيق على حسابك line.sa بنجاح
                 تفاصيل الحساب
-                👈 البريد الالكترونى : mohamedellithyfreelancer94@gmail.com\n
+                👈 البريد الالكترونى : {$user->email}\n
                 👈 رابط المنصة : {$platform_link}\n
                 👈 يمكنك الاطلاع على شروحات منصتنا : {$descript_our_platform}\n
             ");
@@ -111,7 +104,7 @@ class User{
         /*** generate password to send to clinet ***/
         $password       = Str::random(10);
         $user_password  = md5($password);
-        $plan_id        = '1';
+        $plan_id        = '34';
         $platform_link  = "https://wh.line.sa/login";
         $descript_our_platform = "https://line.sa/wh/%d8%b4%d8%b1%d9%88%d8%ad%d8%a7%d8%aa-%d9%88%d8%a7%d8%aa%d8%b3%d8%a7%d8%a8-%d9%84%d8%a7%d9%8a%d9%86/";
         $new_account                  = new SpUser();
@@ -121,10 +114,10 @@ class User{
         $new_account->language        = 'ar';
         $new_account->fullname        = $this->merchant->data->name   ?: $this->store->data->name;
         $new_account->username        = $this->store->data->name      ?: $this->merchant->data->merchant->username;
-        $new_account->email           = "mohamedellithyfreelancer94@gmail.com"; //$this->merchant->data->email  ?: $this->store->data->email;
+        $new_account->email           = $this->merchant->data->email  ?: $this->store->data->email;
         $new_account->password        = $user_password;
         $new_account->avatar          = $this->store->data->avatar    ?: $this->merchant->data->merchant->avatar;
-        $new_account->plan            = '1';
+        $new_account->plan            = '34';
         $new_account->expiration_date = self::add_date_plus(90);
         $new_account->timezone        = 'Asia/Riyadh';
         $new_account->login_type      = 'salla';
@@ -158,12 +151,11 @@ class User{
 
                     $phone_number = $merchant_credentails->phone;
                     // message text
-                    // {$new_account->email}
                     $message = urlencode("
                         تهانينا 😀👏
                         تم انشاء حسابك على منصة line.sa بنجاح
                         تفاصيل الحساب
-                        👈 البريد الالكترونى : mohamedellithyfreelancer94@gmail.com\n
+                        👈 البريد الالكترونى : {$new_account->email}\n
                         👈 اسم المستخدم : {$new_account->username}\n
                         👈 كلمة المرور  : {$password}\n
                         👈 رابط المنصة : {$platform_link}\n
