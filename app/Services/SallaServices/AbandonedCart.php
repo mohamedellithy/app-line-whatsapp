@@ -27,7 +27,7 @@ class AbandonedCart implements AppEvent{
 
         // merchant
         $this->merchant_team = Team::with('account')->where([
-            'ids' => $merchant_info->user->ids
+            'owner' => $merchant_info->user->id
         ])->first();
 
         $this->settings      = $merchant_info->settings;

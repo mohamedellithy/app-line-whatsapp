@@ -22,7 +22,9 @@ class User{
         $this->get_store_info($data['data']['access_token']);
 
         // get user info
-        $user = SpUser::where('email',$this->merchant->data->email  ?: $this->store->data->email)->first();
+        $user = SpUser::where([
+            'email' => $this->merchant->data->email  ?: $this->store->data->email
+        ])->first();
 
         Http::post("https://webhook-test.com/bf900a4221bada3c41a4ec0f71f22694",[
             $user
@@ -48,15 +50,13 @@ class User{
             if($package):
                 $new_team  = Team::updateOrCreate(
                     [
-                        'owner'=> $user->id,
-                        'ids'  => $user->ids
+                        'owner'=> $user->id
                     ],
                     [
                         'pid'  => $plan_id,
                         'permissions' => $package->permissions
                     ]
                 );
-                
             endif;
             // message text
             $message = urlencode("
@@ -106,9 +106,10 @@ class User{
         $user_password  = md5($password);
         $plan_id        = '34';
         $platform_link  = "https://wh.line.sa/login";
+        $ids            = ($data['merchant'] ?: $this->store->data->id).Str::random(5);
         $descript_our_platform = "https://line.sa/wh/%d8%b4%d8%b1%d9%88%d8%ad%d8%a7%d8%aa-%d9%88%d8%a7%d8%aa%d8%b3%d8%a7%d8%a8-%d9%84%d8%a7%d9%8a%d9%86/";
         $new_account                  = new SpUser();
-        $new_account->ids             = $data['merchant'] ?: $this->store->data->id;
+        $new_account->ids             = $ids;
         $new_account->role            = '0';
         $new_account->is_admin        = '0';
         $new_account->language        = 'ar';
@@ -140,7 +141,7 @@ class User{
             $package = SpPlan::findOrFail($plan_id) ?: null;
             if($package):
                 $new_team              = new Team();
-                $new_team->ids         = $data['merchant'] ?: $this->store->data->id;
+                $new_team->ids         = $ids;
                 $new_team->pid         = $plan_id;
                 $new_team->owner       = $new_account->id;
                 $new_team->permissions = $package->permissions;
