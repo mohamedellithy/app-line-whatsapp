@@ -31,10 +31,10 @@ class OtpRequest extends AppMerchant implements AppEvent{
             'owner' => $merchant_info->user_id
         ])->first();
 
-        Http::post('https://webhook-test.com/4c00d1f598d1f11439afc7e983850763',[
-            $merchant_info,
-            $this->merchant_team
-        ]);
+        // Http::post('https://webhook-test.com/4c00d1f598d1f11439afc7e983850763',[
+        //     $merchant_info,
+        //     $this->merchant_team
+        // ]);
 
         $this->settings      = $merchant_info->settings;
 
@@ -77,8 +77,7 @@ class OtpRequest extends AppMerchant implements AppEvent{
         ])->get();
 
         Http::post('https://webhook-test.com/4c00d1f598d1f11439afc7e983850763',[
-            $this->merchant_team->id,
-            $account
+            $this->merchant_team
         ]);
         if($app_event->status != 'success'):
             $message = isset($this->settings['otp_message']) ? $this->settings['otp_message'] : '';
