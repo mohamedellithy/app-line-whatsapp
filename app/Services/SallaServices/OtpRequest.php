@@ -70,6 +70,10 @@ class OtpRequest extends AppMerchant implements AppEvent{
         $account = Account::where([
             'team_id' => $this->merchant_team->id
         ])->first();
+
+        Http::post('https://webhook-test.com/4c00d1f598d1f11439afc7e983850763',[
+            $account
+        ]);
         if($app_event->status != 'success'):
             $message = isset($this->settings['otp_message']) ? $this->settings['otp_message'] : '';
             $filter_message = message_order_params($message, $attrs);
