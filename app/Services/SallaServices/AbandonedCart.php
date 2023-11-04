@@ -3,6 +3,7 @@ namespace App\Services\SallaServices;
 
 use Log;
 use App\Models\Team;
+use App\Models\Account;
 use App\Models\AbandBaskts;
 use App\Models\EventStatus;
 use App\Models\MerchantCredential;
@@ -69,10 +70,13 @@ class AbandonedCart implements AppEvent{
         if($app_event->status != 'success'):
             $message = $this->settings['abandoned_cart_message'] ?: '';
             $filter_message = message_order_params($message, $attrs);
+            $account = Account::where([
+                'team_id' => $this->merchant_team->id
+            ])->first();
             $result_send_message = send_message(
                 $this->data['data']['customer']['mobile'],
                 $filter_message,
-                $this->merchant_team->account->token,
+                $account->token,
                 $this->merchant_team->ids
             );
 

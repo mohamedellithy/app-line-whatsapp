@@ -95,10 +95,13 @@ class Order extends AppMerchant implements AppEvent{
             endif;
 
             $filter_message = message_order_params($message, $attrs);
+            $account = Account::where([
+                'team_id' => $this->merchant_team->id
+            ])->first();
             $result_send_message = send_message(
                 $attrs['customer_phone_number'],
                 $filter_message,
-                $this->merchant_team->account->token,
+                $account->token,
                 $this->merchant_team->ids
             );
 

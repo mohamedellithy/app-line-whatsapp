@@ -3,6 +3,7 @@ namespace App\Services\SallaServices;
 
 use Log;
 use App\Models\Team;
+use App\Models\Account;
 use App\Models\EventStatus;
 use App\Models\SuccessTempModel;
 use App\Models\MerchantCredential;
@@ -66,17 +67,16 @@ class OtpRequest extends AppMerchant implements AppEvent{
 
         if(filter_var($this->data['data']['contact'],FILTER_VALIDATE_EMAIL)) return;
 
-        Http::post('https://webhook-test.com/4c00d1f598d1f11439afc7e983850763',[
-            $this->merchant_team,
-            $this->merchant_team->account
-        ]);
+        $account = Account::where([
+            'team_id' => $this->merchant_team->id
+        ])->first();
         if($app_event->status != 'success'):
             $message = isset($this->settings['otp_message']) ? $this->settings['otp_message'] : '';
             $filter_message = message_order_params($message, $attrs);
             $result_send_message = send_message(
                 $this->data['data']['contact'],
                 $filter_message,
-                $this->merchant_team->account->token,
+                $account->token,
                 $this->merchant_team->ids
             );
 

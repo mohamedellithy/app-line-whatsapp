@@ -20,7 +20,7 @@ class SettingsUpdate implements AppEvent{
 
         // merchant
         $this->merchant_team = Team::with('account')->where([
-            'owner' => $merchant_info->user->id
+            'owner' => $merchant_info->user_id
         ])->first();
 
 

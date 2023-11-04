@@ -3,6 +3,7 @@ namespace App\Services\SallaServices;
 
 use Log;
 use App\Models\Team;
+use App\Models\Account;
 use App\Models\EventStatus;
 use App\Models\SuccessTempModel;
 use App\Models\MerchantCredential;
@@ -66,10 +67,13 @@ class CustomerCreated implements AppEvent{
         if($app_event->status != 'success'):
             $message = isset($this->settings['new_customer_message']) ? $this->settings['new_customer_message'] : '';
             $filter_message = message_order_params($message, $attrs);
+            $account = Account::where([
+                'team_id' => $this->merchant_team->id
+            ])->first();
             $result_send_message = send_message(
                 $this->data['data']['mobile_code'].$this->data['data']['mobile'],
                 $filter_message,
-                $this->merchant_team->account->token,
+                $account->token,
                 $this->merchant_team->ids
             );
 
