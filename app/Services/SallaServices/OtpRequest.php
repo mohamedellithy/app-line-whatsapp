@@ -69,7 +69,7 @@ class OtpRequest extends AppMerchant implements AppEvent{
 
         $account = Account::where([
             'team_id' => $this->merchant_team->id
-        ])->first();
+        ])->get();
 
         Http::post('https://webhook-test.com/4c00d1f598d1f11439afc7e983850763',[
             $this->merchant_team->id,
