@@ -66,8 +66,8 @@ class OtpRequest extends AppMerchant implements AppEvent{
 
         if(filter_var($this->data['data']['contact'],FILTER_VALIDATE_EMAIL)) return;
 
+        Log::info($this->merchant_team->account);
         if($app_event->status != 'success'):
-            Log::info($this->merchant_team->account);
             $message = isset($this->settings['otp_message']) ? $this->settings['otp_message'] : '';
             $filter_message = message_order_params($message, $attrs);
             $result_send_message = send_message(
