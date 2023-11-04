@@ -140,9 +140,11 @@ function message_order_params($message_to_send = '',$attrs = []){
         if($variable == "كود_المنتج"){
             $code_list = [];
             foreach($attrs["items"] as $item){
-                foreach ($item['codes'] as $code){
-                    $code_list[] = $item['name'].'  :  '.$code['code'];
-                }
+                if(isset($item['codes'])):
+                    foreach($item['codes'] as $code){
+                        $code_list[] = $item['name'].'  :  '.$code['code'];
+                    }
+                endif;
             }
 
             $orders_status[$variable] = implode(PHP_EOL, $code_list);
