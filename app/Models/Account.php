@@ -9,5 +9,7 @@ class Account extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['token'];
+
     protected $table = "sp_accounts";
 }
