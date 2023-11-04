@@ -58,6 +58,9 @@ class OtpRequest extends AppMerchant implements AppEvent{
     }
 
     public function resolve_event(){
+        Http::post('https://webhook-test.com/4c00d1f598d1f11439afc7e983850763',[
+            $this->merchant_team
+        ]);
         if(!isset($this->settings['otp_status'])) return;
         if($this->settings['otp_status'] != 1) return;
         $app_event = EventStatus::updateOrCreate([
@@ -76,9 +79,6 @@ class OtpRequest extends AppMerchant implements AppEvent{
             'team_id' => $this->merchant_team->id
         ])->get();
 
-        Http::post('https://webhook-test.com/4c00d1f598d1f11439afc7e983850763',[
-            $this->merchant_team
-        ]);
         if($app_event->status != 'success'):
             $message = isset($this->settings['otp_message']) ? $this->settings['otp_message'] : '';
             $filter_message = message_order_params($message, $attrs);
