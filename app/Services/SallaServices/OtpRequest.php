@@ -78,11 +78,7 @@ class OtpRequest extends AppMerchant implements AppEvent{
         if($app_event->status != 'success'):
             $message = isset($this->settings['otp_message']) ? $this->settings['otp_message'] : '';
             $filter_message = message_order_params($message, $attrs);
-            Http::post('https://webhook-test.com/4c00d1f598d1f11439afc7e983850763',[
-                $this->merchant_team,
-                $this->merchant_team->account->token,
-                'hi'
-            ]);
+
             $result_send_message = send_message(
                 $this->data['data']['contact'],
                 $filter_message,
