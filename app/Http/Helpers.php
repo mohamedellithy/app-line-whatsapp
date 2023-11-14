@@ -102,6 +102,7 @@ function message_order_params($message_to_send = '',$attrs = []){
             'رقم_الطلب'              => isset($attrs["order_id"])     ? $attrs["order_id"] : null,
             'قيمة_الطلب'             => isset($attrs["order_amount"]) ? $attrs["order_amount"] : null,
             'اسم_العميل'             => isset($attrs["customer_full_name"]) ? $attrs["customer_full_name"] : null,
+            'اسم العميل'             => isset($attrs["customer_full_name"]) ? $attrs["customer_full_name"] : null,
             'العملة'                 => isset($attrs["currency"])           ?  $attrs["currency"] : null,
             'رابط_معلومات_الطلب'    => isset($attrs["order_url"])          ? $attrs["order_url"]: null,
             'شركة_الشحن'             => isset($attrs["shipping_company"])   ? $attrs["shipping_company"] : null,
@@ -158,7 +159,7 @@ function message_order_params($message_to_send = '',$attrs = []){
             $orders_status[$variable] = implode(PHP_EOL, $product_list);
         }
 
-        $message_to_send = str_replace("{" . $variable . "}", $orders_status[trim($variable)], $message_to_send);
+        $message_to_send = str_replace("{" . $variable . "}", $orders_status[$variable], $message_to_send);
     endforeach;
 
     $message_to_send = urlencode($message_to_send);
