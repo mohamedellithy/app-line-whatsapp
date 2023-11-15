@@ -31,6 +31,10 @@ class OtpRequest extends AppMerchant implements AppEvent{
             'owner' => $merchant_info->user_id
         ])->first();
 
+        return response()->json([
+            'b' => $this->merchant_team
+        ]);
+
         // Http::post('https://webhook-test.com/4c00d1f598d1f11439afc7e983850763',[
         //     $merchant_info,
         //     $this->merchant_team
