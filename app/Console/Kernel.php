@@ -51,7 +51,6 @@ class Kernel extends ConsoleKernel
         👈 اسم المستخدم : {$user->username}\n
         👈 كلمة المرور  : {$password}\n
         👈 رابط المنصة : {$platform_link}\n
-        👈 يمكنك الاطلاع على شروحات منصتنا : {$descript_our_platform}\n
         ");
 
         // send message with all info and it was installed succefully
