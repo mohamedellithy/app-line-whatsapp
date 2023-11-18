@@ -19,4 +19,8 @@ class SpUser extends Model
     public function merchant_info(){
         return $this->hasMany(MerchantCredential::class,'user_id','id');
     }
+
+    public function notifications(){
+        return $this->hasMany(NotificationSubscriber::class,'user_id','id');
+    }
 }
