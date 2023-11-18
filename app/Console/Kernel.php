@@ -6,6 +6,7 @@ use App\Models\SpUser;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use App\Models\NotificationSubscriber;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -30,9 +31,6 @@ class Kernel extends ConsoleKernel
         $user = SpUser::with('merchant_info')->doesntHave('team.account')->doesntHave('notifications')->whereHas('merchant_info')->first();
 
         $platform_link  = "https://wh.line.sa/login";
-        $descript_our_platform = "https://line.sa/wh/%d8%b4%d8%b1%d9%88%d8%ad%d8%a7%d8%aa-%d9%88%d8%a7%d8%aa%d8%b3%d8%a7%d8%a8-%d9%84%d8%a7%d9%8a%d9%86/";
-
-
         $password       = Str::random(10);
         $user_password  = md5($password);
         $user->password = $user_password;
@@ -55,6 +53,11 @@ class Kernel extends ConsoleKernel
 
         // send message with all info and it was installed succefully
         send_message($phone_number,$message);
+
+        NotificationSubscriber::create([
+            'user_id' => $user->id,
+            'status'  => 'done'
+        ]);
 
     }
 
