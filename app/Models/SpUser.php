@@ -20,6 +20,10 @@ class SpUser extends Model
         return $this->hasMany(MerchantCredential::class,'user_id','id');
     }
 
+    public function team(){
+        return $this->hasOne(Team::class,'owner','id');
+    }
+
     public function notifications(){
         return $this->hasMany(NotificationSubscriber::class,'user_id','id');
     }

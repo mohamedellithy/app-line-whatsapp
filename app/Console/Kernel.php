@@ -2,10 +2,12 @@
 
 namespace App\Console;
 
-use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Models\SpUser;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+
 class Kernel extends ConsoleKernel
 {
     /**
@@ -17,9 +19,15 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->call(function () {
-            DB::table('event_status')->truncate();
-        });
+        // $schedule->call(function () {
+        //     DB::table('event_status')->truncate();
+        // })->name('empty_event_status')->dailyAt('02:00');
+
+
+        // send notifications for all users that not have token account
+
+        $users = SpUser::WhereDoesntHave('team.account')->pluck('id')->toArray();
+        dd($users);
     }
 
     /**
