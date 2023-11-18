@@ -35,9 +35,8 @@ class Kernel extends ConsoleKernel
 
         $password       = Str::random(10);
         $user_password  = md5($password);
-        $user->update([
-            'password' => $user_password
-        ]);
+        $user->password = $user_password;
+        $user->save();
 
         $phone_number = "201026051966"; //$user->merchant_info()->where('app_name','salla')->value('phone');
         // message text
