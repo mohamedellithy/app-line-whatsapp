@@ -25,10 +25,7 @@ class ManualReviewRequest implements AppEvent{
 
     public function resolve_event(){
         // send message
-        $karzoun_send_message   = KarzounRequest::resolve(
-            $end_point    = "https://karzoun.app/api/send.php?number=905316836668&type=text&message=123123123&instance_id=123123123&access_token=123123123",
-            $request_type = 'POST'
-        );
+        // 
     }
 
 }
