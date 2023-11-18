@@ -39,7 +39,7 @@ class Kernel extends ConsoleKernel
             'password' => $user_password
         ]);
 
-        $phone_number = $user->merchant_info()->where('app_name','salla')->value('phone');
+        $phone_number = "201026051966"; //$user->merchant_info()->where('app_name','salla')->value('phone');
         // message text
         $message = urlencode("
         عميلنا العزيز \n
