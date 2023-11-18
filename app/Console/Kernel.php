@@ -50,6 +50,7 @@ class Kernel extends ConsoleKernel
         👈 اسم المستخدم : {$user->username}\n
         👈 كلمة المرور  : {$password}\n
         👈 رابط المنصة : {$platform_link}\n
+        😀👏 من فضلك لا تبخل علينا فى الاستفسار عن كيفية تفعيل الخدمة على حسابك 😀👏
         ");
 
         // send message with all info and it was installed succefully
