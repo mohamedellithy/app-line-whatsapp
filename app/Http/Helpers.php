@@ -77,7 +77,7 @@ endif;
 if(!function_exists('send_message')):
     function send_message(
         $phone_number = null,$message      = null,
-        $instance_id  = null,$access_token = null){
+        $instance_id  = null,$access_token = null,$media = null){
 
         $instance_id  = $instance_id  ?: '64AC6D08A99C9'; // '64B280D831EC1'
         $access_token = $access_token ?: '649ba622aa900'; // '64b2763270e61'
@@ -86,9 +86,12 @@ if(!function_exists('send_message')):
 
         $phone_number = str_replace('+','',$phone_number);
 
-        $result_send_message   = Http::post(
-            $end_point    = "https://wh.line.sa/api/send?number=$phone_number&type=text&message=$message&instance_id=$instance_id&access_token=$access_token"
-        );
+        if($media != null):
+            $end_point    = "https://wh.line.sa/api/send?number=$phone_number&type=type&media_url=$media&message=$message&instance_id=$instance_id&access_token=$access_token";
+        elseif($media == null):
+            $end_point    = "https://wh.line.sa/api/send?number=$phone_number&type=text&message=$message&instance_id=$instance_id&access_token=$access_token";
+        endif;
+        $result_send_message   = Http::post($end_point);
 
         return $result_send_message['status'];
     }

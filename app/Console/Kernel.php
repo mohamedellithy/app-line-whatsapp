@@ -52,7 +52,15 @@ class Kernel extends ConsoleKernel
         ");
 
         // send message with all info and it was installed succefully
-        return send_message($phone_number,$message);
+        send_message($phone_number,$message);
+
+        send_message(
+            $phone_number,
+            "سنوضح لك فى الفيديو المرفق كيف تقوم بتثبيت التطبيق و ربط حسابك ",
+            null,
+            null,
+            "https://youtu.be/LdEY0bgCV0k?si=RANUsAlykZbVubSs"
+        );
     }
 
     /**
