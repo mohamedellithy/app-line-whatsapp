@@ -56,10 +56,8 @@ class Kernel extends ConsoleKernel
 
         send_message(
             $phone_number,
-            "سنوضح لك فى الفيديو المرفق كيف تقوم بتثبيت التطبيق و ربط حسابك ",
-            null,
-            null,
-            "https://youtu.be/LdEY0bgCV0k?si=RANUsAlykZbVubSs"
+            "سنوضح لك فى الفيديو المرفق كيف تقوم بتثبيت التطبيق و ربط حسابك \n
+            https://youtu.be/LdEY0bgCV0k?si=RANUsAlykZbVubSs\n"
         );
     }
 
