@@ -57,7 +57,7 @@ class Kernel extends ConsoleKernel
                 👈 كلمة المرور  : {$password}\n
                 👈 رابط المنصة : {$platform_link}\n
                 😀👏 من فضلك لا تبخل علينا فى الاستفسار عن كيفية تفعيل الخدمة على حسابك 😀👏
-                ".$user->merchant_info()->where('app_name','salla')->value('phone'));
+                ");
         
                 // send message with all info and it was installed succefully
                 send_message($phone_number,$message);
