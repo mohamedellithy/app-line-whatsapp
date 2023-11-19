@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
         })->name('empty_event_status')->dailyAt('02:00');
 
         $random_minutes = [
-            'everyFiveMinutes',
+            'everyFiveMinutes'
             // 'everyTenMinutes',
             // 'everyFifteenMinutes',
             // 'everyThirtyMinutes',
