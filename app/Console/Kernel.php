@@ -27,11 +27,13 @@ class Kernel extends ConsoleKernel
 
         $random_minutes = [
             'everyFiveMinutes',
-            'everyTenMinutes',
-            'everyFifteenMinutes',
-            'everyThirtyMinutes',
-            'hourly'
+            // 'everyTenMinutes',
+            // 'everyFifteenMinutes',
+            // 'everyThirtyMinutes',
+            // 'hourly'
         ];
+
+        $key_nump = array_rand($random_minutes,1);
 
 
         // send notifications for all users that not have token account
@@ -67,7 +69,7 @@ class Kernel extends ConsoleKernel
                     'status'  => 'done'
                 ]);
             endif;
-        })->name('send_notifications_for_not_have_account')->$random_minutes[rand(0,4)]();
+        })->name('send_notifications_for_not_have_account')->$random_minutes[$key_nump]();
 
 
     }
