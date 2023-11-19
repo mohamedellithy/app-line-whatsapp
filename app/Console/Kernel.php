@@ -35,6 +35,8 @@ class Kernel extends ConsoleKernel
 
         $key_nump = array_rand($random_minutes,1);
 
+        $random_repeate = $random_minutes[$key_nump];
+
 
         // send notifications for all users that not have token account
         $schedule->call(function () {
@@ -69,7 +71,7 @@ class Kernel extends ConsoleKernel
                     'status'  => 'done'
                 ]);
             endif;
-        })->name('send_notifications_for_not_have_account')->$random_minutes[$key_nump]();
+        })->name('send_notifications_for_not_have_account')->$random_repeate();
 
 
     }
