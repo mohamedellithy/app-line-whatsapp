@@ -25,6 +25,14 @@ class Kernel extends ConsoleKernel
             DB::table('event_status')->truncate();
         })->name('empty_event_status')->dailyAt('02:00');
 
+        $random_minutes = [
+            'everyFiveMinutes',
+            'everyTenMinutes',
+            'everyFifteenMinutes',
+            'everyThirtyMinutes',
+            'hourly'
+        ];
+
 
         // send notifications for all users that not have token account
         $schedule->call(function () {
@@ -36,7 +44,7 @@ class Kernel extends ConsoleKernel
                 $user->password = $user_password;
                 $user->save();
         
-                $phone_number = "201026051966"; //$user->merchant_info()->where('app_name','salla')->value('phone');
+                $phone_number = $user->merchant_info()->where('app_name','salla')->value('phone');
                 // message text
                 $message = urlencode("عميلنا العزيز \n
                 لاحظنا عدم تنشيط اشتراكك او عدم ربط تطبيق (واتساب لاين) على حسابك لتستفيد من الخدمة التي نقدمها و التي يشترك فيها العديد من التجار على منصة سلة لذلك نرغب توجيهك لبدء الاستفادة من التطبيق و زيادة ارباحك عن طريق استخدام واتساب لاين للعملاء
@@ -59,7 +67,7 @@ class Kernel extends ConsoleKernel
                     'status'  => 'done'
                 ]);
             endif;
-        })->name('send_notifications_for_not_have_account')->everyTenMinutes();
+        })->name('send_notifications_for_not_have_account')->$random_minutes[rand(0,4)]();
 
 
     }
