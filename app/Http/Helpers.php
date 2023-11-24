@@ -8,7 +8,7 @@ if(!function_exists('formate_order_details')):
 
         if(!isset($order_details['data']['status']['name'])):
             $attrs['order_status']   = $order_details['data']['status'];
-            $attrs['order_id']       = isset($order_details['data']['order']) ? $order_details['data']['order']['id'] : $order_details['data']['id'];
+            $attrs['order_id']       = isset($order_details['data']['order']) ? $order_details['data']['order']['reference_id'] : $order_details['data']['reference_id'];
             $attrs['payment_method'] = $order_details['data']['order']['payment_method'];
             $attrs['currency']       = $order_details['data']['order']['currency'];
             $attrs['order_amount']   = $order_details['data']['order']['amounts']['total']['amount'];
@@ -19,7 +19,7 @@ if(!function_exists('formate_order_details')):
             $attrs['items']                  = $order_details['data']['order']['items'];
         else:
             $attrs['order_status']   = $order_details['data']['status']['name'];
-            $attrs['order_id']       = isset($order_details['data']['order']) ? $order_details['data']['order']['id'] : $order_details['data']['id'];
+            $attrs['order_id']       = isset($order_details['data']['order']) ? $order_details['data']['order']['reference_id'] : $order_details['data']['reference_id'];
             $attrs['payment_method'] = $order_details['data']['payment_method'];
             $attrs['currency']       = $order_details['data']['currency'];
             $attrs['order_amount']   = $order_details['data']['amounts']['total']['amount'];
