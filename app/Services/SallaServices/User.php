@@ -46,7 +46,7 @@ class User{
 
             $plan_id        = $user->plan;
             $platform_link  = "https://wh.line.sa/login";
-            $descript_our_platform = "https://line.sa/wh/%d8%b4%d8%b1%d9%88%d8%ad%d8%a7%d8%aa-%d9%88%d8%a7%d8%aa%d8%b3%d8%a7%d8%a8-%d9%84%d8%a7%d9%8a%d9%86/";
+            $descript_our_platform = "https://line.sa/wh/whatsapp/";
             $package = SpPlan::findOrFail($plan_id) ?: null;
             if($package):
                 $new_team  = Team::updateOrCreate(
