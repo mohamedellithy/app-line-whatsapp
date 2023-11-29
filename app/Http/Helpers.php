@@ -79,7 +79,6 @@ if(!function_exists('formate_customer_from_reviews_details')):
 
         $attrs['rating_review']                 = $customer_details['data']['rating'] ?: null;
         $attrs['content_review']                = $customer_details['data']['content'] ?: null;
-        $attrs['order_status']           = $customer_details['data']['order']['status'] ?: null;
         $attrs['order_id']               = isset($customer_details['data']['order']['reference_id']) ? $customer_details['data']['order']['reference_id'] : $customer_details['data']['order']['id'];
         $attrs['order_amount']           = $customer_details['data']['order']['total']['amount'] ?: null;
         $attrs['currency']               = $customer_details['data']['order']['total']['currency'] ?: null;
