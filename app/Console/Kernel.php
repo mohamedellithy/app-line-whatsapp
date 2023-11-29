@@ -47,7 +47,7 @@ class Kernel extends ConsoleKernel
                 $user_password  = md5($password);
                 $user->password = $user_password;
                 $user->save();
-        
+
                 $phone_number = $user->merchant_info()->where('app_name','salla')->value('phone');
                 // message text
                 $message = urlencode("عميلنا العزيز \n
@@ -62,10 +62,10 @@ class Kernel extends ConsoleKernel
                 👈 رابط المنصة : {$platform_link}\n
                 😀👏 من فضلك لا تبخل علينا فى الاستفسار عن كيفية تفعيل الخدمة على حسابك 😀👏
                 ");
-        
+
                 // send message with all info and it was installed succefully
                 send_message($phone_number,$message);
-        
+
                 NotificationSubscriber::create([
                     'user_id' => $user->id,
                     'status'  => 'done'

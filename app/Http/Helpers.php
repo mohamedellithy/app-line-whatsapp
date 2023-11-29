@@ -56,19 +56,38 @@ if(!function_exists('formate_customer_details')):
     function formate_customer_details($customer_details){
         $attrs = [];
 
-        $attrs['first_name']     = $customer_details['data']['first_name'];
-        $attrs['last_name']      = $customer_details['data']['last_name'];
-        $attrs['email']          = $customer_details['data']['email'];
-        $attrs['front_customer_profile']   = $customer_details['data']['urls']['customer'];
-        $attrs['admin_customer_profile']   = $customer_details['data']['urls']['admin'];
-        $attrs['gender']         = $customer_details['data']['gender'];
-        $attrs['birthday']       = $customer_details['data']['birthday']['date'];
-        $attrs['timezone']       = $customer_details['data']['birthday']['timezone'];
-        $attrs['customer_full_name']     = $customer_details['data']['first_name'].' '.$customer_details['data']['last_name'];
-        $attrs['customer_phone_number']  = $customer_details['data']['mobile_code'].$customer_details['data']['mobile'];
-        $attrs['city']                   = $customer_details['data']['city'];
-        $attrs['country']                = $customer_details['data']['country'];
-        $attrs['full_address']           = $customer_details['data']['city'] .'-'. $customer_details['data']['country'];
+        $attrs['first_name']     = $customer_details['data']['first_name'] ?: '-';
+        $attrs['last_name']      = $customer_details['data']['last_name']  ?: '-';
+        $attrs['email']          = $customer_details['data']['email'] ?: '-';
+        $attrs['front_customer_profile']   = $customer_details['data']['urls']['customer'] ?: '-';
+        $attrs['admin_customer_profile']   = $customer_details['data']['urls']['admin'] ?: '-';
+        $attrs['gender']         = $customer_details['data']['gender'] ?: '-';
+        $attrs['birthday']       = $customer_details['data']['birthday']['date'] ?: '-';
+        $attrs['timezone']       = $customer_details['data']['birthday']['timezone'] ?: '-';
+        $attrs['customer_full_name']     = ($customer_details['data']['first_name'].' '.$customer_details['data']['last_name']) ?: '-';
+        $attrs['customer_phone_number']  = ($customer_details['data']['mobile_code'].$customer_details['data']['mobile']) ?: '-';
+        $attrs['city']                   = $customer_details['data']['city'] ?: '-';
+        $attrs['country']                = $customer_details['data']['country'] ?: '-';
+        $attrs['full_address']           = ($customer_details['data']['city'] .'-'. $customer_details['data']['country']) ?: '-';
+        return $attrs;
+    }
+endif;
+
+if(!function_exists('formate_customer_details')):
+    function formate_customer_from_reviews_details($customer_details){
+        $attrs = [];
+
+        $attrs['rating_review']                 = $customer_details['data']['rating'] ?: '-';
+        $attrs['content_review']                = $customer_details['data']['content'] ?: '-';
+        $attrs['order_status']           = $customer_details['data']['status'];
+        $attrs['order_id']               = isset($customer_details['data']['order']['reference_id']) ? $customer_details['data']['order']['reference_id'] : $customer_details['data']['order']['id'];
+        $attrs['order_amount']           = $customer_details['data']['order']['total']['amount'] ?: '-';
+        $attrs['currency']               = $customer_details['data']['order']['total']['currency'] ?: '-';
+        $attrs['customer_full_name']     = $customer_details['data']['customer']['name'] ?: '-';
+        $attrs['customer_phone_number']  = $customer_details['data']['customer']['mobile'] ?: '-';
+        $attrs['city']                   = $customer_details['data']['customer']['city'] ?: '-';
+        $attrs['country']                = $customer_details['data']['customer']['country'] ?: '-';
+        $attrs['full_address']           = ($customer_details['data']['customer']['city'] .'-'. $customer_details['data']['customer']['country']) ?: '-';
         return $attrs;
     }
 endif;
@@ -138,7 +157,11 @@ function message_order_params($message_to_send = '',$attrs = []){
             'اسم_الزبون_السلة'    => isset($attrs["cart_customer_name"])     ? $attrs["cart_customer_name"] : null,
             'رقم_جوال_زبون_السلة' =>  isset($attrs["cart_customer_mobile"])  ? $attrs["cart_customer_mobile"] : null,
             'دولة_زبون_السلة'     =>  isset($attrs["cart_customer_country"])  ? $attrs["cart_customer_country"] : null,
-            'مدينة_زبون_السلة'    => isset($attrs["cart_customer_city"])      ? $attrs["cart_customer_city"] : null
+            'مدينة_زبون_السلة'    => isset($attrs["cart_customer_city"])      ? $attrs["cart_customer_city"] : null,
+
+            /* reviews */
+            'التقيم'        =>  isset($attrs["rating_review"])  ? $attrs["rating_review"]  : null,
+            'نص_التقيم'     =>  isset($attrs["content_review"]) ? $attrs["content_review"] : null
         ];
 
         if($variable == "كود_المنتج"){

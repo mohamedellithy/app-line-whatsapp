@@ -130,3 +130,15 @@
         </div>
     </body>
 </html>
+<strong>{التقيم}</strong>
+<strong>{نص_التقيم}</strong>
+<strong>{الاسم_كاملا}</strong>
+<strong>{رقم_الجوال}</strong>
+<strong>{المدينة}</strong>
+<strong>{الدولة}</strong>
+<strong>{حالة_الطلب}</strong>
+<strong>{رقم_الطلب}</strong>
+<strong>{قيمة_الطلب}</strong>
+<strong>{العملة}</strong>
+<strong>{العملة}</strong>
+<strong>{العملة}</strong>
