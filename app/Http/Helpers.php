@@ -77,17 +77,17 @@ if(!function_exists('formate_customer_from_reviews_details')):
     function formate_customer_from_reviews_details($customer_details){
         $attrs = [];
 
-        $attrs['rating_review']                 = $customer_details['data']['rating'] ?: '-';
-        $attrs['content_review']                = $customer_details['data']['content'] ?: '-';
-        $attrs['order_status']           = $customer_details['data']['status'];
+        $attrs['rating_review']                 = $customer_details['data']['rating'] ?: null;
+        $attrs['content_review']                = $customer_details['data']['content'] ?: null;
+        $attrs['order_status']           = $customer_details['data']['status'] ?: null;
         $attrs['order_id']               = isset($customer_details['data']['order']['reference_id']) ? $customer_details['data']['order']['reference_id'] : $customer_details['data']['order']['id'];
-        $attrs['order_amount']           = $customer_details['data']['order']['total']['amount'] ?: '-';
-        $attrs['currency']               = $customer_details['data']['order']['total']['currency'] ?: '-';
-        $attrs['customer_full_name']     = $customer_details['data']['customer']['name'] ?: '-';
-        $attrs['customer_phone_number']  = $customer_details['data']['customer']['mobile'] ?: '-';
-        $attrs['city']                   = $customer_details['data']['customer']['city'] ?: '-';
-        $attrs['country']                = $customer_details['data']['customer']['country'] ?: '-';
-        $attrs['full_address']           = ($customer_details['data']['customer']['city'] .'-'. $customer_details['data']['customer']['country']) ?: '-';
+        $attrs['order_amount']           = $customer_details['data']['order']['total']['amount'] ?: null;
+        $attrs['currency']               = $customer_details['data']['order']['total']['currency'] ?: null;
+        $attrs['customer_full_name']     = $customer_details['data']['customer']['name'] ?: null;
+        $attrs['customer_phone_number']  = $customer_details['data']['customer']['mobile'] ?: null;
+        $attrs['city']                   = $customer_details['data']['customer']['city'] ?: null;
+        $attrs['country']                = $customer_details['data']['customer']['country'] ?: null;
+        $attrs['full_address']           = ($customer_details['data']['customer']['city'] .'-'. $customer_details['data']['customer']['country']) ?: null;
         return $attrs;
     }
 endif;
