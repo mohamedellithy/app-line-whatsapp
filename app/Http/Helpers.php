@@ -73,7 +73,7 @@ if(!function_exists('formate_customer_details')):
     }
 endif;
 
-if(!function_exists('formate_customer_details')):
+if(!function_exists('formate_customer_from_reviews_details')):
     function formate_customer_from_reviews_details($customer_details){
         $attrs = [];
 
