@@ -1,16 +1,14 @@
 <?php
 namespace App\Services\SallaServices;
-
 use Log;
 use App\Models\Team;
 use App\Models\Account;
 use App\Models\EventStatus;
-use App\Models\SuccessTempModel;
 use App\Models\MerchantCredential;
-use App\Models\FailedMessagesModel;
 use App\Services\AppSettings\AppEvent;
+use App\Services\AppSettings\KarzounRequest;
 
-class CustomerCreated implements AppEvent{
+class ReviewAdded implements AppEvent{
     public $data;
     protected $merchant_team = null;
 
@@ -54,7 +52,7 @@ class CustomerCreated implements AppEvent{
     }
 
     public function resolve_event(){
-        if($this->settings['new_customer_status'] != 1) return;
+        if($this->settings['review_added_status'] != 1) return;
         $attrs = formate_customer_details($this->data);
         $app_event = EventStatus::updateOrCreate([
             'unique_number' => $this->data['merchant'],
@@ -65,13 +63,13 @@ class CustomerCreated implements AppEvent{
         ]);
 
         if($app_event->status != 'success'):
-            $message = isset($this->settings['new_customer_message']) ? $this->settings['new_customer_message'] : '';
+            $message = isset($this->settings['review_added_message']) ? $this->settings['review_added_message'] : '';
             $filter_message = message_order_params($message, $attrs);
             $account = Account::where([
                 'team_id' => $this->merchant_team->id
             ])->first();
             $result_send_message = send_message(
-                $this->data['data']['mobile_code'].$this->data['data']['mobile'],
+                $this->data['data']['customer']['mobile'],
                 $filter_message,
                 $account->token,
                 $this->merchant_team->ids
@@ -84,6 +82,5 @@ class CustomerCreated implements AppEvent{
             $app_event->increment('count_of_call');
         endif;
     }
+
 }
-
-
