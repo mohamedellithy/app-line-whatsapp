@@ -46,16 +46,7 @@ class SettingsUpdate implements AppEvent{
             'merchant_id' => $this->data['merchant']
         ])->first();
 
-        if(isset($this->data['data']['settings']['custom_merchant_phone']) && ($this->data['data']['settings']['custom_merchant_phone'] != null)):
-            $filter_phone = json_decode($merchant_credential->settings,true);
-            if(isset($filter_phone['custom_merchant_phone']) && ($filter_phone['custom_merchant_phone'] != null)):
-                if($filter_phone['custom_merchant_phone'] != $this->data['data']['settings']['custom_merchant_phone']):
-                    User::reset_password($this->data['merchant']);
-                endif;
-            else:
-                User::reset_password($this->data['merchant']);
-            endif;
-        endif;
+        $filter_settings = json_decode($merchant_credential->settings,true);
 
         if($merchant_credential):
             $merchant_credential->update([
@@ -63,7 +54,14 @@ class SettingsUpdate implements AppEvent{
             ]);
         endif;
 
-       
-
+        if(isset($this->data['data']['settings']['custom_merchant_phone']) && ($this->data['data']['settings']['custom_merchant_phone'] != null)):
+            if(isset($filter_settings['custom_merchant_phone']) && ($filter_settings['custom_merchant_phone'] != null)):
+                if($filter_settings['custom_merchant_phone'] != $this->data['data']['settings']['custom_merchant_phone']):
+                    User::reset_password($this->data['merchant']);
+                endif;
+            else:
+                User::reset_password($this->data['merchant']);
+            endif;
+        endif;
     }
 }

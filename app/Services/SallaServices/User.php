@@ -237,7 +237,7 @@ class User{
 
         $settings = $merchant->settings ? json_decode($merchant->settings,true) : [];
 
-        $phone_number = count($settings) > 0 ? ( (isset($settings['custom_merchant_phone']) && $settings['custom_merchant_phone'] != null) ? $settings['custom_merchant_phone'] : $user->merchant_info->phone) : $user->merchant_info->phone;
+        $phone_number = count($settings) > 0 ? ( (isset($settings['custom_merchant_phone']) && $settings['custom_merchant_phone'] != null) ? $settings['custom_merchant_phone'] : $merchant->phone) : $merchant->phone;
 
         return send_message($phone_number,$message);
 
