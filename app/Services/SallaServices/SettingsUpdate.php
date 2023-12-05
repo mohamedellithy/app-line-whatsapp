@@ -4,6 +4,7 @@ namespace App\Services\SallaServices;
 use Log;
 use App\Models\Team;
 use App\Models\MerchantCredential;
+use App\Services\SallaServices\User;
 use App\Services\AppSettings\AppEvent;
 
 class SettingsUpdate implements AppEvent{
@@ -45,11 +46,19 @@ class SettingsUpdate implements AppEvent{
             'merchant_id' => $this->data['merchant']
         ])->first();
 
+        if(isset($this->data['data']['settings']['custom_merchant_phone']) && ($this->data['data']['settings']['custom_merchant_phone'] != null)):
+            if($merchant_credential->phone != $this->data['data']['settings']['custom_merchant_phone']):
+                User::reset_password($this->data['merchant']);
+            endif;
+        endif;
+
         if($merchant_credential):
             $merchant_credential->update([
                 'settings' => json_encode($this->data['data']['settings'])
             ]);
         endif;
+
+       
 
     }
 }

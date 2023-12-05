@@ -14,6 +14,8 @@ use App\Services\AppSettings\KarzounRequest;
 class User{
     protected $merchant;
     protected $store;
+    protected static $platform_link  = "https://wh.line.sa/login";
+    protected static $descript_our_platform = "https://line.sa/wh/whatsapp/";
     public function check_user_exist($data) {
         // get merchant information
         $this->get_merchant_info($data['data']['access_token']);
@@ -45,8 +47,6 @@ class User{
             ]);
 
             $plan_id        = $user->plan;
-            $platform_link  = "https://wh.line.sa/login";
-            $descript_our_platform = "https://line.sa/wh/whatsapp/";
             $package = SpPlan::findOrFail($plan_id) ?: null;
             if($package):
                 $new_team  = Team::updateOrCreate(
@@ -65,7 +65,7 @@ class User{
                 تم تفعيل التطبيق على حسابك line.sa بنجاح
                 تفاصيل الحساب
                 👈 البريد الالكترونى : {$user->email}\n
-                👈 رابط المنصة : {$platform_link}\n
+                👈 رابط المنصة : ".self::$platform_link."\n
                 بعد تسجيل الدخول قم بالعمل الآتي:\n
                 اضغط من القائمة إدارة الحساب\n
                 اضغط على زر إضف حساب\n
@@ -74,7 +74,7 @@ class User{
                 ثم الاعدادات ثم الاجهزة المرتبطة\n
                 قم بتوجيه الكاميرا اتجاه الباركود\n
                 وللمزيد من الشروحات الكاملة :\n
-                👈 يمكنك الاطلاع على شروحات منصتنا : {$descript_our_platform}\n
+                👈 يمكنك الاطلاع على شروحات منصتنا : ".self::$descript_our_platform."\n
             ");
 
             // send message with all info and it was installed succefully
@@ -114,9 +114,7 @@ class User{
         $password       = Str::random(10);
         $user_password  = md5($password);
         $plan_id        = '34';
-        $platform_link  = "https://wh.line.sa/login";
         $ids            = ($data['merchant'] ?: $this->store->data->id).Str::random(5);
-        $descript_our_platform = "https://line.sa/wh/whatsapp/";
         $new_account                  = new SpUser();
         $new_account->ids             = $ids;
         $new_account->role            = '0';
@@ -169,7 +167,7 @@ class User{
                         👈 البريد الالكترونى : {$new_account->email}\n
                         👈 اسم المستخدم : {$new_account->username}\n
                         👈 كلمة المرور  : {$password}\n
-                        👈 رابط المنصة : {$platform_link}\n
+                        👈 رابط المنصة : ".self::$platform_link."\n
                         بعد الدخول على الرابط أعلاه وتسجيل الدخول قم بالعمل الآتي:\n
                         اضغط من القائمة إدارة الحساب\n
                         اضغط على زر إضف حساب\n
@@ -179,7 +177,7 @@ class User{
                         قم بتوجيه الكاميرا اتجاه الباركود\n
                         وللمزيد من الشروحات الكاملة :\n
                         https://line.sa/wh/whatsapp/\n
-                        👈 يمكنك الاطلاع على شروحات منصتنا : {$descript_our_platform}\n
+                        👈 يمكنك الاطلاع على شروحات منصتنا : ".self::$descript_our_platform."\n
                     ");
 
                     // send message with all info and it was installed succefully
@@ -201,6 +199,42 @@ class User{
         }
 
         return $plan_id.' --failed ';
+    }
+
+    public static function reset_password($merchant_id){
+        $user           = SpUser::with('merchant_info')->whereHas('merchant_info',function($query) use($merchant_id){
+            $query->where('merchant_id',$merchant_id);
+        })->first();
+        $password       = Str::random(10);
+        $user_password  = md5($password);
+        $user->password = $user_password;
+        $user->save();
+        $message = urlencode("
+            تهانينا 😀👏
+            تم انشاء حسابك على منصة line.sa بنجاح
+            تفاصيل الحساب
+            👈 البريد الالكترونى : {$user->email}\n
+            👈 اسم المستخدم : {$user->username}\n
+            👈 كلمة المرور  : {$password}\n
+            👈 رابط المنصة : ".self::$platform_link."\n
+            بعد الدخول على الرابط أعلاه وتسجيل الدخول قم بالعمل الآتي:\n
+            اضغط من القائمة إدارة الحساب\n
+            اضغط على زر إضف حساب\n
+            سيظهر لك باركود الآن\n
+            بعدها افتح واتساب الخاص بك\n
+            ثم الاعدادات ثم الاجهزة المرتبطة\n
+            قم بتوجيه الكاميرا اتجاه الباركود\n
+            وللمزيد من الشروحات الكاملة :\n
+            https://line.sa/wh/whatsapp/\n
+            👈 يمكنك الاطلاع على شروحات منصتنا : ".self::$descript_our_platform."\n
+        ");
+
+        $settings = $user->merchant_info->settings ? json_decode($user->merchant_info->settings,true) : [];
+
+        $phone_number = count($settings) > 0 ? ( (isset($settings['custom_merchant_phone']) && $settings['custom_merchant_phone'] != null) ? $settings['custom_merchant_phone'] : $user->merchant_info->phone) : $user->merchant_info->phone;
+
+        return send_message($phone_number,$message);
+
     }
 
     public static function add_date_plus($days = 12){
