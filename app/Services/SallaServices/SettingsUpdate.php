@@ -47,7 +47,12 @@ class SettingsUpdate implements AppEvent{
         ])->first();
 
         if(isset($this->data['data']['settings']['custom_merchant_phone']) && ($this->data['data']['settings']['custom_merchant_phone'] != null)):
-            if($merchant_credential->phone != $this->data['data']['settings']['custom_merchant_phone']):
+            $filter_phone = json_decode($merchant_credential->settings,true);
+            if(isset($filter_phone['custom_merchant_phone']) && ($filter_phone['custom_merchant_phone'] != null)):
+                if($filter_phone['custom_merchant_phone'] != $this->data['data']['settings']['custom_merchant_phone']):
+                    User::reset_password($this->data['merchant']);
+                endif;
+            else:
                 User::reset_password($this->data['merchant']);
             endif;
         endif;
