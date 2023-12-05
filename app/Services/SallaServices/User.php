@@ -202,7 +202,7 @@ class User{
     }
 
     public static function reset_password($merchant_id){
-        $user           = SpUser::with('merchant_info')->whereHas('merchant_info',function($query) use($merchant_id){
+        $user           = SpUser::whereHas('merchant_info',function($query) use($merchant_id){
             $query->where('merchant_id',$merchant_id);
         })->first();
         $password       = Str::random(10);
@@ -229,7 +229,13 @@ class User{
             👈 يمكنك الاطلاع على شروحات منصتنا : ".self::$descript_our_platform."\n
         ");
 
-        $settings = $user->merchant_info->settings ? json_decode($user->merchant_info->settings,true) : [];
+        $merchant = MerchantCredential::where([
+            'user_id'     => $user->id,
+            'merchant_id' => $merchant_id,
+            'app_name'    => 'salla'
+        ])->first();
+
+        $settings = $merchant->settings ? json_decode($merchant->settings,true) : [];
 
         $phone_number = count($settings) > 0 ? ( (isset($settings['custom_merchant_phone']) && $settings['custom_merchant_phone'] != null) ? $settings['custom_merchant_phone'] : $user->merchant_info->phone) : $user->merchant_info->phone;
 
