@@ -52,8 +52,9 @@ class ManualReviewRequest implements AppEvent{
     }
 
     public function resolve_event(){
-        if($this->settings['new_customer_status'] != 1) return;
-        $attrs = formate_customer_details($this->data);
+        if($this->settings['request_review_status'] != 1) return;
+        $attrs = formate_order_details($this->data);
+        $this->data['request_review'] = true;
         $app_event = EventStatus::updateOrCreate([
             'unique_number' => $this->data['merchant'],
             'values'        => json_encode($this->data)
@@ -63,13 +64,13 @@ class ManualReviewRequest implements AppEvent{
         ]);
 
         if($app_event->status != 'success'):
-            $message = isset($this->settings['new_customer_message']) ? $this->settings['new_customer_message'] : '';
+            $message = isset($this->settings['message_request_review']) ? $this->settings['message_request_review'] : '';
             $filter_message = message_order_params($message, $attrs);
             $account = Account::where([
                 'team_id' => $this->merchant_team->id
             ])->first();
             $result_send_message = send_message(
-                $this->data['data']['mobile_code'].$this->data['data']['mobile'],
+                $attrs['customer_phone_number'],
                 $filter_message,
                 $account->token,
                 $this->merchant_team->ids

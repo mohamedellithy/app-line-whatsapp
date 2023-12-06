@@ -14,6 +14,7 @@ use App\Models\FailedMessagesModel;
 use Illuminate\Support\Facades\Http;
 use App\Services\AppSettings\AppEvent;
 use App\Services\AppSettings\AppMerchant;
+use App\Services\SallaServices\ManualReviewRequest;
 
 class Order extends AppMerchant implements AppEvent{
 
@@ -109,8 +110,18 @@ class Order extends AppMerchant implements AppEvent{
                 'status' => $result_send_message
             ]);
 
+
             $app_event->increment('count_of_call');
 
+            if($this->data['data']['order']['status']['slug'] == 'delivered'):
+                $this->request_review();
+            endif;
         endif;
+
+    }
+
+    public function request_review(){
+        $event_request_review = new ManualReviewRequest($this->data);
+        $event_request_review->resolve_event();
     }
 }
