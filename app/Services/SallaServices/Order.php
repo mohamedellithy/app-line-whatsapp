@@ -88,10 +88,10 @@ class Order extends AppMerchant implements AppEvent{
         // "" ?: $attrs['customer_phone_number']
         if($app_event->status != 'success'):
 
+            $slug    = isset($this->data['data']['order']['status']['slug']) ? $this->data['data']['order']['status']['slug'] : $this->data['data']['status']['slug'];
             if($this->data['event'] == 'order.created'):
                 $message = isset($this->settings['order_created_message']) ? $this->settings['order_created_message'] : $this->settings['order_default_message'];
             else:
-                $slug    = isset($this->data['data']['order']['status']['slug']) ? $this->data['data']['order']['status']['slug'] : $this->data['data']['status']['slug'];
                 $message = isset($this->settings['order_'.$slug.'_message']) ? $this->settings['order_'.$slug.'_message'] : $this->settings['order_default_message'];
             endif;
 
@@ -113,7 +113,7 @@ class Order extends AppMerchant implements AppEvent{
 
             $app_event->increment('count_of_call');
 
-            if($this->data['data']['order']['status']['slug'] == 'delivered'):
+            if($slug == 'delivered'):
                 $this->request_review();
             endif;
         endif;
