@@ -54,13 +54,12 @@ class ManualReviewRequest implements AppEvent{
     public function resolve_event(){
         if($this->settings['request_review_status'] != 1) return;
         $attrs = formate_order_details($this->data);
-        $this->data['request_review'] = true;
         $app_event = EventStatus::updateOrCreate([
             'unique_number' => $this->data['merchant'],
-            'values'        => json_encode($this->data)
+            'values'        => json_encode($this->data),
+            'type'          => 'request_review'
         ],[
             'event_from'    => "salla",
-            'type'          => $this->data['event']
         ]);
 
         if($app_event->status != 'success'):
