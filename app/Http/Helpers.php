@@ -184,6 +184,14 @@ function message_order_params($message_to_send = '',$attrs = []){
             $orders_status[$variable] = implode(PHP_EOL, $product_list);
         }
 
+        elseif($variable == "روابط_المنتجات"){
+            foreach ($attrs["items"] as $item){
+                $product_url_list[] = $item['name'].'  :  '.$item['product']['url'];
+            }
+
+            $orders_status[$variable] = implode(PHP_EOL, $product_url_list);
+        }
+
         $message_to_send = str_replace("{" . $variable . "}", $orders_status[$variable], $message_to_send);
     endforeach;
 
