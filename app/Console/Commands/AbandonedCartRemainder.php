@@ -4,8 +4,9 @@ namespace App\Console\Commands;
 
 use App\Models\EventStatus;
 use Illuminate\Console\Command;
-use App\Services\SallaServices\AppEvents;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use App\Services\SallaServices\AppEvents;
 
 class AbandonedCartRemainder extends Command
 {
@@ -36,7 +37,7 @@ class AbandonedCartRemainder extends Command
             'message' => 'heloo mohamed'
         ]);
 
-        EventStatus::where([
+        DB::table('event_status')->where([
             ['type' ,'=', 'abandoned.cart'],
             ['status','!=','success'],
             ['values','!=',null],
