@@ -4,9 +4,8 @@ namespace App\Console\Commands;
 
 use App\Models\EventStatus;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
 use App\Services\SallaServices\AppEvents;
+use Illuminate\Support\Facades\Http;
 
 class AbandonedCartRemainder extends Command
 {
@@ -37,12 +36,12 @@ class AbandonedCartRemainder extends Command
             'message' => 'heloo mohamed'
         ]);
 
-        DB::table('event_status')->where([
+        EventStatus::where([
             ['type' ,'=', 'abandoned.cart'],
             ['status','!=','success'],
             ['values','!=',null],
             ['required_call','>',1]
-        ])->whereColumn('count_of_call','!=','required_call')->chunk(100,function($events){
+        ])->whereColumn('count_of_call','!=','required_call')->orderBy('created_at','asc')->chunk(100,function($events){
             foreach($events as $event):
                 $event_abounded_cart = new AppEvents();
                 $event_abounded_cart->data = json_decode($event->values,true);
