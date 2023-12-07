@@ -34,7 +34,7 @@ abstract class Events
         $this->events = $this->events();
 
         // identity data from request api
-        $this->data  =  $this->get_json_data();
+        $this->data  =  $this->data ?: $this->get_json_data();
 
         if(!isset($this->events[$this->data['event']])) return;
 

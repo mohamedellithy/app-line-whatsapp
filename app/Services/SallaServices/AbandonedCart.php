@@ -83,11 +83,21 @@ class AbandonedCart implements AppEvent{
                 $this->merchant_team->ids
             );
 
-            $app_event->update([
-                'status' => $result_send_message
-            ]);
+            if($result_send_message == 'success'):
+                $app_event->increment('count_of_call');
 
-            $app_event->increment('count_of_call');
+                if($app_event->count_of_call == $app_event->required_call):
+                    $app_event->update([
+                        'status' => $result_send_message
+                    ]);
+                endif;
+            else:
+                $app_event->update([
+                    'status' => $result_send_message
+                ]);
+            endif;
+
+
         endif;
     }
 }
