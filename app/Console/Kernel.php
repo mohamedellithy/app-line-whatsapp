@@ -22,7 +22,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('abandoned:reminder')
-        ->withoutOverlapping()->everyTenMinutes();
+        ->withoutOverlapping()->everyMinute();
 
         $schedule->call(function () {
             DB::table('event_status')->truncate();
