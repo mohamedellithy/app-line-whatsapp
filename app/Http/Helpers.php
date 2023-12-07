@@ -123,6 +123,7 @@ function message_order_params($message_to_send = '',$attrs = []){
             'رقم_الطلب'              => isset($attrs["order_id"])     ? $attrs["order_id"] : null,
             'قيمة_الطلب'             => isset($attrs["order_amount"]) ? $attrs["order_amount"] : null,
             'اسم_العميل'             => isset($attrs["customer_full_name"]) ? $attrs["customer_full_name"] : null,
+            'اسم ـ العميل'           => isset($attrs["customer_full_name"]) ? $attrs["customer_full_name"] : null,
             'اسم العميل'             => isset($attrs["customer_full_name"]) ? $attrs["customer_full_name"] : null,
             'العملة'                 => isset($attrs["currency"])           ?  $attrs["currency"] : null,
             'رابط_معلومات_الطلب'    => isset($attrs["order_url"])          ? $attrs["order_url"]: null,
