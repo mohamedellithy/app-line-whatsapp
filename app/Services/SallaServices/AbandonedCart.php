@@ -71,6 +71,13 @@ class AbandonedCart implements AppEvent{
             $app_event->update([
                 'required_call' => isset($this->settings['count_abandoned_cart_reminder']) ? $this->settings['count_abandoned_cart_reminder'] : 1
             ]);
+
+            if($app_event->required_call > 1):
+                $app_event->update([
+                    'status' =>'progress'
+                ]);
+            endif;
+
             $message = $this->settings['abandoned_cart_message'] ?: '';
             $filter_message = message_order_params($message, $attrs);
             $account = Account::where([
