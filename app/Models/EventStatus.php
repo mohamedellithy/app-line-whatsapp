@@ -12,6 +12,6 @@ class EventStatus extends Model
     protected $table = "event_status";
 
     protected $fillable = [
-        'unique_number','values','type','event_from','status','count_of_call'
+        'unique_number','values','type','event_from','status','count_of_call','required_call'
     ];
 }

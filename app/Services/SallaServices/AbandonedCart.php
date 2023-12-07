@@ -69,7 +69,7 @@ class AbandonedCart implements AppEvent{
         // "" ?: $attrs['customer_phone_number']
         if($app_event->status != 'success'):
             $app_event->update([
-                'count_of_call' => isset($this->data['count_abandoned_cart_reminder']) ? $this->data['count_abandoned_cart_reminder'] : 1
+                'required_call' => isset($this->data['count_abandoned_cart_reminder']) ? $this->data['count_abandoned_cart_reminder'] : 1
             ]);
             $message = $this->settings['abandoned_cart_message'] ?: '';
             $filter_message = message_order_params($message, $attrs);

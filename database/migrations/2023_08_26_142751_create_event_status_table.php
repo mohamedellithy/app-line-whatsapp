@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('event_from');
             $table->string('status')->default('failed');
             $table->integer('count_of_call')->default(0);
+            $table->integer('required_call')->default(1);
             $table->timestamps();
         });
     }
