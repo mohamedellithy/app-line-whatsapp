@@ -21,6 +21,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('abandoned:reminder')
+        ->withoutOverlapping()->everyTenMinutes();
+
         $schedule->call(function () {
             DB::table('event_status')->truncate();
         })->name('empty_event_status')->dailyAt('02:00');
