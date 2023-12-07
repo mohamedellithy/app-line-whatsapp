@@ -30,15 +30,9 @@ class AbandonedCartRemainder extends Command
      */
     public function handle()
     {
-        Http::withOptions([
-            'verify' => false
-        ])->post('https://webhook-test.com/56f2072b15295bf985c0d0d7a9390e44',[
-            'message' => 'heloo mohamed'
-        ]);
-
         EventStatus::where([
             ['type' ,'=', 'abandoned.cart'],
-            ['status','!=','success'],
+            ['status','=','progress'],
             ['values','!=',null],
             ['required_call','>',1]
         ])->whereColumn('count_of_call','!=','required_call')->orderBy('created_at','asc')->chunk(100,function($events){
