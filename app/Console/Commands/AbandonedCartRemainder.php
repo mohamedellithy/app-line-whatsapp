@@ -42,7 +42,7 @@ class AbandonedCartRemainder extends Command
             ['status','!=','success'],
             ['values','!=',null],
             ['required_call','>',1]
-        ])->whereColumn('count_of_call','!=','required_call')->chunck(100,function($events){
+        ])->whereColumn('count_of_call','!=','required_call')->chunk(100,function($events){
             foreach($events as $event):
                 $event_abounded_cart = new AppEvents();
                 $event_abounded_cart->data = json_decode($event->values,true);
