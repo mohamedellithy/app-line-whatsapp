@@ -21,7 +21,7 @@ class User{
         $this->get_merchant_info($data['data']['access_token']);
 
         // get store information
-        $this->get_store_info($data['data']['access_token']);
+        // $this->get_store_info($data['data']['access_token']);
 
         // get user info
         $user = SpUser::where([
@@ -114,17 +114,17 @@ class User{
         $password       = Str::random(10);
         $user_password  = md5($password);
         $plan_id        = '34';
-        $ids            = ($data['merchant'] ?: $this->store->data->id).Str::random(5);
+        $ids            = $data['merchant'].Str::random(5);
         $new_account                  = new SpUser();
         $new_account->ids             = $ids;
         $new_account->role            = '0';
         $new_account->is_admin        = '0';
         $new_account->language        = 'ar';
-        $new_account->fullname        = $this->merchant->data->name   ?: $this->store->data->name;
-        $new_account->username        = $this->store->data->name      ?: $this->merchant->data->merchant->username;
-        $new_account->email           = $this->merchant->data->email  ?: $this->store->data->email;
+        $new_account->fullname        = $this->merchant->data->name;
+        $new_account->username        = $this->merchant->data->merchant->username;
+        $new_account->email           = $this->merchant->data->email;
         $new_account->password        = $user_password;
-        $new_account->avatar          = $this->store->data->avatar    ?: $this->merchant->data->merchant->avatar;
+        $new_account->avatar          = $this->merchant->data->merchant->avatar;
         $new_account->plan            = '34';
         $new_account->expiration_date = self::add_date_plus(90);
         $new_account->timezone        = 'Asia/Riyadh';
@@ -140,7 +140,7 @@ class User{
             $merchant_credentails->merchant_id    = $data['merchant'];
             $merchant_credentails->phone          = $this->merchant->data->mobile ?: null;
             $merchant_credentails->app_name       = 'salla';
-            $merchant_credentails->store_id       = $this->store->data->id;
+            $merchant_credentails->store_id       = $data['merchant'];
             $merchant_credentails->access_token   = $data['data']['access_token'];
             $merchant_credentails->refresh_token  = $data['data']['refresh_token'];
             $merchant_credentails->settings       = '{"abandoned_cart_status":true,"abandoned_cart_message":"\u0633\u0627\u0644\u0629 \u0627\u0644\u0633\u0644\u0629 \u0627\u0644\u0645\u062a\u0631\u0648\u0643\u0629","otp_status":false,"otp_message":"\u0631\u0645\u0632 \u0627\u0644\u062a\u062d\u0642\u0642 \u0627\u0644\u062e\u0627\u0635 \u0628\u0643 \u0644\u062a\u0633\u062c\u064a\u0644 \u0627\u0644\u062f\u062e\u0648\u0644 \u0639\u0644\u0649 \u0645\u062a\u062c\u0631 \" \u0648\u0627\u062a\u0633\u0627\u0628 \u0644\u0627\u064a\u0646\" \u0647\u0648 : {\u0631\u0645\u0632 \u0627\u0644\u062a\u062d\u0642\u0642} .. \u062a\u0633\u0648\u0642 \u0645\u0645\u062a\u0639.","new_customer_status":true,"new_customer_message":"\u0627\u0647\u0644\u0627 \u0648 \u0633\u0647\u0644\u0627 \u0628\u062d\u0636\u0631\u062a\u0643 {\u0627\u0644\u0627\u0633\u0645_\u0643\u0627\u0645\u0644\u0627}","order_status":true,"orders_active_on":["payment_pending","under_review","in_progress","completed","delivering","delivered","shipped","canceled","restored","restoring"],"order_created_message":"\u064a\u0645\u0643\u0646\u0643 \u0627\u0633\u062a\u062e\u062f\u0627\u0645 \u062a\u0644\u0643 \u0627\u0644\u0645\u062a\u063a\u064a\u0631\u0627\u062a \u0641\u0649 \u0631\u0633\u0627\u0644\u062a\u0643","order_default_message":"\u0637\u0644\u0628\u0643  \u062d\u0627\u0644\u0629  \u0627\u0644\u0627\u0646 {\u062d\u0627\u0644\u0629_\u0627\u0644\u0637\u0644\u0628}   -  {\u0631\u0642\u0645_\u0627\u0644\u0637\u0644\u0628}  - {\u0642\u064a\u0645\u0629_\u0627\u0644\u0637\u0644\u0628} - {\u0627\u0633\u0645_\u0627\u0644\u0639\u0645\u064a\u0644} - {\u0627\u0644\u0639\u0645\u0644\u0629} - {\u0631\u0627\u0628\u0637_\u0645\u0639\u0644\u0648\u0645\u0627\u062a_\u0627\u0644\u0637\u0644\u0628} - {\u0634\u0631\u0643\u0629_\u0627\u0644\u0634\u062d\u0646} - {\u0643\u0648\u062f_\u0627\u0644\u0645\u0646\u062a\u062c} - {\u062a\u0641\u0627\u0635\u064a\u0644_\u0645\u0646\u062a\u062c\u0627\u062a_\u0627\u0644\u0637\u0644\u0628\u064a\u0629} - {\u0632\u0631_\u0627\u0644\u062a\u0623\u0643\u064a\u062f}","order_payment_pending_message":null,"order_under_review_message":"\u0637\u0644\u0628\u0643  \u062d\u0627\u0644\u0629  \u0627\u0644\u0627\u0646 {\u062d\u0627\u0644\u0629_\u0627\u0644\u0637\u0644\u0628} #2","order_in_progress_message":null,"order_completed_message":null,"order_delivering_message":null,"order_delivered_message":null,"order_shipped_message":null,"order_canceled_message":null,"order_restored_message":null,"order_restoring_message":null}';
