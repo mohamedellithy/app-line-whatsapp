@@ -22,11 +22,19 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('abandoned:reminder')
-        ->withoutOverlapping()->timezone('Asia/Riyadh')->everyTwoHours()->between('7:59', '18:01');
+        ->withoutOverlapping()->timezone('Asia/Riyadh')->everyTwoHours()->between('8:00', '22:00');
 
         $schedule->call(function () {
-            DB::table('event_status')->truncate();
-        })->name('empty_event_status')->weekly();
+            DB::table('event_status')->where([
+                'type' ,'!=', 'abandoned.cart'
+            ])->truncate();
+        })->name('empty_event_without_abandoned_cart_status')->daily();
+
+        $schedule->call(function () {
+            DB::table('event_status')->where([
+                'type' ,'=', 'abandoned.cart'
+            ])->truncate();
+        })->name('empty_event_abandoned_cart_status')->weekly();
 
         $random_minutes = [
             // 'everyFiveMinutes',
@@ -43,7 +51,7 @@ class Kernel extends ConsoleKernel
 
         // send notifications for all users that not have token account
         $schedule->command('merchants:donot-have-a-token')
-        ->withoutOverlapping()->$random_repeate()->between('7:59', '18:01');
+        ->withoutOverlapping()->$random_repeate()->between('8:00', '22:00');
 
 
     }
