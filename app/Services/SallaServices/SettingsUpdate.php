@@ -61,17 +61,23 @@ class SettingsUpdate implements AppEvent{
                     User::reset_password($this->data['merchant']);
                     Http::post('https://webhook-test.com/88e997ea554c26402f22e49ab4e3986e',[
                         1,
+                        $filter_settings['custom_merchant_phone'],
+                        $this->data['data']['settings']['custom_merchant_phone'],
                         $filter_settings['custom_merchant_phone'] != $this->data['data']['settings']['custom_merchant_phone']
                     ]);
                 endif;
                 Http::post('https://webhook-test.com/88e997ea554c26402f22e49ab4e3986e',[
                     2,
+                    $filter_settings['custom_merchant_phone'],
+                    $this->data['data']['settings']['custom_merchant_phone'],
                     $filter_settings['custom_merchant_phone'] != $this->data['data']['settings']['custom_merchant_phone']
                 ]);
             else:
                 User::reset_password($this->data['merchant']);
                 Http::post('https://webhook-test.com/88e997ea554c26402f22e49ab4e3986e',[
                     3,
+                    $filter_settings['custom_merchant_phone'],
+                    $this->data['data']['settings']['custom_merchant_phone'],
                     $filter_settings['custom_merchant_phone'] != $this->data['data']['settings']['custom_merchant_phone']
                 ]);
             endif;
