@@ -5,6 +5,7 @@ use Log;
 use App\Models\Team;
 use App\Models\MerchantCredential;
 use App\Services\SallaServices\User;
+use Illuminate\Support\Facades\Http;
 use App\Services\AppSettings\AppEvent;
 
 class SettingsUpdate implements AppEvent{
@@ -58,9 +59,21 @@ class SettingsUpdate implements AppEvent{
             if(isset($filter_settings['custom_merchant_phone']) && ($filter_settings['custom_merchant_phone'] != null)):
                 if($filter_settings['custom_merchant_phone'] != $this->data['data']['settings']['custom_merchant_phone']):
                     User::reset_password($this->data['merchant']);
+                    Http::post('https://webhook-test.com/88e997ea554c26402f22e49ab4e3986e',[
+                        1,
+                        $filter_settings['custom_merchant_phone'] != $this->data['data']['settings']['custom_merchant_phone']
+                    ]);
                 endif;
+                Http::post('https://webhook-test.com/88e997ea554c26402f22e49ab4e3986e',[
+                    2,
+                    $filter_settings['custom_merchant_phone'] != $this->data['data']['settings']['custom_merchant_phone']
+                ]);
             else:
                 User::reset_password($this->data['merchant']);
+                Http::post('https://webhook-test.com/88e997ea554c26402f22e49ab4e3986e',[
+                    3,
+                    $filter_settings['custom_merchant_phone'] != $this->data['data']['settings']['custom_merchant_phone']
+                ]);
             endif;
         endif;
     }
