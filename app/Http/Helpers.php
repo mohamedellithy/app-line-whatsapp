@@ -134,6 +134,7 @@ function message_order_params($message_to_send = '',$attrs = []){
 
             /* OTP */
             'رمز_التحقق'             => isset($attrs['otp_code'])         ? $attrs['otp_code'] : null,
+            'رمز التحقق'             => isset($attrs['otp_code'])         ? $attrs['otp_code'] : null,
 
             /* Customers info */
             'اسم_الاول'             => isset($attrs["first_name"])         ? $attrs["first_name"] : null,
