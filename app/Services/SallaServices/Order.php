@@ -70,7 +70,7 @@ class Order extends AppMerchant implements AppEvent{
             if(!in_array($slug,$this->settings['orders_active_on'])):
                 return;
             endif;
-            if($this->settings['order_status'] != 1):
+            if(($this->settings['order_status'] != 1) || ($this->settings['order_status'] != true)):
                 return;
             endif;
         endif;
