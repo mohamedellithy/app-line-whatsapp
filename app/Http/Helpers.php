@@ -17,6 +17,7 @@ if(!function_exists('formate_order_details')):
             $attrs['customer_phone_number']  = $attrs['customer']['mobile'];
             $attrs['order_url']              = $order_details['data']['order']['urls']['customer'];
             $attrs['items']                  = $order_details['data']['order']['items'];
+            $attrs['review_url']             = $order_details['data']['rating_link'] ?: "";
         else:
             $attrs['order_status']   = $order_details['data']['status']['name'];
             $attrs['order_id']       = isset($order_details['data']['order']) ? $order_details['data']['order']['reference_id'] : $order_details['data']['reference_id'];
@@ -28,6 +29,7 @@ if(!function_exists('formate_order_details')):
             $attrs['customer_phone_number']  = $attrs['customer']['mobile_code'].$attrs['customer']['mobile'];
             $attrs['order_url']              = $order_details['data']['urls']['customer'];
             $attrs['items']                  = $order_details['data']['items'];
+            $attrs['review_url']             = $order_details['data']['rating_link'] ?: "";
             // $attrs['bank']                   = $order_details['data']['order']['bank'] ?: $order_details['data']['bank'];
             // $attrs['shipping_company']       = $order_details['data']['order']['shipping'] ?: $order_details['data']['shipping'];
         endif;
@@ -162,7 +164,8 @@ function message_order_params($message_to_send = '',$attrs = []){
 
             /* reviews */
             'التقيم'        =>  isset($attrs["rating_review"])  ? $attrs["rating_review"]  : null,
-            'نص_التقيم'     =>  isset($attrs["content_review"]) ? $attrs["content_review"] : null
+            'نص_التقيم'     =>  isset($attrs["content_review"]) ? $attrs["content_review"] : null,
+            'رابط_التقييم'   =>  isset($attrs["review_url"]) ? $attrs["review_url"] : null
         ];
 
         if($variable == "كود_المنتج"){
