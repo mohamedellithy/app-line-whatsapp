@@ -15,9 +15,9 @@ if(!function_exists('formate_order_details')):
             $attrs['customer']       = $order_details['data']['order']['customer'];
             $attrs['customer_full_name']     = $attrs['customer']['name'];
             $attrs['customer_phone_number']  = $attrs['customer']['mobile'];
-            $attrs['order_url']              = $order_details['data']['order']['urls']['customer'];
-            $attrs['items']                  = $order_details['data']['order']['items'];
-            $attrs['review_url']             = $order_details['data']['rating_link'] ?: "";
+            $attrs['order_url']              = isset($order_details['data']['order']) ? $order_details['data']['order']['urls']['customer'] : "";
+            $attrs['items']                  = isset($order_details['data']['order']) ? $order_details['data']['order']['items'] : "";
+            $attrs['review_url']             = isset($order_details['data']['order']) ? $order_details['data']['order']['rating_link'] : "";
         else:
             $attrs['order_status']   = $order_details['data']['status']['name'];
             $attrs['order_id']       = isset($order_details['data']['order']) ? $order_details['data']['order']['reference_id'] : $order_details['data']['reference_id'];
@@ -29,7 +29,7 @@ if(!function_exists('formate_order_details')):
             $attrs['customer_phone_number']  = $attrs['customer']['mobile_code'].$attrs['customer']['mobile'];
             $attrs['order_url']              = $order_details['data']['urls']['customer'];
             $attrs['items']                  = $order_details['data']['items'];
-            $attrs['review_url']             = $order_details['data']['rating_link'] ?: "";
+            $attrs['review_url']             = isset($order_details['data']['order']) ? $order_details['data']['order']['rating_link'] : "";
             // $attrs['bank']                   = $order_details['data']['order']['bank'] ?: $order_details['data']['bank'];
             // $attrs['shipping_company']       = $order_details['data']['order']['shipping'] ?: $order_details['data']['shipping'];
         endif;
