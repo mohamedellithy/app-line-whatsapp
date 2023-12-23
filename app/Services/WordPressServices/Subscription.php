@@ -36,7 +36,7 @@ class Subscription{
         ];
 
         $user = SpUser::where([
-            'email'    => "mh_test_freelanc@freelanc.com" //$this->data['email']
+            'email'    => $this->data['email']
         ])->first();
 
         if($user):
@@ -67,7 +67,7 @@ class Subscription{
             $user->plan            = $plan_id;
             $user->save();
 
-            $phone_number = "201026051966"; //$this->data['phone'];
+            $phone_number = $this->data['phone'];
             // message text
             $message = urlencode("
                 تهانينا 😀👏
@@ -122,7 +122,7 @@ class Subscription{
                 // check if new team is created
                 if($new_team):
 
-                    $phone_number = "201026051966"; //$this->data['phone'];
+                    $phone_number = $this->data['phone'];
                     // message text
                     $message = urlencode("
                         تهانينا 😀👏
