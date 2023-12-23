@@ -13,6 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
-        'app-events'
+        'app-events',
+        'wordpress-subscribers'
     ];
 }

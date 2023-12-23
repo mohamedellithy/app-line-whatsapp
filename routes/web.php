@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WordPressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,4 @@ Route::get('/', function () {
 // Route::get('/salla-callback', [App\Http\Controllers\AppController::class, 'salla_callback']);
 Route::post('/app-events', [App\Http\Controllers\AppController::class, 'make_event']);
 
+Route::post('/wordpress-subscribers',[WordPressController::class,'subscribers']);
