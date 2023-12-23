@@ -95,8 +95,8 @@ class Subscription{
         $new_account->role            = '0';
         $new_account->is_admin        = '0';
         $new_account->language        = 'ar';
-        $new_account->fullname        = $username ?: 'user_'.rand(1,10000);
-        $new_account->username        = $username ?: 'user_'.rand(1,10000);
+        $new_account->fullname        = isset($username[0]) ? $username[0] : 'user_'.rand(1,10000);
+        $new_account->username        = isset($username[0]) ? $username[0] : 'user_'.rand(1,10000);
         $new_account->email           = $this->data['email'];
         $new_account->password        = $user_password;
         $new_account->avatar          = "";
