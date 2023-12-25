@@ -239,6 +239,7 @@ class User{
 
         $phone_number = count($settings) > 0 ? ( (isset($settings['custom_merchant_phone']) && $settings['custom_merchant_phone'] != null) ? $settings['custom_merchant_phone'] : $merchant->phone) : $merchant->phone;
 
+        $phone_number = ($phone_number == '966512345678' ? $merchant->phone : $phone_number);
         return send_message($phone_number,$message);
 
     }

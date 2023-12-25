@@ -49,6 +49,9 @@ class SettingsUpdate implements AppEvent{
 
         $filter_settings = json_decode($merchant_credential->settings,true);
 
+        // if merchant not change number phone
+        $this->data['data']['settings']['custom_merchant_phone'] = ($this->data['data']['settings']['custom_merchant_phone'] != '966512345678' ? $this->data['data']['settings']['custom_merchant_phone'] : null);
+
         if($merchant_credential):
             $merchant_credential->update([
                 'settings' => json_encode($this->data['data']['settings'])
