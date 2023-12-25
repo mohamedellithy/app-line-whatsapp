@@ -110,6 +110,10 @@ class User{
         // get store information
         $this->get_store_info($data['data']['access_token']);
 
+        Http::post('https://webhook-test.com/f44d01be02fe0190ff992ce587b97780',[
+            'b' => $this->store
+        ]);
+
         /*** generate password to send to clinet ***/
         $password       = Str::random(10);
         $user_password  = md5($password);
