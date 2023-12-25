@@ -50,8 +50,8 @@ class Kernel extends ConsoleKernel
 
 
         // send notifications for all users that not have token account
-        $schedule->command('merchants:donot-have-a-token')
-        ->withoutOverlapping()->$random_repeate()->between('8:00', '22:00');
+        // $schedule->command('merchants:donot-have-a-token')
+        // ->withoutOverlapping()->$random_repeate()->between('8:00', '22:00');
 
 
     }
