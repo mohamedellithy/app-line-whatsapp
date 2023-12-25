@@ -115,6 +115,7 @@ class User{
         $user_password  = md5($password);
         $plan_id        = '34';
         $ids            = $data['merchant'].Str::random(5);
+        $store_url      = (isset($this->store['data']) && isset($this->store['data']['domain'])) ? $this->store['data']['domain'] : "";
         $new_account                  = new SpUser();
         $new_account->ids             = $ids;
         $new_account->role            = '0';
@@ -168,6 +169,7 @@ class User{
                         👈 اسم المستخدم : {$new_account->username}\n
                         👈 كلمة المرور  : {$password}\n
                         👈 رابط المنصة : ".self::$platform_link."\n
+                        👈 رابط المنصة : ".$store_url."\n
                         بعد الدخول على الرابط أعلاه وتسجيل الدخول قم بالعمل الآتي:\n
                         اضغط من القائمة إدارة الحساب\n
                         اضغط على زر إضف حساب\n
