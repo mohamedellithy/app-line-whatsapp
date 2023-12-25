@@ -119,7 +119,7 @@ class User{
         $user_password  = md5($password);
         $plan_id        = '34';
         $ids            = $data['merchant'].Str::random(5);
-        //$store_url      = (isset($this->store['data']) && isset($this->store['data']['domain'])) ? $this->store['data']['domain'] : "";
+        $store_url      = ""; //(isset($this->store['data']) && isset($this->store['data']['domain'])) ? $this->store['data']['domain'] : "";
         $new_account                  = new SpUser();
         $new_account->ids             = $ids;
         $new_account->role            = '0';
