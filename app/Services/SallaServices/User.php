@@ -96,13 +96,11 @@ class User{
 
     public function get_store_info($access_token){
         // Getting the store_id and other merchants Info from access token callback salla
-        $response   = KarzounRequest::resolve(
+        $this->store   = KarzounRequest::resolve(
             $end_point    = "https://api.salla.dev/admin/v2/store/info",
             $request_type = 'GET',
             $access_token = $access_token
         );
-
-        $this->store
     }
 
     public function create_new_user($data){
