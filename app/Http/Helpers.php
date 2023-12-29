@@ -116,7 +116,7 @@ if(!function_exists('send_message')):
         $result_send_message = $send_result->json();
 
         if($result_send_message['stats'] == false):
-            send_message_error($result_send_message['type_erro'],$instance_id);
+            return send_message_error($result_send_message['type_erro'],$instance_id);
         endif;
         return $result_send_message['status'];
     }
