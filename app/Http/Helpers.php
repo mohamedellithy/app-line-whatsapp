@@ -132,26 +132,26 @@ if(!function_exists('send_message_error')):
         $phone_number_filter = explode('@',$account->pid);
         $phone_number        = $phone_number_filter[0];
 
-        // if($type_erro == "expiration_date"):
-        //     $message = "عزيزي العميل\n
-        //                 تم انتهاء باقتك في رسائل واتساب لاين.\n
-        //                 يمكنك تجديد الباقة مباشرة من صفحة واتساب لاين\n
-        //                 https://line.sa/19505\n";
+        if($type_erro == "expiration_date"):
+            $message = "عزيزي العميل\n
+                        تم انتهاء باقتك في رسائل واتساب لاين.\n
+                        يمكنك تجديد الباقة مباشرة من صفحة واتساب لاين\n
+                        https://line.sa/19505\n";
 
-        // elseif($type_erro == "count_messages"):
-        //     $message = "عزيزي العميل\n
-        //                 تم استنفاد باقتك في رسائل واتساب لاين.\n
-        //                 يمكنك تجديد الباقة مباشرة من صفحة واتساب لاين\n
-        //                 https://line.sa/19505\n";
+        elseif($type_erro == "count_messages"):
+            $message = "عزيزي العميل\n
+                        تم استنفاد باقتك في رسائل واتساب لاين.\n
+                        يمكنك تجديد الباقة مباشرة من صفحة واتساب لاين\n
+                        https://line.sa/19505\n";
 
-        // endif;
+        endif;
 
-        // if($message):
-        //     $end_point    = "https://wh.line.sa/api/send?number=$phone_number&type=text&message=$message&instance_id=$instance_id&access_token=$access_token";
-        // endif;
-        // $send_result         = Http::post($end_point);
+        if($message):
+            $end_point    = "https://wh.line.sa/api/send?number=$phone_number&type=text&message=$message&instance_id=$instance_id&access_token=$access_token";
+        endif;
+        $send_result         = Http::post($end_point);
         return [
-            'result ' => $phone_number
+            'result ' => $send_result
         ];
     }
 endif;
