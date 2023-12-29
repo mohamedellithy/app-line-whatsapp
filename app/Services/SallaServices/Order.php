@@ -116,8 +116,7 @@ class Order extends AppMerchant implements AppEvent{
             if($slug == 'delivered'):
                 $this->request_review();
             endif;
-
-            return $result_send_message;
+            
         endif;
 
     }
