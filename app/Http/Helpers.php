@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Account;
 use Illuminate\Support\Facades\Http;
 
 if(!function_exists('formate_order_details')):
@@ -111,9 +112,43 @@ if(!function_exists('send_message')):
         elseif($media == null):
             $end_point    = "https://wh.line.sa/api/send?number=$phone_number&type=text&message=$message&instance_id=$instance_id&access_token=$access_token";
         endif;
-        $result_send_message   = Http::post($end_point);
+        $send_result         = Http::post($end_point);
+        $result_send_message = $send_result->json();
 
+        if($result_send_message['stats'] == false):
+            send_message_error($result_send_message['type_erro'],$instance_id);
+        endif;
         return $result_send_message['status'];
+    }
+endif;
+
+if(!function_exists('send_message_error')):
+    function send_message_error($type_erro,$instance_owner_id){
+        $instance_id  = "652679F5BEB97";
+        $access_token = "64a40b65a8566";
+
+        $account = Account::where('access_token',$instance_owner_id)->first();
+
+        $phone_number_filter = explode('@',$account->pid);
+        $phone_number        = $phone_number_filter[0];
+
+        if($type_erro == "expiration_date"):
+            $message = "عزيزي العميل\n
+                        تم انتهاء باقتك في رسائل واتساب لاين.\n
+                        يمكنك تجديد الباقة مباشرة من صفحة واتساب لاين\n
+                        https://line.sa/19505\n";
+
+        elseif($type_erro == "count_messages"):
+            $message = "عزيزي العميل\n
+                        تم استنفاد باقتك في رسائل واتساب لاين.\n
+                        يمكنك تجديد الباقة مباشرة من صفحة واتساب لاين\n
+                        https://line.sa/19505\n";
+
+        endif;
+
+        if($message):
+            $end_point    = "https://wh.line.sa/api/send?number=$phone_number&type=text&message=$message&instance_id=$instance_id&access_token=$access_token";
+        endif;
     }
 endif;
 
