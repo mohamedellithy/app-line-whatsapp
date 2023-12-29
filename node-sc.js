@@ -918,7 +918,7 @@ const WAZIPER = {
         if (!team) { return { st: false, mass: 'connect_erro' }; }
 
         var user = await Common.db_query(`SELECT expiration_date FROM sp_users WHERE id = '` + team.owner + `'`);
-        if (!user) { return { st: false, mess: 'connect_erro' }; }
+        if (!user) { return { st: false, mass: 'connect_erro' }; }
 
         if (user.expiration_date != 0 && user.expiration_date < time_now) {
             return { st: false, mass: 'expiration_date' };
