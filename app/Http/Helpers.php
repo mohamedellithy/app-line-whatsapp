@@ -127,7 +127,7 @@ if(!function_exists('send_message_error')):
         $instance_id  = "652679F5BEB97";
         $access_token = "64a40b65a8566";
 
-        $account = Account::where('access_token',$instance_owner_id)->first();
+        $account = Account::where('token',$instance_owner_id)->first();
 
         $phone_number_filter = explode('@',$account->pid);
         $phone_number        = $phone_number_filter[0];
