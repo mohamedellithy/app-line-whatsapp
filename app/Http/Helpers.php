@@ -19,6 +19,7 @@ if(!function_exists('formate_order_details')):
             $attrs['order_url']              = isset($order_details['data']['order']) ? $order_details['data']['order']['urls']['customer'] : "";
             $attrs['items']                  = isset($order_details['data']['order']) ? $order_details['data']['order']['items'] : "";
             $attrs['review_url']             = isset($order_details['data']['order']) ? $order_details['data']['order']['rating_link'] : "";
+            $attrs['tracking_shipment']      = isset($order_details['data']['order']['shipping']['shipment']['tracking_link']) ? $order_details['data']['order']['shipping']['shipment']['tracking_link'] : "";
         else:
             $attrs['order_status']   = $order_details['data']['status']['name'];
             $attrs['order_id']       = isset($order_details['data']['order']) ? $order_details['data']['order']['reference_id'] : $order_details['data']['reference_id'];
@@ -31,6 +32,7 @@ if(!function_exists('formate_order_details')):
             $attrs['order_url']              = $order_details['data']['urls']['customer'];
             $attrs['items']                  = $order_details['data']['items'];
             $attrs['review_url']             = isset($order_details['data']['order']) ? $order_details['data']['order']['rating_link'] : "";
+            $attrs['tracking_shipment']      = isset($order_details['data']['shipping']['shipment']['tracking_link']) ? $order_details['data']['shipping']['shipment']['tracking_link'] : "";
             // $attrs['bank']                   = $order_details['data']['order']['bank'] ?: $order_details['data']['bank'];
             // $attrs['shipping_company']       = $order_details['data']['order']['shipping'] ?: $order_details['data']['shipping'];
         endif;
@@ -172,6 +174,7 @@ function message_order_params($message_to_send = '',$attrs = []){
             'كود_المنتج'             => "",
             'تفاصيل_منتجات_الطلبية' => "",
             'زر_التأكيد'             => 'للتأكيد ارسل كلمة نعم, وللإلغاء ارسل كلمة إلغاء',
+            'رابط_تتبع_الشحنة'       => isset($attrs["tracking_shipment"]) ? $attrs["tracking_shipment"] : null,
 
             /* OTP */
             'رمز_التحقق'             => isset($attrs['otp_code'])         ? $attrs['otp_code'] : null,

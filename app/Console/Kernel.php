@@ -24,29 +24,29 @@ class Kernel extends ConsoleKernel
         $schedule->command('abandoned:reminder')
         ->withoutOverlapping()->timezone('Asia/Riyadh')->everyTwoHours()->between('8:00', '22:00');
 
-        $schedule->call(function () {
-            DB::table('event_status')->where([
-                'type' ,'!=', 'abandoned.cart'
-            ])->truncate();
-        })->name('empty_event_without_abandoned_cart_status')->daily();
+        // $schedule->call(function () {
+        //     DB::table('event_status')->where([
+        //         'type' ,'!=', 'abandoned.cart'
+        //     ])->truncate();
+        // })->name('empty_event_without_abandoned_cart_status')->daily();
 
-        $schedule->call(function () {
-            DB::table('event_status')->where([
-                'type' ,'=', 'abandoned.cart'
-            ])->truncate();
-        })->name('empty_event_abandoned_cart_status')->weekly();
+        // $schedule->call(function () {
+        //     DB::table('event_status')->where([
+        //         'type' ,'=', 'abandoned.cart'
+        //     ])->truncate();
+        // })->name('empty_event_abandoned_cart_status')->weekly();
 
-        $random_minutes = [
-            // 'everyFiveMinutes',
-            // 'everyTenMinutes',
-            // 'everyFifteenMinutes',
-            // 'everyThirtyMinutes',
-            'hourly'
-        ];
+        // $random_minutes = [
+        //     // 'everyFiveMinutes',
+        //     // 'everyTenMinutes',
+        //     // 'everyFifteenMinutes',
+        //     // 'everyThirtyMinutes',
+        //     'hourly'
+        // ];
 
-        $key_nump = array_rand($random_minutes,1);
+        // $key_nump = array_rand($random_minutes,1);
 
-        $random_repeate = $random_minutes[$key_nump];
+        // $random_repeate = $random_minutes[$key_nump];
 
 
         // send notifications for all users that not have token account
