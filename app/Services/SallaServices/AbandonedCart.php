@@ -103,8 +103,6 @@ class AbandonedCart implements AppEvent{
                     'status' => $result_send_message
                 ]);
             endif;
-
-
         endif;
     }
 }
