@@ -26,6 +26,8 @@ class OtpRequest extends AppMerchant implements AppEvent{
             'merchant_id'    => $this->data['merchant']
         ])->first();
 
+        if(!$merchant_info) return;
+
         // merchant
         $this->merchant_team = Team::with('account')->where([
             'owner' => $merchant_info->user_id
@@ -57,6 +59,7 @@ class OtpRequest extends AppMerchant implements AppEvent{
         if($this->settings['otp_status'] != 1) return;
 
         // check if account have token or not
+        if(!$this->merchant_team) return;
         $account = Account::where([
             'team_id' => $this->merchant_team->id
         ])->first();

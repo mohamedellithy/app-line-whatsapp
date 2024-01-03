@@ -25,6 +25,7 @@ class ReviewAdded implements AppEvent{
         ])->first();
 
         // merchant
+        if(!$merchant_info) return;
         $this->merchant_team = Team::with('account')->where([
             'owner' => $merchant_info->user_id
         ])->first();
@@ -57,6 +58,7 @@ class ReviewAdded implements AppEvent{
         $attrs = formate_customer_from_reviews_details($this->data);
 
         // check if account have token or not
+        if(!$this->merchant_team) return;
         $account = Account::where([
             'team_id' => $this->merchant_team->id
         ])->first();
@@ -74,7 +76,7 @@ class ReviewAdded implements AppEvent{
         if($app_event->status != 'success'):
             $message = isset($this->settings['review_added_message']) ? $this->settings['review_added_message'] : '';
             $filter_message = message_order_params($message, $attrs);
-            
+
             $result_send_message = send_message(
                 $this->data['data']['customer']['mobile'],
                 $filter_message,

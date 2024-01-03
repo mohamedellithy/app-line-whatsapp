@@ -27,6 +27,7 @@ class AbandonedCart implements AppEvent{
         ])->first();
 
         // merchant
+        if(!$merchant_info) return;
         $this->merchant_team = Team::with('account')->where([
             'owner' => $merchant_info->user_id
         ])->first();
@@ -57,6 +58,7 @@ class AbandonedCart implements AppEvent{
         if($this->settings['abandoned_cart_status'] != 1) return;
 
         // check if account have token or not
+        if(!$this->merchant_team) return;
         $account = Account::where([
             'team_id' => $this->merchant_team->id
         ])->first();

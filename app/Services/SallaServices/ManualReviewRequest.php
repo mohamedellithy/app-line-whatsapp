@@ -25,6 +25,7 @@ class ManualReviewRequest implements AppEvent{
         ])->first();
 
         // merchant
+        if(!$merchant_info) return;
         $this->merchant_team = Team::with('account')->where([
             'owner' => $merchant_info->user_id
         ])->first();
@@ -56,6 +57,7 @@ class ManualReviewRequest implements AppEvent{
         if($this->settings['request_review_status'] != 1) return;
 
         // check if account have token or not
+        if(!$this->merchant_team) return;
         $account = Account::where([
             'team_id' => $this->merchant_team->id
         ])->first();

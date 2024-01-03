@@ -234,7 +234,7 @@ function message_order_params($message_to_send = '',$attrs = []){
 
         elseif($variable == "روابط_المنتجات"){
             foreach ($attrs["items"] as $item){
-                $product_url_list[] = $item['name'].'  :  '.$item['product']['url'];
+                $product_url_list[] = $item['name'].'  :  '.(isset($item['product']) ? $item['product']['url'] : "-");
             }
 
             $orders_status[$variable] = implode(PHP_EOL, $product_url_list);
