@@ -55,6 +55,13 @@ class CustomerCreated implements AppEvent{
 
     public function resolve_event(){
         if($this->settings['new_customer_status'] != 1) return;
+
+        // check if account have token or not
+        $account = Account::where([
+            'team_id' => $this->merchant_team->id
+        ])->first();
+        if( (!$account) || ($account->token == null)) return;
+
         $attrs = formate_customer_details($this->data);
         $app_event = EventStatus::updateOrCreate([
             'unique_number' => $this->data['merchant'],
@@ -67,9 +74,6 @@ class CustomerCreated implements AppEvent{
         if($app_event->status != 'success'):
             $message = isset($this->settings['new_customer_message']) ? $this->settings['new_customer_message'] : '';
             $filter_message = message_order_params($message, $attrs);
-            $account = Account::where([
-                'team_id' => $this->merchant_team->id
-            ])->first();
             $result_send_message = send_message(
                 $this->data['data']['mobile_code'].$this->data['data']['mobile'],
                 $filter_message,

@@ -53,6 +53,13 @@ class ManualReviewRequest implements AppEvent{
 
     public function resolve_event(){
         if($this->settings['request_review_status'] != 1) return;
+
+        // check if account have token or not
+        $account = Account::where([
+            'team_id' => $this->merchant_team->id
+        ])->first();
+        if( (!$account) || ($account->token == null)) return;
+
         $attrs = formate_order_details($this->data);
         $app_event = EventStatus::updateOrCreate([
             'unique_number' => $this->data['merchant'],
@@ -65,9 +72,6 @@ class ManualReviewRequest implements AppEvent{
         if($app_event->status != 'success'):
             $message = isset($this->settings['message_request_review']) ? $this->settings['message_request_review'] : '';
             $filter_message = message_order_params($message, $attrs);
-            $account = Account::where([
-                'team_id' => $this->merchant_team->id
-            ])->first();
             $result_send_message = send_message(
                 $attrs['customer_phone_number'],
                 $filter_message,

@@ -56,6 +56,12 @@ class AbandonedCart implements AppEvent{
     public function resolve_event(){
         if($this->settings['abandoned_cart_status'] != 1) return;
 
+        // check if account have token or not
+        $account = Account::where([
+            'team_id' => $this->merchant_team->id
+        ])->first();
+        if( (!$account) || ($account->token == null)) return;
+
         $attrs = formate_cart_details($this->data);
         $app_event = EventStatus::updateOrCreate([
             'unique_number' => $this->data['merchant'].$this->data['data']['id'],
@@ -80,9 +86,6 @@ class AbandonedCart implements AppEvent{
 
             $message = $this->settings['abandoned_cart_message'] ?: '';
             $filter_message = message_order_params($message, $attrs);
-            $account = Account::where([
-                'team_id' => $this->merchant_team->id
-            ])->first();
             $result_send_message = send_message(
                 $this->data['data']['customer']['mobile'],
                 $filter_message,

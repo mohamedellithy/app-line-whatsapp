@@ -75,6 +75,12 @@ class Order extends AppMerchant implements AppEvent{
             endif;
         endif;
 
+        // check if account have token or not
+        $account = Account::where([
+            'team_id' => $this->merchant_team->id
+        ])->first();
+        if( (!$account) || ($account->token == null)) return;
+
         $attrs = formate_order_details($this->data);
         $app_event = EventStatus::updateOrCreate([
             'unique_number' => $this->data['merchant'].$this->data['data']['id'],
@@ -96,9 +102,7 @@ class Order extends AppMerchant implements AppEvent{
             endif;
 
             $filter_message = message_order_params($message, $attrs);
-            $account = Account::where([
-                'team_id' => $this->merchant_team->id
-            ])->first();
+
             $result_send_message = send_message(
                 $attrs['customer_phone_number'],
                 $filter_message,
