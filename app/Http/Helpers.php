@@ -121,7 +121,7 @@ if(!function_exists('send_message')):
         // if($result_send_message['stats'] == false):
         //     send_message_error($result_send_message['type_erro'],$instance_id);
         // endif;
-        return $result_send_message['status'];
+        return isset($result_send_message['status']) ? $result_send_message['status'] : 'failed';
     }
 endif;
 

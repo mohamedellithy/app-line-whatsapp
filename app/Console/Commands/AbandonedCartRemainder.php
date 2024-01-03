@@ -36,7 +36,7 @@ class AbandonedCartRemainder extends Command
             ['status','=','progress'],
             ['values','!=',null],
             ['required_call','>',1]
-        ])->whereColumn('count_of_call','!=','required_call')->orderBy('created_at','asc')->chunk(100,function($events){
+        ])->whereColumn('count_of_call','!=','required_call')->orderBy('created_at','asc')->chunk(200,function($events){
             foreach($events as $event):
                 try{
                     Http::WithOptions([

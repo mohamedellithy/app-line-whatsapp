@@ -22,9 +22,13 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('abandoned:reminder')
-        ->withoutOverlapping()->timezone('Asia/Riyadh')->everyTwoHours()->between('8:00', '22:00');
+        ->withoutOverlapping()->timezone('Asia/Riyadh')->everyTwoHours()->runInBackground()->between('8:00', '22:00');
 
         $schedule->call(function () {
+            DB::table('event_status')->where([
+                'type' ,'!=', 'abandoned.cart'
+            ])->truncate();
+
             DB::table('event_status')->where([
                 'type' ,'!=', 'abandoned.cart'
             ])->truncate();
