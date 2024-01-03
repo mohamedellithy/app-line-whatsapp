@@ -52,6 +52,7 @@ class ManualReviewRequest implements AppEvent{
     }
 
     public function resolve_event(){
+        if(!isset($this->settings['request_review_status'])) return;
         if($this->settings['request_review_status'] != 1) return;
 
         // check if account have token or not

@@ -52,6 +52,7 @@ class ReviewAdded implements AppEvent{
     }
 
     public function resolve_event(){
+        if(!isset($this->settings['review_added_status'])) return;
         if($this->settings['review_added_status'] != 1) return;
         $attrs = formate_customer_from_reviews_details($this->data);
 
