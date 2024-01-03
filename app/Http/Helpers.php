@@ -240,7 +240,8 @@ function message_order_params($message_to_send = '',$attrs = []){
             $orders_status[$variable] = implode(PHP_EOL, $product_url_list);
         }
 
-        $message_to_send = str_replace("{" . $variable . "}", $orders_status[$variable], $message_to_send);
+        $params = isset($orders_status[$variable]) ? $orders_status[$variable] : $variable;
+        $message_to_send = str_replace("{" . $variable . "}",$params, $message_to_send);
     endforeach;
 
     $message_to_send = urlencode($message_to_send);
