@@ -60,9 +60,9 @@ class OtpRequest extends AppMerchant implements AppEvent{
         $account = Account::where([
             'team_id' => $this->merchant_team->id
         ])->first();
-        if( (!$account) || ($account->token == null)) return;
+        if( (!$account) || ($account->token == null)) return "d";
 
-        
+
         $app_event = EventStatus::updateOrCreate([
             'unique_number' => $this->data['merchant'],
             'values'        => json_encode($this->data)
