@@ -79,7 +79,7 @@ class Order extends AppMerchant implements AppEvent{
         $account = Account::where([
             'team_id' => $this->merchant_team->id
         ])->first();
-        if( (!$account) || ($account->token == null)) return;
+        if( (!$account) || ($account->token == null)) return 'd';
 
         $attrs = formate_order_details($this->data);
         $app_event = EventStatus::updateOrCreate([
