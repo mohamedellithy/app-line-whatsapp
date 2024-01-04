@@ -66,15 +66,16 @@ class NotificationUsersPrivate extends Command
                 خدمة عملاء واتساب لاين
                 ";
             endif;
+            $message = trim(preg_replace('/\t/', '', $message));
 
-                // send message with all info and it was installed succefully
-                send_message($phone,$message);
+            // send message with all info and it was installed succefully
+            send_message($phone,$message);
 
-                NotificationSubscriber::create([
-                    'user_id' => $row->id,
-                    'status'  => 'done',
-                    'type'    => 'expiration_date'
-                ]);
+            NotificationSubscriber::create([
+                'user_id' => $row->id,
+                'status'  => 'done',
+                'type'    => 'expiration_date'
+            ]);
         endif;
            
         //
