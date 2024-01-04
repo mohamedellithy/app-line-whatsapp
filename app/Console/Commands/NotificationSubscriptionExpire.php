@@ -39,6 +39,7 @@ class NotificationUsersPrivate extends Command
         ->whereDoesntHave('notifications',function($query){
             $query->where('type','expiration_date');
         })
+        ->where('expiration_date','!=',0)
         ->where('expiration_date','<=',$today->timestamp)->first();
         
         if($row->team->account->pid):
