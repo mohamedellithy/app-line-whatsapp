@@ -20,6 +20,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('subscriber:notification');
+
         // $schedule->command('inspire')->hourly();
         $schedule->command('abandoned:reminder')
         ->withoutOverlapping()->timezone('Asia/Riyadh')->everyTwoHours()->runInBackground();
@@ -34,7 +36,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             DB::table('event_status')->where([
                 'type' ,'=', 'abandoned.cart'
-            ])->truncate();
+            ])->where('status','!=','progress')->truncate();
         })->name('empty_event_abandoned_cart_status')->weekly();
 
         // $random_minutes = [

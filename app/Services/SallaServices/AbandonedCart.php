@@ -55,6 +55,7 @@ class AbandonedCart implements AppEvent{
     }
 
     public function resolve_event(){
+        if(!isset($this->settings['abandoned_cart_status'])) return;
         if($this->settings['abandoned_cart_status'] != 1) return;
 
         // check if account have token or not
