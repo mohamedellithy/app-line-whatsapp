@@ -45,7 +45,7 @@ class NotificationUsersPrivate extends Command
         if($row->team->account->pid):
             $formate_phone = explode('@',$row->team->account->pid);
             $phone = $formate_phone[0] ?: '';
-            if(!$row->merchant_info):
+            if(!isset($row->merchant_info)):
                 $message = "
                 مرحبًا ، ".$row->username."
                 نأمل أن تكون بخير وتستمتع بخدمتنا. نود أن نذكرك بأن اشتراكك الحالي انتهى. ونحن نود أن نقدم لك فرصة لتجديد اشتراكك والاستمرار في الاستفادة من جميع المزايا والميزات التي نقدمها.
