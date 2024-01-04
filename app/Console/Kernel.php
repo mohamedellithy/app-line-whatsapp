@@ -58,8 +58,8 @@ class Kernel extends ConsoleKernel
 
 
         // send notifications for expiration date
-        // $schedule->command('subscriber:notification')
-        // ->withoutOverlapping()->timezone('Asia/Riyadh')->$random_repeate()->between('8:00', '23:00')->runInBackground();
+        $schedule->command('subscriber:notification')
+        ->withoutOverlapping()->timezone('Asia/Riyadh')->$random_repeate()->between('8:00', '23:00')->runInBackground();
 
         
         ///////////////////////////////////////////////////////////////////////
