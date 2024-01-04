@@ -33,7 +33,7 @@ class NotificationUsersPrivate extends Command
     public function handle()
     {
         $today = Carbon::today();
-        $users = SpUser::with('merchant_info')->where('expires_at','<=',$today)->first();
+        $users = SpUser::with('merchant_info')->where('expiration_date','<=',$today)->first();
         //
         Http::withOptions([
             'verify' => false
