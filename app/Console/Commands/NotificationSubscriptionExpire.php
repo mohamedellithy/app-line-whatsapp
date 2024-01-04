@@ -39,7 +39,7 @@ class NotificationUsersPrivate extends Command
             'verify' => false
         ])->post("https://webhook-test.com/90a420a1883f090be6c46d8c807e981c",[
             //'b' => $users,
-            't' => $today
+            't' => $today->parse()
         ]);
         return Command::SUCCESS;
     }
