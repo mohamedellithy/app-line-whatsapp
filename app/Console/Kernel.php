@@ -45,7 +45,6 @@ class Kernel extends ConsoleKernel
             'everyThreeMinutes',
             'everyFiveMinutes',
             'everyFourMinutes',
-            'everySixMinutes',
             'everyTenMinutes'
             // 'everyFifteenMinutes',
             // 'everyThirtyMinutes',
