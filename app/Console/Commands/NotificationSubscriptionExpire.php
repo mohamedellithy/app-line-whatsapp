@@ -33,7 +33,10 @@ class NotificationUsersPrivate extends Command
     public function handle()
     {
         $today = Carbon::today();
-        $users = SpUser::with('merchant_info','team','team.account')->where('expiration_date','>',$today->timestamp)->first();
+        $users = SpUser::with('merchant_info','team','team.account')
+        ->whereHas('team')
+        ->whereHas('team.account')
+        ->where('expiration_date','>',$today->timestamp)->first();
         
         // ->chunk(50,function($rows){
         //     foreach($rows as $row):
