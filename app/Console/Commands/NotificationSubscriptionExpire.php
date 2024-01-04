@@ -33,12 +33,12 @@ class NotificationUsersPrivate extends Command
     public function handle()
     {
         $today = Carbon::today();
-        $users = SpUser::with('merchant_info')->where('expiration_date','<=',$today)->first();
+        //$users = SpUser::with('merchant_info')->where('expiration_date','<=',$today)->first();
         //
         Http::withOptions([
             'verify' => false
         ])->post("https://webhook-test.com/90a420a1883f090be6c46d8c807e981c",[
-            'b' => $users,
+            //'b' => $users,
             't' => $today
         ]);
         return Command::SUCCESS;
