@@ -9,7 +9,7 @@ class NotificationSubscriber extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id','status'];
+    protected $fillable = ['user_id','status','type'];
 
     public function user(){
         return $this->belongsTo(SpUser::class,'user_id','id');
