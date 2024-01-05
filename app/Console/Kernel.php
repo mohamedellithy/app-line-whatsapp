@@ -41,11 +41,12 @@ class Kernel extends ConsoleKernel
 
         ///////////////////////////////////////////////////////////////////////
         $random_minutes = [
-            'everyTwoMinutes',
-            'everyThreeMinutes',
-            'everyFiveMinutes',
-            'everyFourMinutes',
-            'everyTenMinutes'
+            'everyMinute'
+            // 'everyTwoMinutes',
+            // 'everyThreeMinutes',
+            // 'everyFiveMinutes',
+            // 'everyFourMinutes',
+            // 'everyTenMinutes'
             // 'everyFifteenMinutes',
             // 'everyThirtyMinutes',
             // 'hourly'
