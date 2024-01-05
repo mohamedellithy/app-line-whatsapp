@@ -41,12 +41,12 @@ class Kernel extends ConsoleKernel
 
         ///////////////////////////////////////////////////////////////////////
         $random_minutes = [
-            'everyMinute'
-            // 'everyTwoMinutes',
-            // 'everyThreeMinutes',
-            // 'everyFiveMinutes',
-            // 'everyFourMinutes',
-            // 'everyTenMinutes'
+            // 'everyMinute'
+            'everyTwoMinutes',
+            'everyThreeMinutes',
+            'everyFiveMinutes',
+            'everyFourMinutes',
+            'everyTenMinutes'
             // 'everyFifteenMinutes',
             // 'everyThirtyMinutes',
             // 'hourly'
@@ -59,7 +59,7 @@ class Kernel extends ConsoleKernel
 
         // send notifications for expiration date
         $schedule->command('subscriber:notification')
-        ->withoutOverlapping()->timezone('Asia/Riyadh')->$random_repeate()->runInBackground()->between('8:00', '23:00');
+        ->withoutOverlapping()->timezone('Asia/Riyadh')->$random_repeate()->between('8:00', '23:00');
 
 
         ///////////////////////////////////////////////////////////////////////
