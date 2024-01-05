@@ -58,15 +58,15 @@ class Kernel extends ConsoleKernel
 
         // send notifications for expiration date
         $schedule->command('subscriber:notification')
-        ->withoutOverlapping()->timezone('Asia/Riyadh')->$random_repeate()->between('8:00', '23:00')->runInBackground();
+        ->withoutOverlapping()->timezone('Asia/Riyadh')->$random_repeate()->runInBackground()->between('8:00', '23:00');
 
-        
+
         ///////////////////////////////////////////////////////////////////////
         // send notifications for all users that not have token account
         // $schedule->command('merchants:donot-have-a-token')
         // ->withoutOverlapping()->$random_repeate()->between('8:00', '22:00');
 
-        
+
         ///////////////////////////////////////////////////////////////////////
         // $schedule->command('merchants:private')
         // ->withoutOverlapping();

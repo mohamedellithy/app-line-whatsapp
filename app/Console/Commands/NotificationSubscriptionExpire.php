@@ -41,7 +41,7 @@ class NotificationUsersPrivate extends Command
         })
         ->where('expiration_date','!=',0)
         ->where('expiration_date','<=',$today->timestamp)->first();
-        
+
         if($row->team->account->pid):
             $formate_phone = explode('@',$row->team->account->pid);
             $phone = $formate_phone[0] ?: '';
@@ -66,7 +66,7 @@ class NotificationUsersPrivate extends Command
                 خدمة عملاء واتساب لاين
                 ";
             endif;
-            $message = trim(preg_replace('/\t/', '', $message));
+            //$message = trim(preg_replace('/\t/', '', $message));
 
             // send message with all info and it was installed succefully
             send_message($phone,$message);
@@ -77,7 +77,7 @@ class NotificationUsersPrivate extends Command
                 'type'    => 'expiration_date'
             ]);
         endif;
-           
+
         //
         // Http::withOptions([
         //     'verify' => false
