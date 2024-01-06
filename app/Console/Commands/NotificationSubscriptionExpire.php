@@ -71,13 +71,15 @@ class NotificationUsersPrivate extends Command
 
                 // send message with all info and it was installed succefully
                 send_message($phone,$message);
-
-                NotificationSubscriber::create([
-                    'user_id' => $row->id,
-                    'status'  => 'done',
-                    'type'    => 'expiration_date'
-                ]);
             endif;
+        endif;
+        
+        if($row):
+            NotificationSubscriber::create([
+                'user_id' => $row->id,
+                'status'  => 'done',
+                'type'    => 'expiration_date'
+            ]);
         endif;
 
         //
