@@ -27,16 +27,16 @@ class Kernel extends ConsoleKernel
 
         ///////////////////////////////////////////////////////////////////////
         $schedule->call(function () {
-            DB::table('event_status')->where([
+            DB::table('event_status')->where(
                 'type' ,'!=', 'abandoned.cart'
-            ])->truncate();
+            )->delete();
         })->name('empty_event_without_abandoned_cart_status')->everyTwoHours();
 
         ///////////////////////////////////////////////////////////////////////
         $schedule->call(function () {
-            DB::table('event_status')->where([
-                'type' ,'=', 'abandoned.cart'
-            ])->where('status','!=','progress')->truncate();
+            DB::table('event_status')->where(
+                'type' ,'=','abandoned.cart'
+            )->where('status','!=','progress')->delete();
         })->name('empty_event_abandoned_cart_status')->weekly();
 
         ///////////////////////////////////////////////////////////////////////
