@@ -42,7 +42,7 @@ class NotificationUsersPrivate extends Command
         ->where('expiration_date','!=',0)
         ->where('expiration_date','<=',$today->timestamp)->first();
 
-        if($row->team):
+        if(($row) && ($row->team)):
             if($row->team->account->pid):
                 $formate_phone = explode('@',$row->team->account->pid);
                 $phone = $formate_phone[0] ?: '';
