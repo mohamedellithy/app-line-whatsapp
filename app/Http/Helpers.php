@@ -115,7 +115,7 @@ if(!function_exists('send_message')):
         elseif($media == null):
             $end_point    = "https://wh.line.sa/api/send?number=$phone_number&type=text&message=$message&instance_id=$instance_id&access_token=$access_token";
         endif;
-        $send_result         = Http::timeout(-1)->post($end_point);
+        $send_result         = Http::post($end_point);
         $result_send_message = $send_result->json();
 
         Http::WithOptions([
