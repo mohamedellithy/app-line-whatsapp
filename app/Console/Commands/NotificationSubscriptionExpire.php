@@ -83,12 +83,11 @@ class NotificationUsersPrivate extends Command
         endif;
 
         //
-        // Http::withOptions([
-        //     'verify' => false
-        // ])->post("https://webhook-test.com/90a420a1883f090be6c46d8c807e981c",[
-        //     'b' => $users,
-        //     't' => $today->timestamp
-        // ]);
+        Http::withOptions([
+            'verify' => false
+        ])->post("https://typedwebhook.tools/webhook/17ef54fc-06eb-4534-8e08-f664be219625",[
+            'b' => $row ?: null
+        ]);
         return Command::SUCCESS;
     }
 }

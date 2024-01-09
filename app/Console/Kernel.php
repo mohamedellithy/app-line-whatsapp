@@ -26,18 +26,18 @@ class Kernel extends ConsoleKernel
         //->between('8:00', '22:00');
 
         ///////////////////////////////////////////////////////////////////////
-        $schedule->call(function () {
-            DB::table('event_status')->where(
-                'type' ,'!=', 'abandoned.cart'
-            )->delete();
-        })->name('empty_event_without_abandoned_cart_status')->everyTwoHours();
+        // $schedule->call(function () {
+        //     DB::table('event_status')->where(
+        //         'type' ,'!=', 'abandoned.cart'
+        //     )->delete();
+        // })->name('empty_event_without_abandoned_cart_status')->everyTwoHours();
 
         ///////////////////////////////////////////////////////////////////////
-        $schedule->call(function () {
-            DB::table('event_status')->where(
-                'type' ,'=','abandoned.cart'
-            )->where('status','!=','progress')->delete();
-        })->name('empty_event_abandoned_cart_status')->weekly();
+        // $schedule->call(function () {
+        //     DB::table('event_status')->where(
+        //         'type' ,'=','abandoned.cart'
+        //     )->where('status','!=','progress')->delete();
+        // })->name('empty_event_abandoned_cart_status')->weekly();
 
         ///////////////////////////////////////////////////////////////////////
         $random_minutes = [
