@@ -73,7 +73,7 @@ class NotificationUsersPrivate extends Command
                 send_message($phone,$message);
             endif;
         endif;
-        
+
         if($row):
             NotificationSubscriber::create([
                 'user_id' => $row->id,

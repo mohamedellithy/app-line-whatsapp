@@ -129,6 +129,7 @@ if(!function_exists('send_message_error')):
     function send_message_error($type_erro,$instance_owner_id){
         $instance_id  = "652679F5BEB97";
         $access_token = "64a40b65a8566";
+        set_time_limit(1000000);
 
         $account = Account::where('token',$instance_owner_id)->first();
 
