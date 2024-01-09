@@ -102,7 +102,7 @@ if(!function_exists('send_message')):
     function send_message(
         $phone_number = null,$message      = null,
         $instance_id  = null,$access_token = null,$media = null){
-
+        set_time_limit(1000000);
         $instance_id  = $instance_id  ?: '652679F5BEB97'; // '64B280D831EC1'
         $access_token = $access_token ?: '64a40b65a8566'; // '64b2763270e61'
 
