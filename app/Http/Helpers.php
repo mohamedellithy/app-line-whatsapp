@@ -115,8 +115,12 @@ if(!function_exists('send_message')):
         elseif($media == null):
             $end_point    = "https://wh.line.sa/api/send?number=$phone_number&type=text&message=$message&instance_id=$instance_id&access_token=$access_token";
         endif;
-        $send_result         = Http::post($end_point);
-        $result_send_message = $send_result->json();
+        try{
+            $send_result         = Http::post($end_point);
+            $result_send_message = $send_result->json();
+        } catch(Exception $e){
+            $result_send_message['status'] = 'failed';
+        }
 
         // if($result_send_message['stats'] == false):
         //     send_message_error($result_send_message['type_erro'],$instance_id);
