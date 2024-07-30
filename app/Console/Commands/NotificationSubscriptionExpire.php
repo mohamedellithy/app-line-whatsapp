@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use App\Models\NotificationSubscriber;
 use Carbon\Carbon;
-class NotificationUsersPrivate extends Command
+class NotificationSubscriptionExpire extends Command
 {
     /**
      * The name and signature of the console command.
