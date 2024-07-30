@@ -18,7 +18,7 @@ if(!function_exists('formate_order_details')):
             $attrs['customer_phone_number']  = $attrs['customer']['mobile'];
             $attrs['order_url']              = isset($order_details['data']['order']) ? $order_details['data']['order']['urls']['customer'] : "";
             $attrs['items']                  = isset($order_details['data']['order']) ? $order_details['data']['order']['items'] : "";
-            $attrs['review_url']             = isset($order_details['data']['order']) ? $order_details['data']['order']['rating_link'] : "";
+            $attrs['review_url']             = isset($order_details['data']['order']) ? $order_details['data']['order']['urls']['rating_link'] : "";
             $attrs['tracking_shipment']      = isset($order_details['data']['order']['shipping']['shipment']['tracking_link']) ? $order_details['data']['order']['shipping']['shipment']['tracking_link'] : "";
             $attrs['shipping_company']       = isset($order_details['data']['order']['shipping']['company']) ? $order_details['data']['order']['shipping']['company'] : "";
         else:
@@ -32,11 +32,25 @@ if(!function_exists('formate_order_details')):
             $attrs['customer_phone_number']  = $attrs['customer']['mobile_code'].$attrs['customer']['mobile'];
             $attrs['order_url']              = $order_details['data']['urls']['customer'];
             $attrs['items']                  = $order_details['data']['items'];
-            $attrs['review_url']             = isset($order_details['data']['order']) ? $order_details['data']['order']['rating_link'] : "";
+            $attrs['review_url']             = isset($order_details['data']['order']) ? $order_details['data']['order']['urls']['rating_link'] : "";
             $attrs['tracking_shipment']      = isset($order_details['data']['shipping']['shipment']['tracking_link']) ? $order_details['data']['shipping']['shipment']['tracking_link'] : "";
             $attrs['shipping_company']       = isset($order_details['data']['shipping']['company']) ? $order_details['data']['shipping']['company'] : "";
             // $attrs['bank']                   = $order_details['data']['order']['bank'] ?: $order_details['data']['bank'];
         endif;
+        return $attrs;
+    }
+endif;
+
+if(!function_exists('formate_invoice_details')):
+    function formate_invoice_details($invoice_details){
+        $attrs['order_id']     = isset($invoice_details['data']['order_id']) ? $invoice_details['data']['order_id'] : "";
+        $attrs['order_amount'] = isset($invoice_details['data']['total']) ? $invoice_details['data']['total']['amount'] : "";
+        $attrs['currency']  = isset($invoice_details['data']['total']) ? $invoice_details['data']['total']['currency'] : "";
+        $attrs['first_name']     = $invoice_details['data']['customer']['first_name'] ?: '-';
+        $attrs['last_name']      = $invoice_details['data']['customer']['last_name']  ?: '-';
+        $attrs['customer_phone_number']  = $invoice_details['data']['customer']['mobile_code'].$invoice_details['data']['customer']['mobile'];
+        $attrs['items']          = $invoice_details['data']['items'] ?: null;
+        $attrs['payment_method'] = $invoice_details['data']['payment_method'] ?: null;
         return $attrs;
     }
 endif;
@@ -50,7 +64,7 @@ if(!function_exists('formate_cart_details')):
         $attrs['cart_total_discount'] = $order_details['data']['total_discount']['amount'];
         $attrs['cart_checkout_url']   = $order_details['data']['checkout_url'];
         $attrs['cart_created_at']     = $order_details['data']['created_at']['date'];
-        $attrs['cart_customer_name']     = $order_details['data']['customer']['name'];
+        $attrs['customer_full_name']     = $order_details['data']['customer']['name'];
         $attrs['cart_customer_mobile']   = $order_details['data']['customer']['mobile'];
         $attrs['cart_customer_country']  = $order_details['data']['customer']['country'];
         $attrs['cart_customer_city']     = $order_details['data']['customer']['city'];
@@ -65,11 +79,11 @@ if(!function_exists('formate_customer_details')):
         $attrs['first_name']     = $customer_details['data']['first_name'] ?: '-';
         $attrs['last_name']      = $customer_details['data']['last_name']  ?: '-';
         $attrs['email']          = $customer_details['data']['email'] ?: '-';
-        $attrs['front_customer_profile']   = $customer_details['data']['urls']['customer'] ?: '-';
-        $attrs['admin_customer_profile']   = $customer_details['data']['urls']['admin'] ?: '-';
+        $attrs['front_customer_profile']   = isset($customer_details['data']['urls']) ? $customer_details['data']['urls']['customer'] : '-';
+        $attrs['admin_customer_profile']   = isset($customer_details['data']['urls']) ? $customer_details['data']['urls']['admin'] : '-';
         $attrs['gender']         = $customer_details['data']['gender'] ?: '-';
-        $attrs['birthday']       = $customer_details['data']['birthday']['date'] ?: '-';
-        $attrs['timezone']       = $customer_details['data']['birthday']['timezone'] ?: '-';
+        $attrs['birthday']       = isset($customer_details['data']['birthday']) ? $customer_details['data']['birthday']['date'] : '-';
+        $attrs['timezone']       = isset($customer_details['data']['birthday']) ? $customer_details['data']['birthday']['timezone'] : '-';
         $attrs['customer_full_name']     = ($customer_details['data']['first_name'].' '.$customer_details['data']['last_name']) ?: '-';
         $attrs['customer_phone_number']  = ($customer_details['data']['mobile_code'].$customer_details['data']['mobile']) ?: '-';
         $attrs['city']                   = $customer_details['data']['city'] ?: '-';
@@ -103,8 +117,8 @@ if(!function_exists('send_message')):
         $phone_number = null,$message      = null,
         $instance_id  = null,$access_token = null,$media = null){
         set_time_limit(1000000);
-        $instance_id  = $instance_id  ?: '652679F5BEB97'; // '64B280D831EC1'
-        $access_token = $access_token ?: '64a40b65a8566'; // '64b2763270e61'
+        $instance_id  = $instance_id  ?: '64AC6D08A99C9'; // '64B280D831EC1'
+        $access_token = $access_token ?: '649ba622aa900'; // '64b2763270e61'
 
         if($phone_number == null) return 'failed';
 
@@ -131,8 +145,8 @@ endif;
 
 if(!function_exists('send_message_error')):
     function send_message_error($type_erro,$instance_owner_id){
-        $instance_id  = "652679F5BEB97";
-        $access_token = "64a40b65a8566";
+        $instance_id  = "64AC6D08A99C9";
+        $access_token = "649ba622aa900";
         set_time_limit(1000000);
 
         $account = Account::where('token',$instance_owner_id)->first();
@@ -177,7 +191,6 @@ function message_order_params($message_to_send = '',$attrs = []){
             'العملة'                 => isset($attrs["currency"])           ?  $attrs["currency"] : null,
             'رابط_معلومات_الطلب'    => isset($attrs["order_url"])          ? $attrs["order_url"]: null,
             'شركة_الشحن'             => isset($attrs["shipping_company"])   ? $attrs["shipping_company"] : null,
-            'كود_المنتج'             => "",
             'تفاصيل_منتجات_الطلبية' => "",
             'زر_التأكيد'             => 'للتأكيد ارسل كلمة نعم, وللإلغاء ارسل كلمة إلغاء',
             'رابط_تتبع_الشحنة'       => isset($attrs["tracking_shipment"]) ? $attrs["tracking_shipment"] : null,
@@ -243,6 +256,19 @@ function message_order_params($message_to_send = '',$attrs = []){
             }
 
             $orders_status[$variable] = implode(PHP_EOL, $product_url_list);
+        }
+        
+        elseif($variable == "الملفات"){
+            $files_url_list = [];
+            foreach ($attrs["items"] as $item){
+                if(isset($item["files"])){
+                    foreach ($item["files"] as $file){
+                        $files_url_list[] = $file['name'].'  :  '.(isset($file['url']) ? $item['url'] : "-");
+                    }     
+                }
+            }
+
+            $orders_status[$variable] = implode(PHP_EOL, $files_url_list);
         }
 
         $params = isset($orders_status[$variable]) ? $orders_status[$variable] : $variable;

@@ -205,7 +205,7 @@ $message = urlencode("شريكنا العزيز ".$new_account->username." 👋�
         $user           = SpUser::whereHas('merchant_info',function($query) use($merchant_id){
             return $query->where('merchant_id',$merchant_id);
         })->first();
-        $password       = Str::random(5);
+        $password       = Str::random(10);
         $user_password  = md5($password);
         $user->password = $user_password;
         $user->save();

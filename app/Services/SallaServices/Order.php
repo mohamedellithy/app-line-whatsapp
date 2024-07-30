@@ -26,7 +26,7 @@ class Order extends AppMerchant implements AppEvent{
     public function __construct($data){
         // set data
         $this->data = $data;
-
+        
         $merchant_info = MerchantCredential::where([
             'app_name'       => 'salla',
             'merchant_id'    => $this->data['merchant']
@@ -61,7 +61,8 @@ class Order extends AppMerchant implements AppEvent{
     }
 
     public function resolve_event(){
-
+        if(!isset($this->settings['orders_active_on'])) return;
+        
         if($this->data['event'] == 'order.created'):
             if(!in_array("order_created",$this->settings['orders_active_on'])):
                 return;
@@ -75,9 +76,19 @@ class Order extends AppMerchant implements AppEvent{
                 return;
             endif;
         endif;
+        
+        // if($this->data['merchant'] == 247161859):
+        //     Http::post('https://webhook-test.com/e129e2b0e4c54296f8de3414c4512ada',[
+        //         'data' => $this->merchant_team,
+        //         'st'   => $this->settings['orders_active_on']
+        //     ]);
+        // endif;
 
         // check if account have token or not
         if(!$this->merchant_team) return;
+        
+       
+        
         $account = Account::where([
             'team_id' => $this->merchant_team->id
         ])->first();

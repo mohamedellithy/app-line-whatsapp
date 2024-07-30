@@ -16,7 +16,7 @@ class AppController extends Controller
 
 
         $event = new AppEvents();
-        $result = $event->make_event();
+        $result = $event->make_event($request);
         return $result;
     }
 }

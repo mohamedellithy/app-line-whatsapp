@@ -19,7 +19,9 @@ class AppEvents extends Events{
           'order.status.updated'     => 'Order',
           'customer.otp.request'     => 'OtpRequest',
           'customer.created'         => 'CustomerCreated',
-          'review.added'             => 'ReviewAdded'
+          'customer.login'           => 'CustomerCreated',
+          'review.added'             => 'ReviewAdded',
+          'invoice.created'          => 'InvoiceCreated'
           //'manual.review.request'    => 'ManualReviewRequest'
         ];
     }

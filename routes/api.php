@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NodeJsController;
+use App\Http\Controllers\IconWhatsAppController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::post('send-status',[NodeJsController::class,'status_send_message']);
+
+Route::get('whatsapp-icon/{storeId}',[IconWhatsAppController::class,'icon_whatsapp']);

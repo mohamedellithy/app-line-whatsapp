@@ -63,19 +63,17 @@ class Subscription implements AppEvent{
 
         $package = SpPlan::findOrFail($plan_id);
         if($package):
-            $new_team              = Team::where('ids',$this->data['merchant'])->first();
+            $new_team              = $this->merchant_team;
             $new_team->pid         = $plan_id;
             $new_team->permissions = $package->permissions;
             $new_team->save();
-            // $this->merchant_team->update([
-            //     'pid'         => $plan_id,
-            //     'permissions' => $package->permissions,
-            // ]);
-
-            $upgrade_plan = SpUser::where('id',$new_team->owner)->update([
-                'plan'          => $plan_id,
-                'expiration_date'=> strtotime($end_date)
-            ]);
+            
+            $upgrade_plan = SpUser::where('id',$new_team->owner)->first();
+            $upgrade_plan->plan = $plan_id;
+            $upgrade_plan->expiration_date = strtotime($end_date);
+            $upgrade_plan->save();
+            
+           
         endif;
 
         //$user = SpUser::where('ids',$this->data['merchant'])->first();

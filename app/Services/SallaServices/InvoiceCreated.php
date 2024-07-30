@@ -4,14 +4,20 @@ namespace App\Services\SallaServices;
 use Log;
 use App\Models\Team;
 use App\Models\Account;
-use App\Models\AbandBaskts;
+use App\Models\EventStatu;
 use App\Models\EventStatus;
+use App\Models\ReviewRequest;
+use App\Models\WhatsappSession;
+use App\Models\SuccessTempModel;
 use App\Models\MerchantCredential;
+use App\Models\FailedMessagesModel;
 use Illuminate\Support\Facades\Http;
 use App\Services\AppSettings\AppEvent;
-use App\Services\AppSettings\AbandonedCart as  AbandonedCartSettings;
+use App\Services\AppSettings\AppMerchant;
+use App\Services\SallaServices\ManualReviewRequest;
 
-class AbandonedCart implements AppEvent{
+class InvoiceCreated extends AppMerchant implements AppEvent{
+
     public $data;
     protected $merchant_team = null;
 
@@ -20,7 +26,7 @@ class AbandonedCart implements AppEvent{
     public function __construct($data){
         // set data
         $this->data = $data;
-
+        
         $merchant_info = MerchantCredential::where([
             'app_name'       => 'salla',
             'merchant_id'    => $this->data['merchant']
@@ -55,17 +61,24 @@ class AbandonedCart implements AppEvent{
     }
 
     public function resolve_event(){
-        if(!isset($this->settings['abandoned_cart_status'])) return;
-        if($this->settings['abandoned_cart_status'] != 1) return;
-
+        if(!isset($this->settings['orders_active_on'])) return;
+        
+        if($this->data['event'] == 'invoice.created'):
+            if(!in_array("invoice_created",$this->settings['orders_active_on'])):
+                return;
+            endif;
+        endif;
+        
         // check if account have token or not
         if(!$this->merchant_team) return;
+        
+        
         $account = Account::where([
             'team_id' => $this->merchant_team->id
         ])->first();
-        if( (!$account) || ($account->token == null)) return;
+        if( (!$account) || ($account->token == null)) return 'd';
 
-        $attrs = formate_cart_details($this->data);
+        $attrs = formate_invoice_details($this->data);
         $app_event = EventStatus::updateOrCreate([
             'unique_number' => $this->data['merchant'].$this->data['data']['id'],
             'values'        => json_encode($this->data)
@@ -73,42 +86,32 @@ class AbandonedCart implements AppEvent{
             'event_from'    => "salla",
             'type'          => $this->data['event']
         ]);
-        
-        
+
+
         // "" ?: $attrs['customer_phone_number']
         if($app_event->status != 'success'):
-            $app_event->update([
-                'required_call' => isset($this->settings['count_abandoned_cart_reminder']) ? $this->settings['count_abandoned_cart_reminder'] : 1
-            ]);
-
-            if($app_event->required_call > 1):
-                $app_event->update([
-                    'status' =>'progress'
-                ]);
-            endif;
-
-            $message = $this->settings['abandoned_cart_message'] ?: '';
+            
+            $message = isset($this->settings['order_invoice_message']) ? $this->settings['order_invoice_message'] : $this->settings['order_default_message'];
+            
+            
+            $attrs['customer_full_name'] = $attrs['first_name'].' '.$attrs['last_name'];
             $filter_message = message_order_params($message, $attrs);
+
             $result_send_message = send_message(
-                $this->data['data']['customer']['mobile'],
+                $attrs['customer_phone_number'],
                 $filter_message,
                 $account->token,
                 $this->merchant_team->ids
             );
-            
-            if($result_send_message == 'success'):
-                $app_event->increment('count_of_call');
 
-                if($app_event->count_of_call == $app_event->required_call):
-                    $app_event->update([
-                        'status' => $result_send_message
-                    ]);
-                endif;
-            else:
-                $app_event->update([
-                    'status' => $result_send_message
-                ]);
-            endif;
+            $app_event->update([
+                'status' => $result_send_message
+            ]);
+
+
+            $app_event->increment('count_of_call');
+
         endif;
+
     }
 }

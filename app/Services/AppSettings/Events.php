@@ -3,7 +3,7 @@ namespace App\Services\AppSettings;
 
 use Log;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Http\Request;
 abstract class Events
 {
     public $events = array();
@@ -26,10 +26,13 @@ abstract class Events
 
     public function get_json_data(){
         $request_data = request()->all();
+        if(count($request_data) == 0){
+            $request_data =  json_decode(request()->getContent(),true);
+        }
         return $request_data;
     }
 
-    public function make_event(){
+    public function make_event(Request $request){
         // identity events
         $this->events = $this->events();
 

@@ -16,7 +16,7 @@ class Subscription{
     public $sort_plans;
     protected $merchant_team = null;
     protected static $platform_link  = "https://wh.line.sa/login";
-    protected static $descript_our_platform = "https://line.sa/wh/whatsapp/";
+    protected static $descript_our_platform = "https://doc.line.sa";
 
     public $package_expire_at; 
     public function __construct($data){
@@ -74,7 +74,7 @@ class Subscription{
                 تم تجديد اشتراكك على منصة line.sa بنجاح
                 👈 رابط المنصة : ".self::$platform_link."\n
                 وللمزيد من الشروحات الكاملة :\n
-                https://line.sa/wh/whatsapp/\n
+                https://doc.line.sa/\n
                 👈 يمكنك الاطلاع على شروحات منصتنا : ".self::$descript_our_platform."\n
             ");
 
@@ -140,7 +140,7 @@ class Subscription{
                         ثم الاعدادات ثم الاجهزة المرتبطة\n
                         قم بتوجيه الكاميرا اتجاه الباركود\n
                         وللمزيد من الشروحات الكاملة :\n
-                        https://line.sa/wh/whatsapp/\n
+                        https://doc.line.sa/\n
                         👈 يمكنك الاطلاع على شروحات منصتنا : ".self::$descript_our_platform."\n
                     ");
 
