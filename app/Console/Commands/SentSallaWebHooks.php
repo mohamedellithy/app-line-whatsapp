@@ -33,10 +33,10 @@ class SentSallaWebHooks extends Command
     {
         SallaWebhook::chunk(20,function($events_list){
             foreach($events_list as $event_item){
+                Log::info($event_item->event);
                 try {
                     DB::beginTransaction();
                     $event = new AppEvents();
-                    Log::info($event_item->event);
                     $handle_event = json_decode($event_item->event,true,512);
                     if(is_array($handle_event) && (count($handle_event) > 0)){
                         $event->make_event($handle_event);
