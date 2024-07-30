@@ -24,20 +24,21 @@ abstract class Events
         ];
     }
 
-    public function get_json_data(){
-        $request_data = request()->all();
-        if(count($request_data) == 0){
-            $request_data =  json_decode(request()->getContent(),true);
-        }
-        return $request_data;
+    public function get_json_data($webhook_event){
+        // $request_data = request()->all();
+        // if(count($request_data) == 0){
+        //     $request_data =  json_decode(request()->getContent(),true);
+        // }
+        // return $request_data;
+        return $webhook_event;
     }
 
-    public function make_event(Request $request){
+    public function make_event($webhook_event = []){
         // identity events
         $this->events = $this->events();
 
         // identity data from request api
-        $this->data  =  $this->data ?: $this->get_json_data();
+        $this->data  =  $this->data ?: $this->get_json_data($webhook_event);
 
         if(!isset($this->events[$this->data['event']])) return;
 
