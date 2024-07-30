@@ -43,7 +43,7 @@ class IconWhatsAppController extends Controller
         
         return response()->json([
             'settings'  => $setting_merchant,
-            'plan_free' => $user->plan == 34 ? true : false,
+            'plan_free' => ($user ? ($user->plan == 34 ? true : false) : true),
             'allow'    => isset($setting_merchant['wahtsapp_icon_status']) ? $setting_merchant['wahtsapp_icon_status'] : false,
             'styles'   => [
                 "whatsapp_button" => [
