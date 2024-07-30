@@ -37,7 +37,9 @@ class SentSallaWebHooks extends Command
                     DB::beginTransaction();
                     $event = new AppEvents();
                     $handle_event = json_decode($event_item->event,true,512);
-                    $result = $event->make_event($handle_event);
+                    if(is_array($handle_event) && (count($handle_event) > 0)){
+                        $event->make_event($handle_event);
+                    }
                     $event_item->delete();
                     DB::commit();
                 } catch(\Exception $e){
