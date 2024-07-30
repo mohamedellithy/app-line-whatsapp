@@ -23,6 +23,11 @@ class Kernel extends ConsoleKernel
     {
         
         ///////////////////////////////////////////////////////////////////////
+        $schedule->command('sent:salla_webhooks')
+        ->withoutOverlapping()->timezone('Asia/Riyadh')->everyMinutes();
+
+
+        ///////////////////////////////////////////////////////////////////////
         // $schedule->command('abandoned:reminder')
         // ->withoutOverlapping()->timezone('Asia/Riyadh')->everyTwoHours();
         //->between('8:00', '22:00');
