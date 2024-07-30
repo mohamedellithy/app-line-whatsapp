@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
         
         ///////////////////////////////////////////////////////////////////////
         $schedule->command('sent:salla_webhooks')
-        ->withoutOverlapping()->timezone('Asia/Riyadh')->everyMinutes();
+        ->withoutOverlapping()->timezone('Asia/Riyadh')->everyMinute();
 
 
         ///////////////////////////////////////////////////////////////////////
