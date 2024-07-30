@@ -33,11 +33,9 @@ class Kernel extends ConsoleKernel
         //->between('8:00', '22:00');
 
         ///////////////////////////////////////////////////////////////////////
-        // $schedule->call(function () {
-        //     DB::table('event_status')->where(
-        //         'type' ,'!=', 'abandoned.cart'
-        //     )->delete();
-        // })->name('empty_event_without_abandoned_cart_status')->everyTwoHours();
+        $schedule->call(function () {
+            DB::table('event_status')->delete();
+        })->name('empty_events_logs')->everyTwoHours();
 
         ///////////////////////////////////////////////////////////////////////
         // $schedule->call(function () {
