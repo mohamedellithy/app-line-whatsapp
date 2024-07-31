@@ -130,8 +130,10 @@ if(!function_exists('send_message')):
             $end_point    = "https://wh.line.sa/api/send?number=$phone_number&type=text&message=$message&instance_id=$instance_id&access_token=$access_token";
         endif;
         try{
-            $send_result         = Http::post($end_point);
-            $result_send_message = $send_result->json();
+            $client   = new \GuzzleHttp\Client();
+            $send_result         = $client->post($end_point);
+            $body                = $send_result->getBody()->getContents();
+            $result_send_message = json_decode($body, true); // Decode as associative array
         } catch(Exception $e){
             $result_send_message['status'] = 'failed';
         }
@@ -171,9 +173,11 @@ if(!function_exists('send_message_error')):
         if($message):
             $end_point    = "https://wh.line.sa/api/send?number=$phone_number&type=text&message=$message&instance_id=$instance_id&access_token=$access_token";
         endif;
-        $send_result         = Http::timeout(-1)->post($end_point);
+        $client   = new \GuzzleHttp\Client();
+        $send_result         = $client->post($end_point);
+        $body                = $send_result->getBody()->getContents();
         return [
-            'result ' => $send_result
+            'result ' => $body
         ];
     }
 endif;
