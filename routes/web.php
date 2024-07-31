@@ -1,25 +1,31 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AppController;
+use App\Http\Controllers\NodeJsController;
 use App\Http\Controllers\WordPressController;
+use App\Http\Controllers\IconWhatsAppController;
+
+/** @var \Laravel\Lumen\Routing\Router $router */
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| Application Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
+| Here is where you can register all of the routes for an application.
+| It is a breeze. Simply tell Lumen the URIs it should respond to
+| and give it the Closure to call when that URI is requested.
 |
 */
 
-Route::get('/', function () {
-    return redirect()->to('https://line.sa');
+$router->get('/', function () use ($router) {
+    return $router->app->version();
 });
 
+$router->post('/app-events', [AppController::class, 'make_event']);
 
-// Route::get('/salla-callback', [App\Http\Controllers\AppController::class, 'salla_callback']);
-Route::post('/app-events', [App\Http\Controllers\AppController::class, 'make_event']);
+$router->post('/wordpress-subscribers',[WordPressController::class,'subscribers']);
 
-Route::post('/wordpress-subscribers',[WordPressController::class,'subscribers']);
+$router->post('send-status',[NodeJsController::class,'status_send_message']);
+
+$router->get('whatsapp-icon/{storeId}',[IconWhatsAppController::class,'icon_whatsapp']);

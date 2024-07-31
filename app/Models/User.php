@@ -2,33 +2,32 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
+use Laravel\Lumen\Auth\Authorizable;
 
-class User extends Authenticatable
+class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use Authenticatable, Authorizable, HasFactory;
 
     /**
-     * Get the company that owns the User
+     * The attributes that are mass assignable.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @var string[]
      */
-    public function company()
-    {
-        return $this->belongsTo(Company::class, 'company_id');
-    }
+    protected $fillable = [
+        'name', 'email',
+    ];
 
     /**
-     * Get the employee associated with the User
+     * The attributes excluded from the model's JSON form.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @var string[]
      */
-    public function employee()
-    {
-        return $this->hasOne(Employee::class, 'user_id');
-    }
+    protected $hidden = [
+        'password',
+    ];
 }
