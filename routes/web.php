@@ -26,6 +26,6 @@ $router->post('/app-events', 'AppController@make_event');
 
 $router->post('/wordpress-subscribers','WordPressController@subscribers');
 
-$router->post('send-status','NodeJsController@status_send_message');
+$router->post('api/send-status','NodeJsController@status_send_message');
 
-$router->get('whatsapp-icon/{storeId}','IconWhatsAppController@icon_whatsapp');
+$router->get('api/whatsapp-icon/{storeId}','IconWhatsAppController@icon_whatsapp');
