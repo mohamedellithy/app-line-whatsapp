@@ -1,23 +1,33 @@
-// Make a GET request
-const apiUrl = "https://app.line.sa/api/whatsapp-icon/{{store.id}}";
-fetch(apiUrl, {
-    method: 'GET', // or 'POST', 'PUT', etc.
-    mode: 'cors',
-    headers: {
-        'Content-Type': 'application/json',
-        // Add any other required headers here
-    },
-}).then(response => {
-    if (!response.ok) {
-        throw new Error('Request failed with status code ' + response.status);
+// set cookies
+function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    let expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+// get cookies
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
     }
-    return response.json(); // or response.text() for non-JSON responses
-}).then(data => {
-    // Process the response data
-    console.log(data);
+    return null;
+}
+
+// render html whatsapp icon
+function render_whatsapp_icon(data){
     if(data.allow == true){
         // Create the <a> element
-        const link = document.createElement("a");
+        const link = document.createElement("a")
         link.href = `https://wa.me/${data.phone}`;
         link.target = "_blank";
         link.style.width    = data.styles.whatsapp_button.width || "50px";
@@ -65,6 +75,39 @@ fetch(apiUrl, {
         // Append the <a> element to the document body or any desired parent element
         document.body.appendChild(div);
     }
-}).catch(error => {
-    console.error('Error:', error);
-});
+}
+
+// fetch api from our server
+function FetchApiWhatsappIconData(){
+    // Make a GET request
+    const apiUrl = "https://app.line.sa/api/whatsapp-icon/{{store.id}}";
+    fetch(apiUrl, {
+        method: 'GET', // or 'POST', 'PUT', etc.
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json',
+            // Add any other required headers here
+        },
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error('Request failed with status code ' + response.status);
+        }
+        return response.json(); // or response.text() for non-JSON responses
+    }).then(async data => {
+        // Process the response data
+        await setCookie('whatsapp_icon_line_sa',data,1);
+        await render_whatsapp_icon(data);
+    }).catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+// render whatapp icon
+(async function(){
+    const data_icon = await getCookie('whatsapp_icon_line_sa');
+    if(data_icon == null){
+        await FetchApiWhatsappIconData();
+    } else {
+        await render_whatsapp_icon(data_icon);
+    }
+})();
