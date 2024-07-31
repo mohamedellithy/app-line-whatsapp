@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 // use App\Models\NotificationSubscriber;
 // use App\Models\NotificationUsersPrivate;
+use App\Console\Commands\SentSallaWebHooks;
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
 
@@ -20,6 +21,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
+        SentSallaWebHooks::class,
+        
     ];
 
     /**
