@@ -22,10 +22,10 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->post('/app-events', [AppController::class, 'make_event']);
+$router->post('/app-events', 'AppController@make_event');
 
-$router->post('/wordpress-subscribers',[WordPressController::class,'subscribers']);
+$router->post('/wordpress-subscribers','WordPressController@subscribers');
 
-$router->post('send-status',[NodeJsController::class,'status_send_message']);
+$router->post('send-status','NodeJsController@status_send_message');
 
-$router->get('whatsapp-icon/{storeId}',[IconWhatsAppController::class,'icon_whatsapp']);
+$router->get('whatsapp-icon/{storeId}','IconWhatsAppController@icon_whatsapp');
