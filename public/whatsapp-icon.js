@@ -1,0 +1,70 @@
+// Make a GET request
+const apiUrl = "https://app.line.sa/api/whatsapp-icon/{{store.id}}";
+fetch(apiUrl, {
+    method: 'GET', // or 'POST', 'PUT', etc.
+    mode: 'cors',
+    headers: {
+        'Content-Type': 'application/json',
+        // Add any other required headers here
+    },
+}).then(response => {
+    if (!response.ok) {
+        throw new Error('Request failed with status code ' + response.status);
+    }
+    return response.json(); // or response.text() for non-JSON responses
+}).then(data => {
+    // Process the response data
+    console.log(data);
+    if(data.allow == true){
+        // Create the <a> element
+        const link = document.createElement("a");
+        link.href = `https://wa.me/${data.phone}`;
+        link.target = "_blank";
+        link.style.width    = data.styles.whatsapp_button.width || "50px";
+        link.style.height   = data.styles.whatsapp_button.height || "50px";
+        link.style.display = "block";
+        
+        // Create the <div> element
+        const div = document.createElement("div");
+        div.className = "whatsapp-button";
+        div.title = "تواصل معنا واتساب";
+        div.style.position = data.styles.whatsapp_button.position || "fixed";
+        div.style.left     = data.styles.whatsapp_button.left;
+        div.style.right    = data.styles.whatsapp_button.right;
+        div.style.bottom   = data.styles.whatsapp_button.bottom;
+        div.style.top      = data.styles.whatsapp_button.top;
+        div.style.zIndex   = "1000000000000";
+        div.style.cursor   = data.styles.whatsapp_button.cursor || "pointer";
+        
+        // Create the <img> element
+        const image = document.createElement("img");
+        image.className = "whatsapp-image";
+        image.src = "https://line.sa/wp-content/uploads/2024/04/whatsapp.png";
+        image.alt = "WhatsApp Image";
+        image.style.width    = data.styles.whatsapp_image.width || "95%";
+        
+        // Append the <img> element to the <div> element
+        link.appendChild(image);
+        
+        // Append the <div> element to the <a> element
+        div.appendChild(link);
+        
+        if(data.plan_free == true){
+            const link_line_sa = document.createElement("a");
+            link_line_sa.style.display = "block";
+            link_line_sa.href = "https://line.sa";
+            link_line_sa.target = "_blank";
+            link_line_sa.style.fontSize = "12px";
+            link_line_sa.style.padding = "0px 8px";
+            link_line_sa.style.marginTop = "25%";
+            link_line_sa.style.backgroundColor = "rgba(155, 155, 155, 0.20)";
+            link_line_sa.textContent = "LINE.SA";
+            div.appendChild(link_line_sa);
+        }
+        
+        // Append the <a> element to the document body or any desired parent element
+        document.body.appendChild(div);
+    }
+}).catch(error => {
+    console.error('Error:', error);
+});
