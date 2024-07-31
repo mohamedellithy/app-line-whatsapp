@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Models\SallaWebhook;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use App\Services\SallaServices\AppEvents;
 
 class SentSallaWebHooks extends Command
@@ -43,7 +42,7 @@ class SentSallaWebHooks extends Command
                     $event_item->delete();
                     DB::commit();
                 } catch(\Exception $e){
-                    Log::info($e->getMessage());
+                    \Log::info($e->getMessage());
                     DB::rollBack();
                     continue;
                 }

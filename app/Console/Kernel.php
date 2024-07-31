@@ -5,7 +5,6 @@ namespace App\Console;
 use App\Models\SpUser;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
 // use App\Models\NotificationSubscriber;
 // use App\Models\NotificationUsersPrivate;
 use App\Console\Commands\SentSallaWebHooks;
@@ -22,7 +21,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         //
         SentSallaWebHooks::class,
-        
+
     ];
 
     /**
