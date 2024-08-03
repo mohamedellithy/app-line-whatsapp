@@ -116,7 +116,7 @@ if(!function_exists('send_message')):
     function send_message(
         $phone_number = null,$message      = null,
         $instance_id  = null,$access_token = null,$media = null){
-        set_time_limit(1000000);
+        set_time_limit(-1);
         $instance_id  = $instance_id  ?: '64AC6D08A99C9'; // '64B280D831EC1'
         $access_token = $access_token ?: '649ba622aa900'; // '64b2763270e61'
 
@@ -136,6 +136,7 @@ if(!function_exists('send_message')):
             $result_send_message = json_decode($body, true); // Decode as associative array
         } catch(Exception $e){
             $result_send_message['status'] = 'failed';
+            \Log::info($e->getMessage());
         }
 
         // if($result_send_message['stats'] == false):
