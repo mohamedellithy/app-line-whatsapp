@@ -55,6 +55,7 @@ class CustomerCreated implements AppEvent{
     }
 
     public function resolve_event(){
+        if(!isset($this->settings['new_customer_status'])) return;
         if($this->settings['new_customer_status'] != 1) return;
 
         // check if account have token or not
