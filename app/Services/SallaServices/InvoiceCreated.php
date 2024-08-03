@@ -54,10 +54,10 @@ class InvoiceCreated extends AppMerchant implements AppEvent{
         $log = json_encode($this->data, JSON_UNESCAPED_UNICODE) . PHP_EOL;
 
         // set log data
-        Log::build([
-            'driver' => 'single',
-            'path' => storage_path('logs/salla_events.log'),
-        ])->info($log);
+        // Log::build([
+        //     'driver' => 'single',
+        //     'path' => storage_path('logs/salla_events.log'),
+        // ])->info($log);
     }
 
     public function resolve_event(){

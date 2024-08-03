@@ -52,7 +52,7 @@ class Subscription implements AppEvent{
 
     public function set_log(){
         // encode log
-        $log = json_encode($this->data, JSON_UNESCAPED_UNICODE) . PHP_EOL;
+        //$log = json_encode($this->data, JSON_UNESCAPED_UNICODE) . PHP_EOL;
 
     }
 

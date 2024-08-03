@@ -87,7 +87,10 @@ class Subscription{
         /*** generate password to send to clinet ***/
         $password       = Str::random(10);
         $user_password  = md5($password);
-        $plan_id        = $this->plans[$this->data['package_type']] ?: 34;
+        $plan_id = 34;
+        if(isset($this->plans[$this->data['package_type']])){
+          $plan_id        = $this->plans[$this->data['package_type']] ?: 34;   
+        }
         $ids            = Str::random(8);
         $username       = explode('@', $this->data['email']);
         $new_account                  = new SpUser();

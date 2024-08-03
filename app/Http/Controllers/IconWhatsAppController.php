@@ -19,6 +19,7 @@ class IconWhatsAppController extends Controller
                 'merchant_id'    => $storeId
             ])->first();
             
+            if(!$merchant_info) return null;
             $user = DB::table('sp_users')->where([
                 'id' => $merchant_info->user_id
             ])->first();

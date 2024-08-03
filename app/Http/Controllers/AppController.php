@@ -9,17 +9,17 @@ use App\Services\SallaServices\AppEvents;
 class AppController extends Controller
 {
     public function make_event(Request $request){
-        // $event = new AppEvents();
-        // $result = $event->make_event($request);
-        // return $result;
-        $salla_webhooks = SallaWebhook::updateOrCreate([
-            'event' => json_encode($request->all())
-        ]);
+        $event = new AppEvents();
+        $result = $event->make_event($request->all());
+        return $result;
+        // $salla_webhooks = SallaWebhook::updateOrCreate([
+        //     'event' => json_encode($request->all())
+        // ]);
         
-        if($salla_webhooks){
-            return response()->json([
-                'status' => 200
-            ]);
-        }
+        // if($salla_webhooks){
+        //     return response()->json([
+        //         'status' => 200
+        //     ]);
+        // }
     }
 }

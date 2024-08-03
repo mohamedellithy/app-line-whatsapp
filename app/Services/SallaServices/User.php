@@ -28,9 +28,6 @@ class User{
             'email' => $this->merchant->data->email
         ])->first();
 
-        Http::post("https://webhook-test.com/bf900a4221bada3c41a4ec0f71f22694",[
-            $user
-        ]);
 
         // change update json access token and refresh token
         if($user):
@@ -102,10 +99,6 @@ https://wh.line.sa\n
 
         // get store information
         $this->get_store_info($data['data']['access_token']);
-
-        Http::post('https://webhook-test.com/f44d01be02fe0190ff992ce587b97780',[
-            'b' => $this->store->data->domain
-        ]);
 
         /*** generate password to send to clinet ***/
         $password       = Str::random(5);

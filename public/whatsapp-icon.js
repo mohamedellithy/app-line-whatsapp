@@ -8,17 +8,16 @@ function setCookie(cname, cvalue, exdays) {
 
 // get cookies
 function getCookie(cname) {
-    let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for(let i = 0; i <ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) == ' ') {
-        c = c.substring(1);
-      }
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-      }
+    if (document.cookie.length > 0) {
+        c_start = document.cookie.indexOf(cname + "=");
+        if (c_start != -1) {
+            c_start = c_start + cname.length + 1;
+            c_end = document.cookie.indexOf(";", c_start);
+            if (c_end == -1) {
+                c_end = document.cookie.length;
+            }
+            return unescape(document.cookie.substring(c_start, c_end));
+        }
     }
     return null;
 }
@@ -95,7 +94,7 @@ function FetchApiWhatsappIconData(){
         return response.json(); // or response.text() for non-JSON responses
     }).then(async data => {
         // Process the response data
-        await setCookie('whatsapp_icon_line_sa',data,1);
+        await setCookie('whatsapp_icon_lineSa',JSON.stringify(data),2);
         await render_whatsapp_icon(data);
     }).catch(error => {
         console.error('Error:', error);
@@ -104,10 +103,10 @@ function FetchApiWhatsappIconData(){
 
 // render whatapp icon
 (async function(){
-    const data_icon = await getCookie('whatsapp_icon_line_sa');
+    const data_icon = await getCookie('whatsapp_icon_lineSa');
     if(data_icon == null){
         await FetchApiWhatsappIconData();
     } else {
-        await render_whatsapp_icon(data_icon);
+        await render_whatsapp_icon(JSON.parse(data_icon));
     }
 })();
