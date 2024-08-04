@@ -21,7 +21,7 @@ class SettingsUpdate implements AppEvent{
         ])->first();
 
         // merchant
-        if($merchant_info->user_id):
+        if($merchant_info?->user_id):
             $this->merchant_team = Team::with('account')->where([
                 'owner' => $merchant_info->user_id
             ])->first();
@@ -48,8 +48,10 @@ class SettingsUpdate implements AppEvent{
             'app_name'       => 'salla',
             'merchant_id' => $this->data['merchant']
         ])->first();
+        
+        if(!$merchant_credential) return;
 
-        $filter_settings = json_decode($merchant_credential->settings,true);
+        $filter_settings = json_decode($merchant_credential?->settings,true);
 
         // if merchant not change number phone
         $this->data['data']['settings']['custom_merchant_phone'] = ($this->data['data']['settings']['custom_merchant_phone'] != '966512345678' ? $this->data['data']['settings']['custom_merchant_phone'] : null);

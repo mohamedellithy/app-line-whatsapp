@@ -13,7 +13,6 @@ use App\Services\SallaServices\AppEvents;
 class IconWhatsAppController extends Controller
 {
     public function icon_whatsapp(Request $request,$storeId){
-        return Cache::rememberForever('icon_whatsapp_'.$storeId,function() use ($storeId){
             $merchant_info = DB::table('merchant_credentials')->where([
                 'app_name'       => 'salla',
                 'merchant_id'    => $storeId
@@ -69,6 +68,5 @@ class IconWhatsAppController extends Controller
                 ],
                 'phone'  => isset($setting_merchant['custom_merchant_phone']) ? $setting_merchant['custom_merchant_phone'] : $merchant_info->phone
             ]);
-        });
     }
 }
