@@ -1,5 +1,6 @@
 <?php
 
+use App\Exports\NumbersExport;
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\NodeJsController;
 use App\Http\Controllers\WordPressController;
@@ -29,3 +30,7 @@ $router->post('/wordpress-subscribers','WordPressController@subscribers');
 $router->post('/api/send-status','NodeJsController@status_send_message');
 
 $router->get('/api/whatsapp-icon/{storeId}','IconWhatsAppController@icon_whatsapp');
+
+$router->get('/export-contacts',function(){
+    return (new NumbersExport)->download('invoices.xlsx');
+});
