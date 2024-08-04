@@ -17,9 +17,9 @@ class NumbersExport implements FromCollection
             $settings = json_decode($merchant->settings,true,5600);
             $data[] = [
                 'id'    => $merchant->id,
-                'name'  => $merchant->user->fullname,
+                'name'  => $merchant?->user?->fullname ?: $merchant->user->username,
                 'phone' => isset($settings['custom_merchant_phone']) ? $settings['custom_merchant_phone'] : $settings->phone,
-                'email' => $merchant->user->email,
+                'email' => $merchant?->user?->email,
             ];
         endforeach;
         return $data;
