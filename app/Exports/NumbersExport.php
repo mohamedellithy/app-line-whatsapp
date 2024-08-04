@@ -22,6 +22,6 @@ class NumbersExport implements FromCollection
                 'email' => $merchant?->user?->email,
             ];
         endforeach;
-        return $data;
+        return collect($data);
     }
 }
