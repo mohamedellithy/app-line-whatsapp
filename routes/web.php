@@ -29,7 +29,9 @@ $router->post('/wordpress-subscribers','WordPressController@subscribers');
 
 $router->post('/api/send-status','NodeJsController@status_send_message');
 
-$router->get('/api/whatsapp-icon/{storeId}','IconWhatsAppController@icon_whatsapp');
+$router->group(['middleware' => 'cors'], function () use ($router) {
+    $router->get('/api/whatsapp-icon/{storeId}','IconWhatsAppController@icon_whatsapp');
+});
 
 $router->get('/export-contacts',function(){
     return (new NumbersExport)->download('invoices.xlsx');
