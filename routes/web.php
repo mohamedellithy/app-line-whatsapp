@@ -34,5 +34,5 @@ $router->group(['middleware' => 'cors'], function () use ($router) {
 });
 
 $router->get('/export-contacts',function(){
-    return (new NumbersExport)->download('invoices.xlsx');
+    return (new NumbersExport)->download('numbers-salla.xlsx');
 });
