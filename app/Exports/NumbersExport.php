@@ -26,7 +26,6 @@ class NumbersExport implements FromArray , WithHeadingRow
                 'email' => $merchant?->user?->email,
             ];
         endforeach;
-        dd($data);
         return $data;
     }
 }
