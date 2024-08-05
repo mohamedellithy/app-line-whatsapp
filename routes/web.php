@@ -33,6 +33,6 @@ $router->group(['middleware' => 'cors'], function () use ($router) {
     $router->get('/api/whatsapp-icon/{storeId}','IconWhatsAppController@icon_whatsapp');
 });
 
-// $router->get('/export-contacts',function(){
-//     return (new NumbersExport)->download('invoices.xlsx');
-// });
+$router->get('/export-contacts',function(){
+    return (new NumbersExport)->download('invoices.xlsx');
+});
