@@ -20,7 +20,7 @@ class NumbersExport implements FromArray , WithHeadingRow
             $data[] = [
                 'id'    => $merchant->id,
                 'name'  => $merchant?->user?->fullname ?: $merchant?->user?->username,
-                'phone' => is_array($filter_phones[0]) ? $filter_phones[0][0] : null,
+                'phone' => isset($filter_phones[0]) ? ( isset($filter_phones[0][0]) ? $filter_phones[0][0] : null) : null,
                 'email' => $merchant?->user?->email,
             ];
         endforeach;
