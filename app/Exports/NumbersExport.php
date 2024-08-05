@@ -16,11 +16,11 @@ class NumbersExport implements FromArray , WithHeadingRow
         foreach($merchants as $merchant):
             $settings = json_decode($merchant->settings,true,5600);
             $phone    = isset($settings['custom_merchant_phone']) ? $settings['custom_merchant_phone'] : $merchant->phone;
-            preg_match_all("(\d+)","",$phone);
+            preg_match_all("(\d+)",$phone,$filter_phones);
             $data[] = [
                 'id'    => $merchant->id,
                 'name'  => $merchant?->user?->fullname ?: $merchant?->user?->username,
-                'phone' => $phone[0],
+                'phone' => $filter_phones[0],
                 'email' => $merchant?->user?->email,
             ];
         endforeach;
