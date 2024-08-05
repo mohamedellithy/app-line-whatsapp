@@ -11,6 +11,7 @@ use App\Services\SallaServices\AppEvents;
 class AppController extends Controller
 {
     public function make_event(Request $request){
+        set_time_limit(-1);
         $event = $request->all();
         $event_id = isset($event['data']) ? (isset($event['data']['id']) ? $event['data']['id'] : rand(1,1000)) : rand(1,1000);
         $lock  = Cache::lock("event_no_".$event_id,2);
