@@ -20,10 +20,11 @@ class NumbersExport implements FromArray , WithHeadingRow
             $data[] = [
                 'id'    => $merchant->id,
                 'name'  => $merchant?->user?->fullname ?: $merchant?->user?->username,
-                'phone' => $filter_phones,
+                'phone' => $filter_phones[0],
                 'email' => $merchant?->user?->email,
             ];
         endforeach;
+        dd($data);
         return $data;
     }
 }
