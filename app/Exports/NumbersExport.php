@@ -16,7 +16,7 @@ class NumbersExport implements FromArray , WithHeadingRow
         foreach($merchants as $merchant):
             $settings = json_decode($merchant->settings,true,5600);
             $phone    = isset($settings['custom_merchant_phone']) ? $settings['custom_merchant_phone'] : $merchant->phone;
-            $phone    = preg_replace('([a-z]+)/i',"",$phone);
+            $phone    = preg_replace("([a-zA-Z]+)","",$phone);
             $data[] = [
                 'id'    => $merchant->id,
                 'name'  => $merchant?->user?->fullname ?: $merchant?->user?->username,
