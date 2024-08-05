@@ -11,7 +11,7 @@ class NumbersExport implements FromArray , WithHeadingRow
 
     public function array() : array
     {
-        $merchants = MerchantCredential::with('user')->get();
+        $merchants = MerchantCredential::with('user')->limit(3)->get();
         $data = [];
         foreach($merchants as $merchant):
             $settings = json_decode($merchant->settings,true,5600);
