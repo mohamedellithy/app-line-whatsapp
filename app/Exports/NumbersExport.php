@@ -21,7 +21,7 @@ class NumbersExport implements FromArray , WithHeadingRow
             $data[] = [
                 'id'    => $merchant->id,
                 'name'  => $merchant?->user?->fullname ?: $merchant?->user?->username,
-                'phone' => str_replace('"','',$phones_all),
+                'phone' => intval($phones_all),
                 'email' => $merchant?->user?->email,
             ];
         endforeach;
