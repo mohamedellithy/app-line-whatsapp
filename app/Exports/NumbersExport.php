@@ -19,7 +19,7 @@ class NumbersExport implements FromArray , WithHeadingRow
             $data[] = [
                 'id'    => $merchant->id,
                 'name'  => $merchant?->user?->fullname ?: $merchant?->user?->username,
-                'phone' => preg_replace('[^a-zA-Z]/i',"",$phone),
+                'phone' => preg_replace('[^a-zA-Z]',"",$phone),
                 'email' => $merchant?->user?->email,
             ];
         endforeach;
