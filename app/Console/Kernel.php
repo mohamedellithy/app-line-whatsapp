@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Console\Commands\SentSallaWebHooks;
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
+use App\Console\Commands\NotificationSubscriptionExpire;
 
 class Kernel extends ConsoleKernel
 {
@@ -21,7 +22,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         //
         SentSallaWebHooks::class,
-
+        NotificationSubscriptionExpire::class
     ];
 
     /**
