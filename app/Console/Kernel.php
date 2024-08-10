@@ -58,15 +58,15 @@ class Kernel extends ConsoleKernel
  
          ///////////////////////////////////////////////////////////////////////
          $random_minutes = [
-             'everyMinute'
-             // 'everyTwoMinutes',
-             // 'everyThreeMinutes',
-             // 'everyFiveMinutes',
-             // 'everyFourMinutes',
-             // 'everyTenMinutes'
-             // 'everyFifteenMinutes',
-             // 'everyThirtyMinutes',
-             // 'hourly'
+             'everyMinute',
+             'everyTwoMinutes',
+             'everyThreeMinutes',
+             'everyFiveMinutes',
+             'everyFourMinutes',
+             'everyTenMinutes',
+             'everyFifteenMinutes',
+             'everyThirtyMinutes',
+             'hourly'
          ];
  
          $key_nump = array_rand($random_minutes,1);
@@ -74,9 +74,9 @@ class Kernel extends ConsoleKernel
          $random_repeate = $random_minutes[$key_nump];
  
  
-         // send notifications for expiration date
-         // $schedule->command('subscriber:notification')
-         // ->withoutOverlapping()->timezone('Asia/Riyadh')->$random_repeate()->between('8:00', '23:00');
+        // send notifications for expiration date
+        $schedule->command('subscriber:notification')
+        ->withoutOverlapping()->timezone('Asia/Riyadh')->$random_repeate()->between('8:00', '23:00');
  
  
          ///////////////////////////////////////////////////////////////////////

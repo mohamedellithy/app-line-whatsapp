@@ -42,27 +42,27 @@ class NotificationSubscriptionExpire extends Command
         ->where('expiration_date','!=',0)
         ->where('expiration_date','<=',$today->timestamp)->first();
 
-        if(($row) && ($row->team)):
+        if(isset($row) && ($row->team)):
             if($row->team->account->pid):
                 $formate_phone = explode('@',$row->team->account->pid);
                 $phone = $formate_phone[0] ?: '';
                 if(count($row->merchant_info) == 0):
-$message = "
-مرحبًا ، ".$row->username."
-هذه الرسالة تفيدكم بان اشتراكك الحالي انتهى.
-للتجديد الترقية، نأمل زيارة الرابط التالي مباشرة:
-https://line.sa/19505
-نشكرك لاختيارك واتساب لاين.
-";
-else:
-$message = "
-مرحبًا ، ".$row->username."
-هذه الرسالة تفيدكم بان اشتراكك الحالي انتهى.
-للتجديد الترقية، نأمل زيارة الرابط التالي مباشرة:
-https://s.salla.sa/apps/install/1662840947?upgrade=1
-نشكرك لاختيارك واتساب لاين.
-";
-endif;
+                    $message = "
+                        مرحبًا ، ".$row->username."
+                        هذه الرسالة تفيدكم بان اشتراكك الحالي انتهى.
+                        للتجديد الترقية، نأمل زيارة الرابط التالي مباشرة:
+                        https://line.sa/19505
+                        نشكرك لاختيارك واتساب لاين.
+                        ";
+                else:
+                        $message = "
+                        مرحبًا ، ".$row->username."
+                        هذه الرسالة تفيدكم بان اشتراكك الحالي انتهى.
+                        للتجديد الترقية، نأمل زيارة الرابط التالي مباشرة:
+                        https://s.salla.sa/apps/install/1662840947?upgrade=1
+                        نشكرك لاختيارك واتساب لاين.
+                    ";
+                endif;
                 //$message = trim(preg_replace('/\t/', '', $message));
 
                 // send message with all info and it was installed succefully
