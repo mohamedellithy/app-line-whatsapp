@@ -116,7 +116,7 @@ if(!function_exists('send_message')):
     function send_message(
         $phone_number = null,$message      = null,
         $instance_id  = null,$access_token = null,$media = null){
-        set_time_limit(-1);
+        set_time_limit(0);
         $instance_id  = $instance_id  ?: '64AC6D08A99C9'; // '64B280D831EC1'
         $access_token = $access_token ?: '649ba622aa900'; // '64b2763270e61'
 
@@ -150,7 +150,7 @@ if(!function_exists('send_message_error')):
     function send_message_error($type_erro,$instance_owner_id){
         $instance_id  = "64AC6D08A99C9";
         $access_token = "649ba622aa900";
-        set_time_limit(1000000);
+        set_time_limit(0);
 
         $account = Account::where('token',$instance_owner_id)->first();
 
@@ -253,7 +253,7 @@ function message_order_params($message_to_send = '',$attrs = []){
 
         elseif($variable == "تفاصيل_منتجات_الطلبية"){
             foreach ($attrs["items"] as $item){
-                $product_list[] = $item['name'].'  :  '.$item['quantity'].'  :  '.$item['amounts']['total']['amount'].''.$item['amounts']['total']['currency'];
+                $product_list[] = $item['name'].'  :  '.$item['quantity'].'  :  '.$item['total']['amount'].''.$item['total']['currency'];
             }
 
             $orders_status[$variable] = implode(PHP_EOL, $product_list);
