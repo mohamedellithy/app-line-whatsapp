@@ -68,7 +68,7 @@ class Order extends AppMerchant implements AppEvent{
                 return;
             endif;
         else:
-            $slug = isset($this->data['data']['order']['status']['slug']) ? $this->data['data']['order']['status']['slug'] : $this->data['data']['status']['slug'];
+            $slug = isset($this->data['data']['order']['status']['slug']) ? $this->data['data']['order']['status']['slug'] : (isset($this->data['data']['status']['slug']) ? $this->data['data']['status']['slug'] : null);
             if(!in_array($slug,$this->settings['orders_active_on'])):
                 return;
             endif;
