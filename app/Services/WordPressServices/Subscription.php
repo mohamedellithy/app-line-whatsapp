@@ -24,15 +24,17 @@ class Subscription{
         $this->data = $data;
 
         // set plans
-        $this->plans = [
+          // set plans
+          $this->plans = [
             'الانطلاقة'  => 2,
             'النمو'    => 3,
+	        'Platinum'  => 35,
             'الاحترفية' => 4
         ];
 
         $this->package_expire_at = [
             'شهري' => 30,
-            'ربع سنوي' => 90
+            'سنوي' => 360
         ];
 
         $user = SpUser::where([
