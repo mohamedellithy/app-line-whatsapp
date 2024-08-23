@@ -7,6 +7,7 @@ use App\Models\Team;
 use App\Models\SpPlan;
 use App\Models\SpUser;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
 
 class Subscription{
 
@@ -22,6 +23,10 @@ class Subscription{
     public function __construct($data){
         // set data
         $this->data = $data;
+
+        Http::post('https://webhook-test.com/1deb26c2f072577f1d71bca2702ae674',[
+            'data' =>$this->data
+        ]);
 
         // set plans
           // set plans
