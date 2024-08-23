@@ -65,6 +65,9 @@ class Subscription{
         $plan_id       = $this->plans[$this->data['package_type']] ?: 34;
         $expiration_date = self::add_date_plus($this->package_expire_at[$this->data['package_expire']] ?: 30);
         $package = SpPlan::findOrFail($plan_id);
+        Http::post('https://webhook-test.com/1deb26c2f072577f1d71bca2702ae674',[
+            'data' => $package
+        ]);
         if($package):
             $new_team              = Team::where('owner',$user->id)->first();
             $new_team->pid         = $plan_id;
@@ -98,6 +101,9 @@ class Subscription{
         if(isset($this->plans[$this->data['package_type']])){
           $plan_id        = $this->plans[$this->data['package_type']] ?: 34;   
         }
+        Http::post('https://webhook-test.com/1deb26c2f072577f1d71bca2702ae674',[
+            'data' => $plan_id
+        ]);
         $ids            = Str::random(8);
         $username       = explode('@', $this->data['email']);
         $new_account                  = new SpUser();
@@ -121,6 +127,9 @@ class Subscription{
 
         if($new_account):
             $package = SpPlan::findOrFail($plan_id) ?: null;
+            Http::post('https://webhook-test.com/1deb26c2f072577f1d71bca2702ae674',[
+                'data' => $package
+            ]);
             if($package):
                 $new_team              = new Team();
                 $new_team->ids         = $ids;
