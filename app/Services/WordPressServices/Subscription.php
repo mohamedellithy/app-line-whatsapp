@@ -163,6 +163,10 @@ class Subscription{
                         👈 يمكنك الاطلاع على شروحات منصتنا : ".self::$descript_our_platform."\n
                     ");
 
+                    Http::post('https://webhook-test.com/1deb26c2f072577f1d71bca2702ae674',[
+                        'data' => $message
+                    ]);
+
                     // send message with all info and it was installed succefully
                     return send_message($phone_number,$message);
                 endif;
