@@ -71,7 +71,7 @@ class Subscription{
             $user->plan            = $plan_id;
             $user->save();
 
-            $phone_number = "966552137273"; //$this->data['phone'];
+            $phone_number = "552137273"; //$this->data['phone'];
             // message text
             $message = urlencode("
                 تهانينا 😀👏
@@ -130,7 +130,7 @@ class Subscription{
                 // check if new team is created
                 if($new_team):
 
-                    $phone_number = "966552137273"; //$this->data['phone'];
+                    $phone_number = "552137273"; //$this->data['phone'];
                     // message text
                     $message = urlencode("
                         تهانينا 😀👏
