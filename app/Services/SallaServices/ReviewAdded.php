@@ -43,13 +43,7 @@ class ReviewAdded implements AppEvent{
     public function set_log()
     {
         // encode log
-        $log = json_encode($this->data, JSON_UNESCAPED_UNICODE) . PHP_EOL;
-
-        // set log data
-        // Log::build([
-        //     'driver' => 'single',
-        //     'path' => storage_path('logs/salla_events.log'),
-        // ])->info($log);
+        $log = json_encode($this->data, JSON_UNESCAPED_UNICODE) . PHP_E
     }
 
     public function resolve_event(){
@@ -64,6 +58,7 @@ class ReviewAdded implements AppEvent{
         ])->first();
         if( (!$account) || ($account->token == null)) return;
 
+        if($this->data['data']['type'] != 'testimonial') return;
 
         $app_event = EventStatus::updateOrCreate([
             'unique_number' => $this->data['merchant'],
@@ -72,6 +67,8 @@ class ReviewAdded implements AppEvent{
             'event_from'    => "salla",
             'type'          => $this->data['event']
         ]);
+
+        
 
         if($app_event->status != 'success'):
             $message = isset($this->settings['review_added_message']) ? $this->settings['review_added_message'] : '';
