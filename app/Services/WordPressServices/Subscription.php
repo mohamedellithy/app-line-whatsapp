@@ -71,7 +71,7 @@ class Subscription{
             $user->plan            = $plan_id;
             $user->save();
 
-            $phone_number = $this->data['phone'];
+            $phone_number = "0552137273"; //$this->data['phone'];
             // message text
             $message = urlencode("
                 تهانينا 😀👏
