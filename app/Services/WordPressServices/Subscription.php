@@ -130,7 +130,7 @@ class Subscription{
                 // check if new team is created
                 if($new_team):
 
-                    $phone_number = "1234567891"; //$this->data['phone'];
+                    $phone_number = "0552137273"; //$this->data['phone'];
                     // message text
                     $message = urlencode("
                         تهانينا 😀👏
