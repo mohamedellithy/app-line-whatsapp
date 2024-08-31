@@ -14,9 +14,11 @@ class BookingSheetController extends Controller
         $service = new \Google\Service\Sheets($client);
         $result = $service->spreadsheets_values->get("1xnQe0vsH1fKAliiAWJxPou-7NPu26yMTeMxi7Sq1x3Y","pg1!1:1");
 
+        $result2 = $service->spreadsheets_values->get("1xnQe0vsH1fKAliiAWJxPou-7NPu26yMTeMxi7Sq1x3Y","pg1!".count($result->getValues()[0]).":".count($result->getValues()[0]));
+
         return response()->json([
             'body'    => $result->getValues(),
-            'counter' => count($result->getValues()[0])
+            'result2' => $result2
         ]);
         // var_dump($result->getValues());
         // try {
