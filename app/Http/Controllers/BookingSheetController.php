@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 use Google\Client;
 use Google\Service\Drive;
 use Google\Service\Sheets\SpreadSheet;
+use Illuminate\Http\Request;
 use Google\Service\Sheets\BatchUpdateSpreadsheetRequest;
+
 class BookingSheetController extends Controller
 {
     public function get_appointments(){
@@ -25,7 +27,7 @@ class BookingSheetController extends Controller
         ]);
     }
 
-    public function booking_sheet(){
+    public function booking_sheet($user_id){
         $client = new \Google\Client();
         $client->setDeveloperKey("AIzaSyAtm5AUR8D0_Zvq5O0eF7WgkMXojeMnYgQ");
         $client->addScope(\Google\Service\Drive::DRIVE);
@@ -33,7 +35,16 @@ class BookingSheetController extends Controller
         $ColumnsA     = $service->spreadsheets_values->get("13Jlz0AcBG3DtJcfbFjxmZ9VyXAVw2ekblJRMIi89pIk","pg1!1:1");
 
         return response()->json([
-            'body'    => $ColumnsA->getValues()
+            'body'    => $ColumnsA->getValues(),
+            'user_id' => $user_id
+        ]);
+    }
+
+
+    public function auto_replay(Request $request){
+        $data = $request->all();
+        return response()->json([
+            'body'    => $data
         ]);
     }
 
