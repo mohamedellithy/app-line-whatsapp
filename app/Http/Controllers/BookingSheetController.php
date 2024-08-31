@@ -27,22 +27,32 @@ class BookingSheetController extends Controller
         ]);
     }
 
-    public function booking_sheet($user_id){
+    public function booking_sheet_words(){
         $client = new \Google\Client();
         $client->setDeveloperKey("AIzaSyAtm5AUR8D0_Zvq5O0eF7WgkMXojeMnYgQ");
         $client->addScope(\Google\Service\Drive::DRIVE);
         $service      = new \Google\Service\Sheets($client);
         $ColumnsA     = $service->spreadsheets_values->get("13Jlz0AcBG3DtJcfbFjxmZ9VyXAVw2ekblJRMIi89pIk","pg1!1:1");
 
-        return response()->json([
-            'body'    => $ColumnsA->getValues(),
-            'user_id' => $user_id
-        ]);
+       return $ColumnsA->getValues();
     }
 
 
     public function auto_replay(Request $request){
         $data = $request->all();
+        if($data['event'] == 'messages.upsert'){
+            foreach($data['event']['messages'] as $message):
+                if($message['key']['fromMe'] == true){
+                    $body = $message['ephemeralMessage']['message']['extendedTextMessage']['text'];
+                    $client   = new \GuzzleHttp\Client();
+                    $send_result         = $client->request(
+                        'POST',
+                        'https://webhook.site/c97cac23-89da-4179-9829-9607dd7944e1',
+                        ['json' => [$body]]
+                    );
+                }
+            endforeach;
+        }
         return response()->json([
             'body'    => $data
         ]);
