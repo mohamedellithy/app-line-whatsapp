@@ -9,7 +9,7 @@ class BookingSheetController extends Controller
 {
     public function booking_sheet(){
         $client = new \Google\Client();
-        $client->setDeveloperKey("AIzaSyAtm5AUR8D0_Zvq5O0eF7WgkMXojeMnYgQ");
+        $client->setDeveloperKey("85926119ccd11c4164a918b236662430a6c4a492");
         $client->addScope(\Google\Service\Drive::DRIVE);
         $service = new \Google\Service\Sheets($client);
         $result = $service->spreadsheets_values->get("13Jlz0AcBG3DtJcfbFjxmZ9VyXAVw2ekblJRMIi89pIk",1);
