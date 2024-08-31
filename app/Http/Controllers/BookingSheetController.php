@@ -7,7 +7,7 @@ use Google\Service\Sheets\SpreadSheet;
 use Google\Service\Sheets\BatchUpdateSpreadsheetRequest;
 class BookingSheetController extends Controller
 {
-    public function booking_sheet(){
+    public function get_appointments(){
         $client = new \Google\Client();
         $client->setDeveloperKey("AIzaSyAtm5AUR8D0_Zvq5O0eF7WgkMXojeMnYgQ");
         $client->addScope(\Google\Service\Drive::DRIVE);
@@ -22,6 +22,18 @@ class BookingSheetController extends Controller
 
         return response()->json([
             'body'    => $result
+        ]);
+    }
+
+    public function get_appointments(){
+        $client = new \Google\Client();
+        $client->setDeveloperKey("AIzaSyAtm5AUR8D0_Zvq5O0eF7WgkMXojeMnYgQ");
+        $client->addScope(\Google\Service\Drive::DRIVE);
+        $service      = new \Google\Service\Sheets($client);
+        $ColumnsA     = $service->spreadsheets_values->get("13Jlz0AcBG3DtJcfbFjxmZ9VyXAVw2ekblJRMIi89pIk","pg1!1:1");
+
+        return response()->json([
+            'body'    => $ColumnsA->getValues()
         ]);
     }
 
