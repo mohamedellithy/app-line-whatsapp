@@ -25,7 +25,7 @@ class BookingSheetController extends Controller
         ]);
     }
 
-    public function get_appointments(){
+    public function booking_sheet(){
         $client = new \Google\Client();
         $client->setDeveloperKey("AIzaSyAtm5AUR8D0_Zvq5O0eF7WgkMXojeMnYgQ");
         $client->addScope(\Google\Service\Drive::DRIVE);
