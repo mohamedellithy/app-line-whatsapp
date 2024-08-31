@@ -16,7 +16,7 @@ class BookingSheetController extends Controller
 
         return response()->json([
             'body'    => $result->getValues(),
-            'counter' => count($result->getValues())
+            'counter' => count($result->getValues()[0])
         ]);
         // var_dump($result->getValues());
         // try {
