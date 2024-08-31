@@ -41,7 +41,7 @@ class BookingSheetController extends Controller
     public function auto_replay(Request $request){
         $data = $request->all();
         if($data['data']['event'] == 'messages.upsert'){
-            foreach($data['data']['event']['messages'] as $message):
+            foreach($data['data']['data']['messages'] as $message):
                 if($message['key']['fromMe'] == true){
                     $body = $message['ephemeralMessage']['message']['extendedTextMessage']['text'];
                     $client   = new \GuzzleHttp\Client();
