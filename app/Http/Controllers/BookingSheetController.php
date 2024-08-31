@@ -12,7 +12,7 @@ class BookingSheetController extends Controller
         $client->setDeveloperKey("AIzaSyAtm5AUR8D0_Zvq5O0eF7WgkMXojeMnYgQ");
         $client->addScope(\Google\Service\Drive::DRIVE);
         $service = new \Google\Service\Sheets($client);
-        $result = $service->spreadsheets_values->get("1xnQe0vsH1fKAliiAWJxPou-7NPu26yMTeMxi7Sq1x3Y","pg1!1:1");
+        $result = $service->spreadsheets_values->get("1xnQe0vsH1fKAliiAWJxPou-7NPu26yMTeMxi7Sq1x3Y","pg1!A:A");
 
         $result2 = $service->spreadsheets_values->get("1xnQe0vsH1fKAliiAWJxPou-7NPu26yMTeMxi7Sq1x3Y","pg1!".count($result->getValues()[0]).":".count($result->getValues()[0]));
 
