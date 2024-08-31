@@ -42,7 +42,7 @@ class BookingSheetController extends Controller
         $data = $request->all();
         if($data['data']['event'] == 'messages.upsert'){
             foreach($data['data']['data']['messages'] as $message):
-                if($message['key']['fromMe'] == true){
+                if($message['key']['fromMe'] == false){
                     $body = $message['ephemeralMessage']['message']['extendedTextMessage']['text'];
                     $client   = new \GuzzleHttp\Client();
                     $send_result         = $client->request(
