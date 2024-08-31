@@ -13,15 +13,17 @@ class BookingSheetController extends Controller
         $client->addScope(\Google\Service\Drive::DRIVE);
         $service = new \Google\Service\Sheets($client);
         $result = $service->spreadsheets_values->get("1xnQe0vsH1fKAliiAWJxPou-7NPu26yMTeMxi7Sq1x3Y","pg1!A1:A1");
-        try {
-            $numRows = $result->getValues() != null ? count($result->getValues()) : 0;
-            printf("%d rows retrieved.", $numRows);
-            return $result;
-        }
-        catch(\Exception $e) {
-            echo 'Message: ' .$e->getMessage();
-        }
-        var_dump("hi mohamed");
+
+        var_dump($result);
+        // try {
+        //     $numRows = $result->getValues() != null ? count($result->getValues()) : 0;
+        //     printf("%d rows retrieved.", $numRows);
+        //     return $result;
+        // }
+        // catch(\Exception $e) {
+        //     echo 'Message: ' .$e->getMessage();
+        // }
+        // var_dump("hi mohamed");
     }
 
 }
