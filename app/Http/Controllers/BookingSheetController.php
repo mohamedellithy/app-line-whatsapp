@@ -17,7 +17,7 @@ class BookingSheetController extends Controller
         $result       = [];
         for($i = 1;$i <= $ColumnsCount;$i++){
             $ColumnItem = $service->spreadsheets_values->get("1xnQe0vsH1fKAliiAWJxPou-7NPu26yMTeMxi7Sq1x3Y","pg1!".$i.":".$i);
-            $result[]   = $ColumnItem->getValues();
+            $result[]   = $ColumnItem->getValues()[0];
         }
 
         return response()->json([
