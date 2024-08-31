@@ -15,7 +15,8 @@ class BookingSheetController extends Controller
         $result = $service->spreadsheets_values->get("1xnQe0vsH1fKAliiAWJxPou-7NPu26yMTeMxi7Sq1x3Y","pg1!1:1");
 
         return response()->json([
-            'body' => $result->getValues()
+            'body'    => $result->getValues(),
+            'counter' => count($result->getValues())
         ]);
         // var_dump($result->getValues());
         // try {
