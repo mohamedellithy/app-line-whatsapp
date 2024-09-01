@@ -17,7 +17,7 @@ class BookingSheetController extends Controller
         $ColumnsA     = $service->spreadsheets_values->get("1xnQe0vsH1fKAliiAWJxPou-7NPu26yMTeMxi7Sq1x3Y","pg1!A:A");
         $ColumnsCount = count($ColumnsA->getValues());
         $result       = [];
-        for($i = 1;$i <= $ColumnsCount;$i++){
+        for($i = 2;$i <= $ColumnsCount;$i++){
             $ColumnItem = $service->spreadsheets_values->get("1xnQe0vsH1fKAliiAWJxPou-7NPu26yMTeMxi7Sq1x3Y","pg1!".$i.":".$i);
             $result[]   = $ColumnItem->getValues()[0];
         }
@@ -45,10 +45,15 @@ class BookingSheetController extends Controller
                 if($message['key']['fromMe'] == false){
                     $body = $message['message']['ephemeralMessage']['message']['extendedTextMessage']['text'];
                     $client   = new \GuzzleHttp\Client();
-                    $send_result         = $client->request(
+                    $client->request(
                         'POST',
                         'https://webhook.site/c97cac23-89da-4179-9829-9607dd7944e1',
-                        ['json' => [$body]]
+                        [
+                            'json' => [
+                                'body'  =>  $body,
+                                'booking_sheet_words'  =>  $this->booking_sheet_words()
+                            ]
+                        ]
                     );
                 }
             endforeach;
