@@ -32,13 +32,15 @@ class Order extends AppMerchant implements AppEvent{
             'merchant_id'    => $this->data['merchant']
         ])->first();
 
-        \Log::info('b : '.$merchant_info->ids);
+      
 
         // merchant
         if(!$merchant_info) return;
         $this->merchant_team = Team::with('account')->where([
             'owner' => $merchant_info->user_id
         ])->first();
+
+        \Log::info('b : '.$this->merchant_team->ids);
 
         $this->settings      = $merchant_info->settings;
 
@@ -79,13 +81,6 @@ class Order extends AppMerchant implements AppEvent{
             endif;
         endif;
         
-        // if($this->data['merchant'] == 247161859):
-        //     Http::post('https://webhook-test.com/e129e2b0e4c54296f8de3414c4512ada',[
-        //         'data' => $this->merchant_team,
-        //         'st'   => $this->settings['orders_active_on']
-        //     ]);
-        // endif;
-
         // check if account have token or not
         if(!$this->merchant_team) return;
         
@@ -93,7 +88,7 @@ class Order extends AppMerchant implements AppEvent{
             'team_id' => $this->merchant_team->id
         ])->first();
 
-        \Log::info('c : '.$account->token);
+        //\Log::info('c : '.$account->token);
         if( (!$account) || ($account->token == null)) return 'd';
 
         $attrs = formate_order_details($this->data);
