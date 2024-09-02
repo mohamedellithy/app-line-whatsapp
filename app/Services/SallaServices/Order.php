@@ -40,7 +40,7 @@ class Order extends AppMerchant implements AppEvent{
             'owner' => $merchant_info->user_id
         ])->first();
 
-        \Log::info('b : '.$this->merchant_team->ids);
+        \Log::info('b : '.$merchant_info->user_id);
 
         $this->settings      = $merchant_info->settings;
 
