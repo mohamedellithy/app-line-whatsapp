@@ -134,7 +134,6 @@ if(!function_exists('send_message')):
             $send_result         = $client->post($end_point);
             $body                = $send_result->getBody()->getContents();
             $result_send_message = json_decode($body, true); // Decode as associative array
-            \Log::info("https://wh.line.sa/api/send?number=$phone_number&type=text&message=$message&instance_id=$instance_id&access_token=$access_token");
         } catch(Exception $e){
             $result_send_message['status'] = 'failed';
             \Log::info($e->getMessage());

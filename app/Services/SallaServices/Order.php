@@ -32,6 +32,8 @@ class Order extends AppMerchant implements AppEvent{
             'merchant_id'    => $this->data['merchant']
         ])->first();
 
+        \Log::info($this->data['merchant']);
+
         // merchant
         if(!$merchant_info) return;
         $this->merchant_team = Team::with('account')->where([
@@ -86,8 +88,6 @@ class Order extends AppMerchant implements AppEvent{
 
         // check if account have token or not
         if(!$this->merchant_team) return;
-        
-       
         
         $account = Account::where([
             'team_id' => $this->merchant_team->id
