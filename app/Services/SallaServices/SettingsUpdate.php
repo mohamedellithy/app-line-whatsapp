@@ -35,12 +35,6 @@ class SettingsUpdate implements AppEvent{
     public function set_log(){
         // encode log
         $log = json_encode($this->data, JSON_UNESCAPED_UNICODE) . PHP_EOL;
-
-        // set log data
-        // Log::build([
-        //      'driver' => 'single',
-        //      'path' => storage_path('logs/salla_events.log'),
-        // ])->info($log);
     }
 
     public function resolve_event(){
@@ -56,6 +50,7 @@ class SettingsUpdate implements AppEvent{
         // if merchant not change number phone
         $this->data['data']['settings']['custom_merchant_phone'] = ($this->data['data']['settings']['custom_merchant_phone'] != '966512345678' ? $this->data['data']['settings']['custom_merchant_phone'] : null);
 
+        \Log::info($this->data['data']['settings']['custom_merchant_phone']);
         if($merchant_credential):
             $merchant_credential->update([
                 'settings' => json_encode($this->data['data']['settings'])
@@ -66,27 +61,9 @@ class SettingsUpdate implements AppEvent{
             if(isset($filter_settings['custom_merchant_phone']) && ($filter_settings['custom_merchant_phone'] != null)):
                 if($filter_settings['custom_merchant_phone'] != $this->data['data']['settings']['custom_merchant_phone']):
                     User::reset_password($this->data['merchant']);
-                    // Http::post('https://webhook-test.com/88e997ea554c26402f22e49ab4e3986e',[
-                    //     1,
-                    //     $filter_settings['custom_merchant_phone'],
-                    //     $this->data['data']['settings']['custom_merchant_phone'],
-                    //     $filter_settings['custom_merchant_phone'] != $this->data['data']['settings']['custom_merchant_phone']
-                    // ]);
                 endif;
-                // Http::post('https://webhook-test.com/88e997ea554c26402f22e49ab4e3986e',[
-                //     2,
-                //     $filter_settings['custom_merchant_phone'],
-                //     $this->data['data']['settings']['custom_merchant_phone'],
-                //     $filter_settings['custom_merchant_phone'] != $this->data['data']['settings']['custom_merchant_phone']
-                // ]);
             else:
                 User::reset_password($this->data['merchant']);
-                // Http::post('https://webhook-test.com/88e997ea554c26402f22e49ab4e3986e',[
-                //     3,
-                //     $filter_settings['custom_merchant_phone'],
-                //     $this->data['data']['settings']['custom_merchant_phone'],
-                //     $filter_settings['custom_merchant_phone'] != $this->data['data']['settings']['custom_merchant_phone']
-                // ]);
             endif;
         endif;
     }
