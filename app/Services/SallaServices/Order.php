@@ -40,8 +40,6 @@ class Order extends AppMerchant implements AppEvent{
             'owner' => $merchant_info->user_id
         ])->first();
 
-        \Log::info('b : '.$merchant_info->user_id);
-
         $this->settings      = $merchant_info->settings;
 
         if($this->settings != null):
