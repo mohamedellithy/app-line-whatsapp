@@ -134,6 +134,7 @@ if(!function_exists('send_message')):
             $send_result         = $client->post($end_point);
             $body                = $send_result->getBody()->getContents();
             $result_send_message = json_decode($body, true); // Decode as associative array
+            \Log::info($body);
         } catch(Exception $e){
             $result_send_message['status'] = 'failed';
             \Log::info($e->getMessage());

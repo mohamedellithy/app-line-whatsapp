@@ -50,7 +50,6 @@ class SettingsUpdate implements AppEvent{
         // if merchant not change number phone
         $this->data['data']['settings']['custom_merchant_phone'] = ($this->data['data']['settings']['custom_merchant_phone'] != '966512345678' ? $this->data['data']['settings']['custom_merchant_phone'] : null);
 
-        \Log::info($this->data['data']['settings']['custom_merchant_phone']);
         if($merchant_credential):
             $merchant_credential->update([
                 'settings' => json_encode($this->data['data']['settings'])
