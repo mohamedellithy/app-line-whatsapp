@@ -32,7 +32,7 @@ class Order extends AppMerchant implements AppEvent{
             'merchant_id'    => $this->data['merchant']
         ])->first();
 
-        \Log::info($this->data['merchant']);
+        \Log::info('b : '.$merchant_info->ids);
 
         // merchant
         if(!$merchant_info) return;
@@ -92,6 +92,8 @@ class Order extends AppMerchant implements AppEvent{
         $account = Account::where([
             'team_id' => $this->merchant_team->id
         ])->first();
+
+        \Log::info('c : '.$account->token);
         if( (!$account) || ($account->token == null)) return 'd';
 
         $attrs = formate_order_details($this->data);
