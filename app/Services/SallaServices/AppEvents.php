@@ -16,7 +16,7 @@ class AppEvents extends Events{
           'app.subscription.renewed' => 'Subscription',
           'order.created'            => 'Order',
           'order.updated'            => 'Order',
-          'order.status.updated'     => 'Order',
+          //'order.status.updated'     => 'Order',
           'customer.otp.request'     => 'OtpRequest',
           'customer.created'         => 'CustomerCreated',
           'customer.login'           => 'CustomerCreated',
