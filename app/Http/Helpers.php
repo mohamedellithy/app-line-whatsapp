@@ -273,8 +273,8 @@ function message_order_params($message_to_send = '',$attrs = []){
             $files_url_list = [];
             foreach($attrs["items"] as $item){
                 if(isset($item["files"])){
-                    foreach ($item["files"] as $file){
-                        $files_url_list[] = $file['name'].'  :  '.(isset($file['url']) ? $item['url'] : "-");
+                    foreach($item["files"] as $file){
+                        $files_url_list[] = $file['name'].'  :  '.(isset($file['url']) ? $file['url'] : "-");
                     }     
                 }
             }
