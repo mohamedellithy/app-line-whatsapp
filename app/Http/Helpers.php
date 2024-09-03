@@ -271,6 +271,7 @@ function message_order_params($message_to_send = '',$attrs = []){
         
         elseif($variable == "الملفات"){
             $files_url_list = [];
+            \Log::info($attrs["items"]);
             foreach ($attrs["items"] as $item){
                 if(isset($item["files"])){
                     foreach ($item["files"] as $file){
