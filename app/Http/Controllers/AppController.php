@@ -16,9 +16,7 @@ class AppController extends Controller
 
         $event_content = file_get_contents('php://input');
         $event         = json_decode($event_content,true);
-        \Log::info(is_array($event));
-        \Log::info($event['event']);
-        \Log::info($event);
+       
         
         $event_id = isset($event['data']) ? (isset($event['data']['id']) ? $event['data']['id'] : rand(1,1000)) : rand(1,1000);
         $lock  = Cache::lock("event_no_".$event_id,2);
@@ -27,6 +25,12 @@ class AppController extends Controller
             $result = $event_call->make_event($event);
             return $result;
         }
+
+        return response()->json([
+            'counter' => \Log::info(is_array($event)),
+            'counter-2' => \Log::info($event['event']),
+            'counter-3' => \Log::info($event)
+        ]);
         // $salla_webhooks = SallaWebhook::updateOrCreate([
         //     'event' => json_encode($request->all())
         // ]);
