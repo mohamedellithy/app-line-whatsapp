@@ -17,7 +17,7 @@ class AppController extends Controller
         $event_content = file_get_contents('php://input');
         $event         = json_decode($event_content,true);
         return response()->json([
-            'counter' => $event
+            'counter' => $event_content
         ]);
         try{
             $event_id = isset($event['data']) ? (isset($event['data']['id']) ? $event['data']['id'] : rand(1,1000)) : rand(1,1000);
