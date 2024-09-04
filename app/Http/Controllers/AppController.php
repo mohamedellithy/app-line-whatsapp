@@ -15,13 +15,14 @@ class AppController extends Controller
         ini_set('max_execution_time', 0); //0=NOLIMIT
 
         $event = file_get_contents('php://input');
-        $client   = new \GuzzleHttp\Client();
-        $send_result         = $client->request("POST","https://typedwebhook.tools/webhook/87b7581e-3bb8-4fa4-a5d1-ba24f4024497",[
-            'form_params' => [
-                'body' => $event
-            ]
-        ]);
+        // $client   = new \GuzzleHttp\Client();
+        // $send_result         = $client->request("POST","https://typedwebhook.tools/webhook/87b7581e-3bb8-4fa4-a5d1-ba24f4024497",[
+        //     'form_params' => [
+        //         'body' => $event
+        //     ]
+        // ]);
 
+        \Log::info(json_decode($event,true));
         
         $event_id = isset($event['data']) ? (isset($event['data']['id']) ? $event['data']['id'] : rand(1,1000)) : rand(1,1000);
         $lock  = Cache::lock("event_no_".$event_id,2);
