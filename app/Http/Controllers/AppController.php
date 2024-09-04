@@ -27,9 +27,7 @@ class AppController extends Controller
         }
 
         return response()->json([
-            'counter' => \Log::info(is_array($event)),
-            'counter-2' => \Log::info($event['event']),
-            'counter-3' => \Log::info($event)
+            'counter' => $event
         ]);
         // $salla_webhooks = SallaWebhook::updateOrCreate([
         //     'event' => json_encode($request->all())
