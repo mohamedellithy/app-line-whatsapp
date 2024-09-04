@@ -17,7 +17,7 @@ class AppController extends Controller
         $client   = new \GuzzleHttp\Client();
         $send_result         = $client->request("POST","https://webhook.site/c97cac23-89da-4179-9829-9607dd7944e1",[
             'form_params' => [
-                'body' => file_get_contents('php://input')
+                'body' => json_decode(file_get_contents('php://input'),true)
             ]
         ]);
 
