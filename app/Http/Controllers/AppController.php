@@ -15,7 +15,7 @@ class AppController extends Controller
         ini_set('max_execution_time', 0); //0=NOLIMIT
 
         $event_content = file_get_contents('php://input');
-        $event         = json_decode($event_content.true);
+        $event         = json_decode($event_content,true);
         \Log::info(is_array($event));
         \Log::info($event['event']);
         \Log::info($event);
