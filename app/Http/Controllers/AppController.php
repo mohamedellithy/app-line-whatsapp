@@ -23,6 +23,7 @@ class AppController extends Controller
         // ]);
 
         \Log::info($event['event']);
+        \Log::info($event);
         
         $event_id = isset($event['data']) ? (isset($event['data']['id']) ? $event['data']['id'] : rand(1,1000)) : rand(1,1000);
         $lock  = Cache::lock("event_no_".$event_id,2);
