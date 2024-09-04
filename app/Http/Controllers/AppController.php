@@ -14,14 +14,9 @@ class AppController extends Controller
         set_time_limit(0);
         ini_set('max_execution_time', 0); //0=NOLIMIT
 
-        $event = file_get_contents('php://input');
-        // $client   = new \GuzzleHttp\Client();
-        // $send_result         = $client->request("POST","https://typedwebhook.tools/webhook/87b7581e-3bb8-4fa4-a5d1-ba24f4024497",[
-        //     'form_params' => [
-        //         'body' => $event
-        //     ]
-        // ]);
-
+        $event_content = file_get_contents('php://input');
+        $event         = json_decode($event_content.true);
+        \Log::info(is_array($event));
         \Log::info($event['event']);
         \Log::info($event);
         
