@@ -28,7 +28,7 @@ class AppController extends Controller
         $lock  = Cache::lock("event_no_".$event_id,2);
         if($lock->get()){
             $event = new AppEvents();
-            $result = $event->make_event($request->all());
+            $result = $event->make_event($event);
             return $result;
         }
         // $salla_webhooks = SallaWebhook::updateOrCreate([
