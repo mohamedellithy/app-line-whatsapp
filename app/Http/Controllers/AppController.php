@@ -15,7 +15,7 @@ class AppController extends Controller
         ini_set('max_execution_time', 0); //0=NOLIMIT
 
         $client   = new \GuzzleHttp\Client();
-        $send_result         = $client->request('POST',"https://webhook.site/c97cac23-89da-4179-9829-9607dd7944e1",[
+        $send_result         = $client->request("POST","https://webhook.site/c97cac23-89da-4179-9829-9607dd7944e1",[
             'body' => [
                 'bn' => file_get_contents('php://input')
             ]
