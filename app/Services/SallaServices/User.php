@@ -31,6 +31,8 @@ class User{
 
         // change update json access token and refresh token
         if($user):
+            $user->merchant_id = $data['merchant'];
+            $user->save();
             $user->merchant_info()->updateOrCreate([
                 'user_id'     => $user->id,
                 'app_name'    => 'salla',
@@ -118,6 +120,7 @@ class User{
         $new_account->avatar          = $this->merchant->data->merchant->avatar;
         $new_account->plan            = '34';
         $new_account->expiration_date = self::add_date_plus(90);
+        $new_account->merchant_id     = $data['merchant'];
         $new_account->timezone        = 'Asia/Riyadh';
         $new_account->login_type      = 'salla';
         $new_account->status          = '2';
