@@ -14,6 +14,7 @@ class AppController extends Controller
         set_time_limit(0);
         ini_set('max_execution_time', 0); //0=NOLIMIT
 
+
         $event_content = file_get_contents('php://input');
         $event         = json_decode($event_content,true);
         if(is_string($event)){
@@ -22,9 +23,11 @@ class AppController extends Controller
         $event_id      = isset($event['data']) ? (isset($event['data']['id']) ? $event['data']['id'] : rand(1,1000)) : rand(1,1000);
         $lock          = Cache::lock("event_no_".$event_id,2);
         if($lock->get()){
-            $event_call = new AppEvents();
-            $result = $event_call->make_event($event);
-            return $result;
+            dispatch(function() use($event){
+                $event_call = new AppEvents();
+                $result = $event_call->make_event($event);
+                return $result;
+            })->afterResponse();
         }
 
         // $salla_webhooks = SallaWebhook::updateOrCreate([

@@ -10,6 +10,7 @@ class AppEvents extends Events{
     public function events(){
         return [
           'app.store.authorize'      => 'Authorize',
+          // 'app.installed'            => 'Authorize',
           'abandoned.cart'           => 'AbandonedCart',
           'app.settings.updated'     => 'SettingsUpdate',
           'app.subscription.started' => 'Subscription',
