@@ -57,6 +57,8 @@ class BookingSheetController extends Controller
                             ]
                         ]
                     );
+
+                    send_message($phone,$this->booking_sheet_words()[0],"66FE4B45753B3","2032449688RtpEd");
                 }
             endforeach;
         }
