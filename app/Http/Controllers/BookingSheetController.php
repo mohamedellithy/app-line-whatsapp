@@ -40,24 +40,24 @@ class BookingSheetController extends Controller
 
     public function auto_replay(Request $request){
         $data = $request->all();
-        // if($data['data']['event'] == 'messages.upsert'){
-        //     foreach($data['data']['data']['messages'] as $message):
-        //         if($message['key']['fromMe'] == false){
-        //             $body = $message['message']['ephemeralMessage']['message']['extendedTextMessage']['text'];
-        //             $client   = new \GuzzleHttp\Client();
-        //             $client->request(
-        //                 'POST',
-        //                 'https://tasteless-doctor-84.webhook.cool',
-        //                 [
-        //                     'json' => [
-        //                         'body'  =>  $body,
-        //                         'booking_sheet_words'  =>  $this->booking_sheet_words()
-        //                     ]
-        //                 ]
-        //             );
-        //         }
-        //     endforeach;
-        // }
+        if($data['data']['event'] == 'messages.upsert'){
+            foreach($data['data']['data']['messages'] as $message):
+                if($message['key']['fromMe'] == false){
+                    $body = $message['message']['ephemeralMessage']['message']['extendedTextMessage']['text'];
+                    $client   = new \GuzzleHttp\Client();
+                    $client->request(
+                        'POST',
+                        'https://tasteless-doctor-84.webhook.cool',
+                        [
+                            'json' => [
+                                'body'  =>  $body,
+                                'booking_sheet_words'  =>  $this->booking_sheet_words()
+                            ]
+                        ]
+                    );
+                }
+            endforeach;
+        }
         return response()->json([
             'body'    => $data
         ]);
