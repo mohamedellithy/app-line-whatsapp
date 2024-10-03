@@ -27,7 +27,7 @@ class AppController extends Controller
                 $event_call = new AppEvents();
                 $result = $event_call->make_event($event);
                 return $result;
-            })->afterResponse();
+            });
         }
 
         // $salla_webhooks = SallaWebhook::updateOrCreate([
