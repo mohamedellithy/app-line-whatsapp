@@ -21,14 +21,11 @@ class AppController extends Controller
             $event = json_decode($event,true);
         }
         $event_id      = isset($event['data']) ? (isset($event['data']['id']) ? $event['data']['id'] : rand(1,1000)) : rand(1,1000);
-        $lock          = Cache::lock("event_no_".$event_id,2);
-        if($lock->get()){
-            dispatch(function() use($event){
-                $event_call = new AppEvents();
-                $result = $event_call->make_event($event);
-                return $result;
-            });
-        }
+        dispatch(function() use($event){
+            $event_call = new AppEvents();
+            $result = $event_call->make_event($event);
+            return $result;
+        });
 
         // $salla_webhooks = SallaWebhook::updateOrCreate([
         //     'event' => json_encode($request->all())
