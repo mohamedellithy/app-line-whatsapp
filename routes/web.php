@@ -35,8 +35,8 @@ $router->get('/api/booking-sheet','BookingSheetController@booking_sheet');
 $router->get('/api/sheet-service/{user_id}','BookingSheetController@booking_sheet');
 
 $router->group(['middleware' => 'cors'], function() use ($router) {
-    $router->post('/tester-web','BookingSheetController@auto_replay');
-    $router->get('/tester-web','BookingSheetController@auto_replay');
+    $router->post('/api/auto-replay','BookingSheetController@auto_replay');
+    $router->get('/api/auto-replay','BookingSheetController@auto_replay');
 });
 
 // $router->group(['middleware' => 'cors'], function () use ($router) {
