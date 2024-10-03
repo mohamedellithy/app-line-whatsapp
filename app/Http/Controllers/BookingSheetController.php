@@ -45,6 +45,7 @@ class BookingSheetController extends Controller
                 if($message['key']['fromMe'] == false){
                     $body = $message['message']['conversation'];
                     $client   = new \GuzzleHttp\Client();
+                    \Log::info($body);
                     $client->request(
                         'POST',
                         'https://tasteless-doctor-84.webhook.cool',
