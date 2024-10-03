@@ -39,30 +39,30 @@ class BookingSheetController extends Controller
 
 
     public function auto_replay(Request $request){
-        $data = $request->all();
+        //$data = $request->all();
         \Log::info('hi');
-        if($data['data']['event'] == 'messages.upsert'){
-            foreach($data['data']['data']['messages'] as $message):
-                if($message['key']['fromMe'] == false){
-                    $body = $message['message']['conversation'];
-                    $client   = new \GuzzleHttp\Client();
-                    \Log::info($body);
-                    $client->request(
-                        'POST',
-                        'https://tasteless-doctor-84.webhook.cool',
-                        [
-                            'json' => [
-                                'body'  =>  $body,
-                                'booking_sheet_words'  =>  $this->booking_sheet_words()
-                            ]
-                        ]
-                    );
-                }
-            endforeach;
-        }
-        return response()->json([
-            'body'    => $data
-        ]);
+        // if($data['data']['event'] == 'messages.upsert'){
+        //     foreach($data['data']['data']['messages'] as $message):
+        //         if($message['key']['fromMe'] == false){
+        //             $body = $message['message']['conversation'];
+        //             $client   = new \GuzzleHttp\Client();
+        //             \Log::info($body);
+        //             $client->request(
+        //                 'POST',
+        //                 'https://tasteless-doctor-84.webhook.cool',
+        //                 [
+        //                     'json' => [
+        //                         'body'  =>  $body,
+        //                         'booking_sheet_words'  =>  $this->booking_sheet_words()
+        //                     ]
+        //                 ]
+        //             );
+        //         }
+        //     endforeach;
+        // }
+        // return response()->json([
+        //     'body'    => $data
+        // ]);
     }
 
 }
