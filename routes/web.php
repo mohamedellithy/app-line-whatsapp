@@ -20,6 +20,7 @@ use App\Http\Controllers\IconWhatsAppController;
 */
 
 $router->get('/', function () use ($router) {
+    \Log::info('bb');
     return $router->app->version();
 });
 
@@ -33,7 +34,7 @@ $router->get('/api/booking-sheet','BookingSheetController@booking_sheet');
 
 $router->get('/api/sheet-service/{user_id}','BookingSheetController@booking_sheet');
 
-$router->group(['middleware' => 'cors'], function () use ($router) {
+$router->group(['middleware' => 'cors'], function() use ($router) {
     $router->post('/api/auto-replay','BookingSheetController@auto_replay');
     $router->get('/api/auto-replay','BookingSheetController@auto_replay');
 });
