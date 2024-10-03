@@ -44,7 +44,7 @@ class BookingSheetController extends Controller
             foreach($data['data']['data']['messages'] as $message):
                 if($message['key']['fromMe'] == false){
                     $body = $message['message']['conversation'];
-                    $phone = $message['key']['remoteJid'];
+                    $phone = intval($message['key']['remoteJid']);
                     $client   = new \GuzzleHttp\Client();
                     $client->request(
                         'POST',
@@ -58,17 +58,17 @@ class BookingSheetController extends Controller
                         ]
                     );
 
-                    // send_message(
-                    //     $phone,
-                    //     $this->booking_sheet_words()[0][0],
-                    //     "66FE4B45753B3",
-                    //     "2032449688RtpEd"
-                    // );
+                    send_message(
+                        $phone,
+                        $this->booking_sheet_words()[0][0],
+                        "66FE4B45753B3",
+                        "2032449688RtpEd"
+                    );
                 }
             endforeach;
         }
         return response()->json([
-            'body'    => intval($phone)
+            'body'    => $data
         ]);
     }
 
