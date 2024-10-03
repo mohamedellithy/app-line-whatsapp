@@ -47,7 +47,7 @@ class BookingSheetController extends Controller
                     $client   = new \GuzzleHttp\Client();
                     $client->request(
                         'POST',
-                        'https://typedwebhook.tools/webhook/76c790fa-973b-4461-b104-ba3659fa0cd1',
+                        'https://tasteless-doctor-84.webhook.cool',
                         [
                             'json' => [
                                 'body'  =>  $body,
