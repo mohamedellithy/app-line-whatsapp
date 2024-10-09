@@ -62,13 +62,13 @@ class BookingSheetController extends Controller
 
                     if(!isset($google_sheet->current_question)){
                         $google_sheet->update([
-                            'current_question' => $this->booking_sheet_words()[0],
-                            'next_question' => $this->booking_sheet_words()[1],
+                            'current_question' => $this->booking_sheet_words()[][0],
+                            'next_question'    => $this->booking_sheet_words()[][1],
                         ]);
                     } elseif(isset($google_sheet->current_question)){
                         $google_sheet->update([
                             'current_question' => $google_sheet->next_question,
-                            'next_question' => $this->booking_sheet_words()[2],
+                            'next_question' => $this->booking_sheet_words()[][2],
                         ]);
                     }
 
