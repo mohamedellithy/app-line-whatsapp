@@ -39,7 +39,7 @@ class BookingSheetController extends Controller
 
 
     public function auto_replay(Request $request){
-        $data = $request->all();
+        //$data = $request->all();
         \Log::info('bg');
         // if($data['data']['event'] == 'messages.upsert'){
         //     foreach($data['data']['data']['messages'] as $message):
