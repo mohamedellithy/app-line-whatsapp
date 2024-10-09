@@ -49,7 +49,7 @@ class BookingSheetController extends Controller
         if($data['data']['event'] == 'messages.upsert'){
             foreach($data['data']['data']['messages'] as $message):
                 if($message['key']['fromMe'] == false){
-                    $body = $message['message']['conversation'];
+                    //$body = $message['message']['conversation'];
                     $phone = intval($message['key']['remoteJid']);
                     if(!$google_sheet){
                         $google_sheet = GoogleSheetAutoReplay::create([
