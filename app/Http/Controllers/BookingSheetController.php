@@ -39,38 +39,38 @@ class BookingSheetController extends Controller
 
 
     public function auto_replay(Request $request){
-        //$data = $request->all();
+        $data = $request->all();
         \Log::info('bg');
-        // if($data['data']['event'] == 'messages.upsert'){
-        //     foreach($data['data']['data']['messages'] as $message):
-        //         if($message['key']['fromMe'] == false){
-        //             $body = $message['message']['conversation'];
-        //             $phone = intval($message['key']['remoteJid']);
-        //             $client   = new \GuzzleHttp\Client();
-        //             $client->request(
-        //                 'POST',
-        //                 'https://tasteless-doctor-84.webhook.cool',
-        //                 [
-        //                     'json' => [
-        //                         'body'  =>  $body,
-        //                         'booking_sheet_words'  => $this->booking_sheet_words(),
-        //                         'phone'                => $phone
-        //                     ]
-        //                 ]
-        //             );
+        if($data['data']['event'] == 'messages.upsert'){
+            foreach($data['data']['data']['messages'] as $message):
+                if($message['key']['fromMe'] == false){
+                    $body = $message['message']['conversation'];
+                    $phone = intval($message['key']['remoteJid']);
+                    $client   = new \GuzzleHttp\Client();
+                    $client->request(
+                        'POST',
+                        'https://tasteless-doctor-84.webhook.cool',
+                        [
+                            'json' => [
+                                'body'  =>  $body,
+                                'booking_sheet_words'  => $this->booking_sheet_words(),
+                                'phone'                => $phone
+                            ]
+                        ]
+                    );
 
-        //             send_message(
-        //                 $phone,
-        //                 $this->booking_sheet_words()[0][0],
-        //                 "66FE4B45753B3",
-        //                 "2032449688RtpEd"
-        //             );
-        //         }
-        //     endforeach;
-        // }
-        // return response()->json([
-        //     'body'    => $data
-        // ]);
+                    send_message(
+                        $phone,
+                        $this->booking_sheet_words()[0][0],
+                        "66FE4B45753B3",
+                        "2032449688RtpEd"
+                    );
+                }
+            endforeach;
+        }
+        return response()->json([
+            'body'    => $data
+        ]);
     }
 
 }
