@@ -45,7 +45,6 @@ class BookingSheetController extends Controller
             'user_id' => 1
         ])->first();
 
-        \Log::info('bg');
         if($data['data']['event'] == 'messages.upsert'){
             foreach($data['data']['data']['messages'] as $message):
                 if($message['key']['fromMe'] == false){
@@ -68,7 +67,7 @@ class BookingSheetController extends Controller
                     } elseif(isset($google_sheet->current_question)){
                         $google_sheet->update([
                             'current_question' => $google_sheet->next_question,
-                            'next_question' => $this->booking_sheet_words()[0][2],
+                            'next_question' => $this->booking_sheet_words()[0][key($google_sheet->next_question) + 1],
                         ]);
                     }
 
