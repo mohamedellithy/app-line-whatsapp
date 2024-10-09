@@ -15,7 +15,6 @@ return new class extends Migration
         Schema::create('google_sheet_auto_replay', function (Blueprint $table) {
             $table->id();
             $table->BigInteger('user_id')->unsigned();
-            $table->foreign('user_id')->on('sp_users')->references('id')->onDelete('cascade');
             $table->string('phone');
             $table->string('current_question');
             $table->string('next_question');
