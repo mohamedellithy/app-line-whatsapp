@@ -17,6 +17,8 @@ class GoogleSheetAutoReplay extends Model
         'value'
     ];
 
+    protected $table = 'google_sheet_auto_replay';
+
     public function user(){
         return $this->belongsTo(SpUser::class,'user_id','id');
     }
