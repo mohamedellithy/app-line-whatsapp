@@ -44,12 +44,22 @@ class BookingSheetController extends Controller
         $google_sheet = GoogleSheetAutoReplay::where([
             'user_id' => 1
         ])->first();
+
         \Log::info('bg');
         if($data['data']['event'] == 'messages.upsert'){
             foreach($data['data']['data']['messages'] as $message):
                 if($message['key']['fromMe'] == false){
                     $body = $message['message']['conversation'];
-                    
+                    $phone = intval($message['key']['remoteJid']);
+                    if(!$google_sheet){
+                        $google_sheet = GoogleSheetAutoReplay::create([
+                            'user_id' => 1,
+                            'phone'   => $phone,
+                            'current_question' => null,
+                            'next_question' => null
+                        ]);
+                    }
+
                     if(!isset($google_sheet->current_question)){
                         $google_sheet->update([
                             'current_question' => $this->booking_sheet_words()[0],
@@ -62,7 +72,7 @@ class BookingSheetController extends Controller
                         ]);
                     }
 
-                    $phone = intval($message['key']['remoteJid']);
+                    
                     // $client   = new \GuzzleHttp\Client();
                     // $client->request(
                     //     'POST',
