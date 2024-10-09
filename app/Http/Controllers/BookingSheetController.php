@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 use Google\Client;
 use Google\Service\Drive;
-use Google\Service\Sheets\SpreadSheet;
 use Illuminate\Http\Request;
+use App\Models\GoogleSheetAutoReplay;
+use Google\Service\Sheets\SpreadSheet;
 use Google\Service\Sheets\BatchUpdateSpreadsheetRequest;
 
 class BookingSheetController extends Controller
@@ -40,29 +41,45 @@ class BookingSheetController extends Controller
 
     public function auto_replay(Request $request){
         $data = $request->all();
+        $google_sheet = GoogleSheetAutoReplay::where([
+            'user_id' => 1
+        ])->first();
         \Log::info('bg');
         if($data['data']['event'] == 'messages.upsert'){
             foreach($data['data']['data']['messages'] as $message):
                 if($message['key']['fromMe'] == false){
                     $body = $message['message']['conversation'];
+                    
+                    if(!isset($google_sheet->current_question)){
+                        $google_sheet->update([
+                            'current_question' => $this->booking_sheet_words()[0],
+                            'next_question' => $this->booking_sheet_words()[1],
+                        ]);
+                    } elseif(isset($google_sheet->current_question)){
+                        $google_sheet->update([
+                            'current_question' => $google_sheet->next_question,
+                            'next_question' => $this->booking_sheet_words()[2],
+                        ]);
+                    }
+
                     $phone = intval($message['key']['remoteJid']);
-                    $client   = new \GuzzleHttp\Client();
-                    $client->request(
-                        'POST',
-                        'https://tasteless-doctor-84.webhook.cool',
-                        [
-                            'json' => [
-                                'body'  =>  $body,
-                                'booking_sheet_words'  => $this->booking_sheet_words(),
-                                'phone'                => $phone
-                            ]
-                        ]
-                    );
+                    // $client   = new \GuzzleHttp\Client();
+                    // $client->request(
+                    //     'POST',
+                    //     'https://tasteless-doctor-84.webhook.cool',
+                    //     [
+                    //         'json' => [
+                    //             'body'  =>  $body,
+                    //             'booking_sheet_words'  => $this->booking_sheet_words(),
+                    //             'phone'                => $phone
+                    //         ]
+                    //     ]
+                    // );
 
                     send_message(
                         $phone,
-                        $this->booking_sheet_words()[0][0],
-                        "66FE4B45753B3",
+                        $google_sheet->current_question,
+                        "6706972B65F4A",
                         "2032449688RtpEd"
                     );
                 }
