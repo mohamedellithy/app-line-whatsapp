@@ -35,9 +35,13 @@ class GoogleSheetFilterService {
             ]);
         }
 
+        $this->send_message($google_sheet->current_question);
+    }
+
+    public function send_message($message){
         send_message(
             $this->phone,
-            $google_sheet->current_question,
+            $message,
             "6706972B65F4A",
             "2032449688RtpEd"
         );
