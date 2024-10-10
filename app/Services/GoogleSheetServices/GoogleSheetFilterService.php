@@ -5,10 +5,7 @@ use App\Models\GoogleSheetAutoReplay;
 class GoogleSheetFilterService {
     public $booking_sheet_words = [];
     public $phone = null;
-    public $google_sheet = null;
-    public function __construct(){
-        $this->handle();
-    }
+    public function __construct(){}
     public function handle(){
 
         $google_sheet = GoogleSheetAutoReplay::where([

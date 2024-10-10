@@ -54,6 +54,7 @@ class BookingSheetController extends Controller
                     $googel_sheet = new GoogleSheetFilterService();
                     $googel_sheet->phone = $phone;
                     $googel_sheet->booking_sheet_words = $this->booking_sheet_words();
+                    $googel_sheet->handle();
                     
                     // $client   = new \GuzzleHttp\Client();
                     // $client->request(
