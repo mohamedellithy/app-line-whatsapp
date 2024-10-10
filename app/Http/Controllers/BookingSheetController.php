@@ -68,13 +68,6 @@ class BookingSheetController extends Controller
                     //         ]
                     //     ]
                     // );
-
-                    send_message(
-                        $phone,
-                        $google_sheet->current_question,
-                        "6706972B65F4A",
-                        "2032449688RtpEd"
-                    );
                 }
             endforeach;
         }
