@@ -28,7 +28,7 @@ class GoogleSheetFilterService {
             ]);
         } elseif(isset($google_sheet->current_question)){
             $next_index = $google_sheet->next_question + 1;
-            $check_if_have_question = isset($booking_sheet_words[0][$next_index]) ? $next_index: 'end';
+            $check_if_have_question = isset($this->booking_sheet_words[0][$next_index]) ? $next_index: 'end';
             $google_sheet->update([
                 'current_question' => $this->booking_sheet_words[0][$google_sheet->next_question],
                 'next_question'    => $check_if_have_question,
