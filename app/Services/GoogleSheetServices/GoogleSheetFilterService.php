@@ -97,9 +97,9 @@ class GoogleSheetFilterService {
 
         if($this->google_sheet->current_question == 'موعد الغسيل'){
             $this->appointments();
-            if($this->message == 'تم'){
-                $this->next_question();
-            }
+            // if($this->message == 'تم'){
+            //     $this->next_question();
+            // }
         } else {
             $this->send_message($this->google_sheet->current_question);
         }
@@ -112,6 +112,7 @@ class GoogleSheetFilterService {
             'current_question' => $this->booking_sheet_words[0][$this->google_sheet->next_question],
             'next_question'    => $check_if_have_question,
         ]);
+        \Log::info('b');
     }
 
     public function send_message($message){
