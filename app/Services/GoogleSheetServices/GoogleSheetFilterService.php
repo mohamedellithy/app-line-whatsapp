@@ -17,13 +17,28 @@ class GoogleSheetFilterService {
     }
 
     public function appointments(){
-        $need_message = "choice Number Of Date\n";
+        $need_message = "اختيار  تاريخ الحجز المتوفر لديك \n\n";
+        $need_message = "قم بالرد بكتابة رقم التاريخ المحدد \n\n";
         foreach($this->booking_appointments as $key => $booking_appointment):
             $need_message .= '#'.$key.' => '.$booking_appointment[0]."\n";
         endforeach;
 
         $this->send_message(urlencode($need_message));
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function save_data($name,$value){
         $values_sheet = $this->google_sheet?->value ?: [];
@@ -55,7 +70,9 @@ class GoogleSheetFilterService {
 
         if($this->google_sheet->current_question == 'موعد الغسيل'){
             $this->appointments();
-            //$this->next_question();
+            if($this->message == 'تم'){
+                $this->next_question();
+            }
         } else {
             $this->send_message($this->google_sheet->current_question);
         }
