@@ -21,12 +21,12 @@ class GoogleSheetFilterService {
             $this->google_sheet->update([
                 'next_appointment'    => 'date',
             ]);
-        } elseif(isset($this->google_sheet->next_appointment)){
+        } elseif($this->google_sheet->next_appointment == 'date'){
             $this->google_sheet->update([
                 'next_appointment'    => 'day'
             ]);
         }
-        elseif(isset($this->google_sheet->next_appointment)){
+        elseif($this->google_sheet->next_appointment == 'day'){
             $this->google_sheet->update([
                 'next_appointment'    => 'times'
             ]);
