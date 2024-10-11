@@ -48,13 +48,13 @@ class GoogleSheetFilterService {
                 'next_question'    => 1,
             ]);
         } elseif(isset($this->google_sheet->current_question)){
-            if($this->google_sheet->next_question != 'موعد الغسيل'){
+            if($this->booking_sheet_words[$this->google_sheet->next_question] != 'موعد الغسيل'){
                 $this->next_question();
             }
         }
 
         $this->send_message($this->google_sheet->current_question);
-        if($this->google_sheet->next_question == 'موعد الغسيل'){
+        if($this->booking_sheet_words[$this->google_sheet->next_question] == 'موعد الغسيل'){
             $this->appointments();
         }
     }
