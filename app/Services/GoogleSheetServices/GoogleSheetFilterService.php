@@ -26,6 +26,11 @@ class GoogleSheetFilterService {
                 'next_appointment'    => 'day'
             ]);
         }
+        elseif(isset($this->google_sheet->next_appointment)){
+            $this->google_sheet->update([
+                'next_appointment'    => 'times'
+            ]);
+        }
 
         $need_message = null;
         if($this->google_sheet->next_appointment == 'date'){
@@ -37,9 +42,21 @@ class GoogleSheetFilterService {
         } elseif($this->google_sheet->next_appointment == 'day'){
             $need_message = "اختيار يوم الحجز المتوفر لديك \n\n";
             $need_message = "قم بالرد بكتابة رقم اليوم المحدد \n\n";
-            foreach($this->booking_appointments as $key => $booking_appointment):
-                if($booking_appointment[0] == $this->booking_appointments[$this->message][0]){
-                    $need_message .= '#'.$key.' => '.$booking_appointment[1]."\n";
+            foreach($this->booking_appointments as $key => $booking_day):
+                if($booking_day[0] == $this->booking_appointments[$this->message][0]){
+                    $need_message .= '#'.$key.' => '.$booking_day[1]."\n";
+                }
+            endforeach;
+        } elseif($this->google_sheet->next_appointment == 'times'){
+            $need_message = "اختيار الوقت المتوفر لديك \n\n";
+            $need_message = "قم بالرد بكتابة رقم الوقت المحدد \n\n";
+            foreach($this->booking_appointments as $key => $booking_times):
+                if($booking_times[0] == $this->booking_appointments[$this->message][0]){
+                    foreach($booking_times as $index => $item){
+                        if(!in_array($index,[0,1])){
+                            $need_message .= '#'.$key.' => '.$item."\n";
+                        }
+                    }
                 }
             endforeach;
         }
