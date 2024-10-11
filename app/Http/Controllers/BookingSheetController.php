@@ -5,6 +5,7 @@ use Google\Client;
 use Google\Service\Drive;
 use Illuminate\Http\Request;
 use App\Models\GoogleSheetAutoReplay;
+use Illuminate\Support\Facades\Cache;
 use Google\Service\Sheets\SpreadSheet;
 use Google\Service\Sheets\BatchUpdateSpreadsheetRequest;
 use App\Services\GoogleSheetServices\GoogleSheetFilterService;
@@ -12,31 +13,36 @@ use App\Services\GoogleSheetServices\GoogleSheetFilterService;
 class BookingSheetController extends Controller
 {
     public function get_appointments(){
-        $client = new \Google\Client();
-        $client->setDeveloperKey("AIzaSyAtm5AUR8D0_Zvq5O0eF7WgkMXojeMnYgQ");
-        $client->addScope(\Google\Service\Drive::DRIVE);
-        $service      = new \Google\Service\Sheets($client);
-        $ColumnsA     = $service->spreadsheets_values->get("1xnQe0vsH1fKAliiAWJxPou-7NPu26yMTeMxi7Sq1x3Y","pg1!A:A");
-        $ColumnsCount = count($ColumnsA->getValues());
-        $result       = [];
-        for($i = 2;$i <= $ColumnsCount;$i++){
-            $ColumnItem = $service->spreadsheets_values->get("1xnQe0vsH1fKAliiAWJxPou-7NPu26yMTeMxi7Sq1x3Y","pg1!".$i.":".$i);
-            $result[]   = $ColumnItem->getValues()[0];
-        }
+        $appointments = Cache::remember('appointments',60, function () {
+            $client = new \Google\Client();
+            $client->setDeveloperKey("AIzaSyAtm5AUR8D0_Zvq5O0eF7WgkMXojeMnYgQ");
+            $client->addScope(\Google\Service\Drive::DRIVE);
+            $service      = new \Google\Service\Sheets($client);
+            $ColumnsA     = $service->spreadsheets_values->get("1xnQe0vsH1fKAliiAWJxPou-7NPu26yMTeMxi7Sq1x3Y","pg1!A:A");
+            $ColumnsCount = count($ColumnsA->getValues());
+            $result       = [];
+            for($i = 2;$i <= $ColumnsCount;$i++){
+                $ColumnItem = $service->spreadsheets_values->get("1xnQe0vsH1fKAliiAWJxPou-7NPu26yMTeMxi7Sq1x3Y","pg1!".$i.":".$i);
+                $result[]   = $ColumnItem->getValues()[0];
+            }
 
-        return response()->json([
-            'body'    => $result
-        ]);
+            return $result;
+        });
+
+        return $appointments;
     }
 
     public function booking_sheet_words(){
-        $client = new \Google\Client();
-        $client->setDeveloperKey("AIzaSyAtm5AUR8D0_Zvq5O0eF7WgkMXojeMnYgQ");
-        $client->addScope(\Google\Service\Drive::DRIVE);
-        $service      = new \Google\Service\Sheets($client);
-        $ColumnsA     = $service->spreadsheets_values->get("13Jlz0AcBG3DtJcfbFjxmZ9VyXAVw2ekblJRMIi89pIk","pg1!1:1");
+        $booking_sheet_words = Cache::remember('sheet_words',60, function () {
+            $client = new \Google\Client();
+            $client->setDeveloperKey("AIzaSyAtm5AUR8D0_Zvq5O0eF7WgkMXojeMnYgQ");
+            $client->addScope(\Google\Service\Drive::DRIVE);
+            $service      = new \Google\Service\Sheets($client);
+            $ColumnsA     = $service->spreadsheets_values->get("13Jlz0AcBG3DtJcfbFjxmZ9VyXAVw2ekblJRMIi89pIk","pg1!1:1");
+            return $ColumnsA->getValues();
+        });
 
-       return $ColumnsA->getValues();
+        return $booking_sheet_words;
     }
 
 
