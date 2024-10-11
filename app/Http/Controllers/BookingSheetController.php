@@ -13,7 +13,7 @@ use App\Services\GoogleSheetServices\GoogleSheetFilterService;
 class BookingSheetController extends Controller
 {
     public function get_appointments(){
-        $appointments = Cache::remember('appointments',60, function () {
+        $appointments = Cache::remember('appointments',180, function () {
             $client = new \Google\Client();
             $client->setDeveloperKey("AIzaSyAtm5AUR8D0_Zvq5O0eF7WgkMXojeMnYgQ");
             $client->addScope(\Google\Service\Drive::DRIVE);
@@ -33,7 +33,7 @@ class BookingSheetController extends Controller
     }
 
     public function booking_sheet_words(){
-        $booking_sheet_words = Cache::remember('sheet_words',60, function () {
+        $booking_sheet_words = Cache::remember('sheet_words',180, function () {
             $client = new \Google\Client();
             $client->setDeveloperKey("AIzaSyAtm5AUR8D0_Zvq5O0eF7WgkMXojeMnYgQ");
             $client->addScope(\Google\Service\Drive::DRIVE);
