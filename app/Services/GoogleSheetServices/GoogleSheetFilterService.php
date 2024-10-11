@@ -30,6 +30,8 @@ class GoogleSheetFilterService {
             $this->google_sheet->update([
                 'next_appointment'    => 'times'
             ]);
+
+            $this->next_question();
         }
 
         $need_message = null;
