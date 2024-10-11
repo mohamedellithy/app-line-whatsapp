@@ -53,9 +53,11 @@ class GoogleSheetFilterService {
             }
         }
 
-        $this->send_message($this->google_sheet->current_question);
         if($this->booking_sheet_words[0][$this->google_sheet->next_question] == 'موعد الغسيل'){
             $this->appointments();
+            $this->next_question();
+        } else {
+            $this->send_message($this->google_sheet->current_question);
         }
     }
     
