@@ -48,17 +48,13 @@ class BookingSheetController extends Controller
 
     public function auto_replay(Request $request){
         $data = $request->all();
-        $google_sheet = GoogleSheetAutoReplay::where([
-            'user_id' => 1
-        ])->first();
-
         if($data['data']['event'] == 'messages.upsert'){
             foreach($data['data']['data']['messages'] as $message):
                 if($message['key']['fromMe'] == false){
                     $body = isset($message['message']['conversation']) ? $message['message']['conversation'] : $message['message']['extendedTextMessage']['text'];
                     $phone = intval($message['key']['remoteJid']);
                     $googel_sheet = new GoogleSheetFilterService();
-                    $googel_sheet->phone = $phone;
+                    $googel_sheet->phone   = $phone;
                     $googel_sheet->message = $body;
                     $googel_sheet->booking_sheet_words  = $this->booking_sheet_words();
                     $googel_sheet->booking_appointments = $this->get_appointments();

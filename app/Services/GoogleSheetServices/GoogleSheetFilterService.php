@@ -18,9 +18,9 @@ class GoogleSheetFilterService {
 
     public function appointments(){
         $need_message = "choice Number Of Date \n";
-        // foreach($this->booking_appointments as $key => $booking_appointment):
-        //     $need_message .= '#'.$key.' => '.$booking_appointment[0]."\n";
-        // endforeach;
+        foreach($this->booking_appointments as $key => $booking_appointment):
+            $need_message .= '#'.$key.' => '.$booking_appointment[0]."\n";
+        endforeach;
 
         $this->send_message($need_message);
     }
