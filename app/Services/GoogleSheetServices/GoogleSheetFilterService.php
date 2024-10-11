@@ -17,7 +17,7 @@ class GoogleSheetFilterService {
     }
 
     public function appointments(){
-        if(isset($this->google_sheet->next_appointment)){
+        if(!isset($this->google_sheet->next_appointment)){
             $this->google_sheet->update([
                 'next_appointment'    => 'date',
             ]);
