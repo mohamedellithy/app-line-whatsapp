@@ -7,7 +7,6 @@ class GoogleSheetFilterService {
     public $phone = null;
     public function __construct(){}
     public function handle(){
-
         $google_sheet = GoogleSheetAutoReplay::where([
             'user_id' => 1
         ])->first();

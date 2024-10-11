@@ -49,25 +49,26 @@ class BookingSheetController extends Controller
         if($data['data']['event'] == 'messages.upsert'){
             foreach($data['data']['data']['messages'] as $message):
                 if($message['key']['fromMe'] == false){
-                    //$body = $message['message']['conversation'];
+                    $body = $message['message']['conversation'];
                     $phone = intval($message['key']['remoteJid']);
-                    $googel_sheet = new GoogleSheetFilterService();
-                    $googel_sheet->phone = $phone;
-                    $googel_sheet->booking_sheet_words = $this->booking_sheet_words();
-                    $googel_sheet->handle();
+                    // $googel_sheet = new GoogleSheetFilterService();
+                    // $googel_sheet->phone = $phone;
+                    // $googel_sheet->booking_sheet_words = $this->booking_sheet_words();
+                    // $googel_sheet->handle();
                     
-                    // $client   = new \GuzzleHttp\Client();
-                    // $client->request(
-                    //     'POST',
-                    //     'https://tasteless-doctor-84.webhook.cool',
-                    //     [
-                    //         'json' => [
-                    //             'body'  =>  $body,
-                    //             'booking_sheet_words'  => $this->booking_sheet_words(),
-                    //             'phone'                => $phone
-                    //         ]
-                    //     ]
-                    // );
+                    $client   = new \GuzzleHttp\Client();
+                    $client->request(
+                        'POST',
+                        'https://tasteless-doctor-84.webhook.cool',
+                        [
+                            'json' => [
+                                'body'  =>  $body,
+                                'get_appointments'     => $this->get_appointments(),
+                                'booking_sheet_words'  => $this->booking_sheet_words(),
+                                'phone'                => $phone
+                            ]
+                        ]
+                    );
                 }
             endforeach;
         }
