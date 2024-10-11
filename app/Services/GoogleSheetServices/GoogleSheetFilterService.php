@@ -90,16 +90,13 @@ class GoogleSheetFilterService {
                 'next_question'    => 1,
             ]);
         } elseif(isset($this->google_sheet->current_question)){
-            if($this->google_sheet->current_question != 'موعد الغسيل'){
+            if(($this->google_sheet->current_question != 'موعد الغسيل') || ($this->google_sheet->next_appointment == 'times')){
                 $this->next_question();
             }
         }
 
-        if($this->google_sheet->current_question == 'موعد الغسيل'){
+        if(($this->google_sheet->current_question == 'موعد الغسيل') && ($this->google_sheet->next_appointment != 'times')){
             $this->appointments();
-            // if($this->message == 'تم'){
-            //     $this->next_question();
-            // }
         } else {
             $this->send_message($this->google_sheet->current_question);
         }
