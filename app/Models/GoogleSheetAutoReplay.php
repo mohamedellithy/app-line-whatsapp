@@ -14,6 +14,7 @@ class GoogleSheetAutoReplay extends Model
         'phone',
         'current_question',
         'next_question',
+        'next_appointment',
         'value'
     ];
 

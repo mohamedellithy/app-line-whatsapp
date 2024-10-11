@@ -16,9 +16,10 @@ return new class extends Migration
             $table->id();
             $table->BigInteger('user_id')->unsigned();
             $table->string('phone');
-            $table->string('current_question');
-            $table->string('next_question');
-            $table->longText('value');
+            $table->string('current_question')->nullable();
+            $table->string('next_appointment')->nullable();
+            $table->string('next_question')->nullable();
+            $table->longText('value')->nullable();
             $table->timestamps();
         });
     }

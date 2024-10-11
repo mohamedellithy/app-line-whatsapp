@@ -17,27 +17,35 @@ class GoogleSheetFilterService {
     }
 
     public function appointments(){
-        $need_message = "اختيار  تاريخ الحجز المتوفر لديك \n\n";
-        $need_message = "قم بالرد بكتابة رقم التاريخ المحدد \n\n";
-        foreach($this->booking_appointments as $key => $booking_appointment):
-            $need_message .= '#'.$key.' => '.$booking_appointment[0]."\n";
-        endforeach;
+        if(isset($this->google_sheet->next_appointment)){
+            $this->google_sheet->update([
+                'next_appointment'    => 'date',
+            ]);
+        } elseif(isset($this->google_sheet->next_appointment)){
+            $this->google_sheet->update([
+                'next_appointment'    => 'day'
+            ]);
+        }
+
+        $need_message = null;
+        if($this->google_sheet->next_appointment == 'date'){
+            $need_message = "اختيار  تاريخ الحجز المتوفر لديك \n\n";
+            $need_message = "قم بالرد بكتابة رقم التاريخ المحدد \n\n";
+            foreach($this->booking_appointments as $key => $booking_appointment):
+                $need_message .= '#'.$key.' => '.$booking_appointment[0]."\n";
+            endforeach;
+        } elseif($this->google_sheet->next_appointment == 'day'){
+            $need_message = "اختيار يوم الحجز المتوفر لديك \n\n";
+            $need_message = "قم بالرد بكتابة رقم اليوم المحدد \n\n";
+            foreach($this->booking_appointments as $key => $booking_appointment):
+                if($booking_appointment[0] == $this->booking_appointments[$this->message][0]){
+                    $need_message .= '#'.$key.' => '.$booking_appointment[1]."\n";
+                }
+            endforeach;
+        }
 
         $this->send_message(urlencode($need_message));
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public function save_data($name,$value){
