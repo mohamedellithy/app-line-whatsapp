@@ -56,7 +56,7 @@ class GoogleSheetFilterService {
                 if($booking_times[0] == $this->booking_appointments[$this->message][0]){
                     foreach($booking_times as $index => $item){
                         if(!in_array($index,[0,1])){
-                            $need_message .= '#'.$key.' => '.$item."\n";
+                            $need_message .= '#'.$index.' => '.$item."\n";
                         }
                     }
                 }
