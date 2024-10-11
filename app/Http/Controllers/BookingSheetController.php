@@ -53,26 +53,26 @@ class BookingSheetController extends Controller
                 if($message['key']['fromMe'] == false){
                     $body = isset($message['message']['conversation']) ? $message['message']['conversation'] : $message['message']['extendedTextMessage']['text'];
                     $phone = intval($message['key']['remoteJid']);
-                    $googel_sheet = new GoogleSheetFilterService();
-                    $googel_sheet->phone   = $phone;
-                    $googel_sheet->message = $body;
-                    $googel_sheet->booking_sheet_words  = $this->booking_sheet_words();
-                    $googel_sheet->booking_appointments = $this->get_appointments();
-                    $googel_sheet->handle();
+                    // $googel_sheet = new GoogleSheetFilterService();
+                    // $googel_sheet->phone   = $phone;
+                    // $googel_sheet->message = $body;
+                    // $googel_sheet->booking_sheet_words  = $this->booking_sheet_words();
+                    // $googel_sheet->booking_appointments = $this->get_appointments();
+                    // $googel_sheet->handle();
                     
-                    // $client   = new \GuzzleHttp\Client();
-                    // $client->request(
-                    //     'POST',
-                    //     'https://tasteless-doctor-84.webhook.cool',
-                    //     [
-                    //         'json' => [
-                    //             'body'  =>  $body,
-                    //             'get_appointments'     => $this->get_appointments(),
-                    //             'booking_sheet_words'  => $this->booking_sheet_words(),
-                    //             'phone'                => $phone
-                    //         ]
-                    //     ]
-                    // );
+                    $client   = new \GuzzleHttp\Client();
+                    $client->request(
+                        'POST',
+                        'https://tasteless-doctor-84.webhook.cool',
+                        [
+                            'json' => [
+                                'body'  =>  $body,
+                                'get_appointments'     => $this->get_appointments(),
+                                'booking_sheet_words'  => $this->booking_sheet_words(),
+                                'phone'                => $phone
+                            ]
+                        ]
+                    );
                 }
             endforeach;
         }
