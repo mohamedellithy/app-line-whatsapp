@@ -17,7 +17,7 @@ class GoogleSheetOperation {
     }
 
     public function get_appointments(){
-        $appointments = Cache::remember('appointments',180, function () {
+        $appointments = Cache::remember('appointments',180, function (){
             $service      = new \Google\Service\Sheets($this->client);
             $ColumnsA     = $service->spreadsheets_values->get("1xnQe0vsH1fKAliiAWJxPou-7NPu26yMTeMxi7Sq1x3Y","pg1!A:A");
             $ColumnsCount = count($ColumnsA->getValues());
@@ -45,8 +45,6 @@ class GoogleSheetOperation {
 
     public function insert_new_row($values_sheet){
         $service      = new \Google\Service\Sheets($this->client);
-        // Get the current values to determine the next available row
-        // Get the current values to determine the next available row
         $response = $service->spreadsheets_values->get("13Jlz0AcBG3DtJcfbFjxmZ9VyXAVw2ekblJRMIi89pIk",'pg1');
         $values = $response->getValues() ?: [];
         $nextRow = count($values) + 1;
