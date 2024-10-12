@@ -77,4 +77,32 @@ class GoogleSheetOperation {
             ]
         );
     }
+
+    public function delete_selected_row($booking_id){
+        $service      = new \Google\Service\Sheets($this->client);
+        $response     = $service->spreadsheets_values->get("1W3dXAZVtTs-QsQznhvGp_Ls748V8fGRBHEWI1s8mPCA",'Sheet1');
+        $values       = $response->getValues();
+
+        $ColumnsCount = count($values);
+        for($i = 2;$i <= $ColumnsCount;$i++){
+            $ColumnItem = $service->spreadsheets_values->get("1xnQe0vsH1fKAliiAWJxPou-7NPu26yMTeMxi7Sq1x3Y","Sheet1!".$i.":".$i);
+            if($ColumnItem->getValues()[0][0] == $booking_id){
+                $range = "Sheet1!A$$booking_id:F$$booking_id"; // the range to clear, the 23th and 24th lines
+                $clear = new \Google\Service\Sheets\ClearValuesRequest();
+                $service->spreadsheets_values->clear("1W3dXAZVtTs-QsQznhvGp_Ls748V8fGRBHEWI1s8mPCA", $range, $clear);
+            }
+        }
+
+
+        // $client   = new \GuzzleHttp\Client();
+        // $client->request(
+        //     'POST',
+        //     'https://tasteless-doctor-84.webhook.cool',
+        //     [
+        //         'json' => [
+        //             'body'  =>  $values_sheet
+        //         ]
+        //     ]
+        // );
+    }
 }

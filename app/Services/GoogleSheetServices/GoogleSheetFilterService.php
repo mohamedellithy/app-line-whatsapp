@@ -157,6 +157,7 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
     public function reset_booking_info(){
         if($this->message == 'اعادة الحجز'){
             if($this->google_sheet){
+                $this->delete_selected_row($this->google_sheet?->id);
                 $this->google_sheet->delete();
                 $this->google_sheet = null;
             }
