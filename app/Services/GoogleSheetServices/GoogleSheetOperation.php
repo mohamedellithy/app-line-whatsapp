@@ -84,19 +84,19 @@ class GoogleSheetOperation {
         $values       = $response->getValues();
 
         $ColumnsCount = count($values);
-        for($i = 2;$i <= $ColumnsCount;$i++){
+        for($i = 1;$i <= $ColumnsCount;$i++){
             $client   = new \GuzzleHttp\Client();
             $client->request(
                 'POST',
                 'https://tasteless-doctor-84.webhook.cool',
                 [
                     'json' => [
-                        'body'  => $values[$i-2][0] . ' >>>>>>>>' .$booking_id
+                        'body'  => $values[$i-1][0] . ' >>>>>>>>' .$booking_id
                     ]
                 ]
             );
-            if($values[$i-2][0] == $booking_id){
-                $range = "Sheet1!A$booking_id:F$booking_id"; // the range to clear, the 23th and 24th lines
+            if($values[$i-1][0] == $booking_id){
+                $range = "Sheet1!A$i:F$i"; // the range to clear, the 23th and 24th lines
                 $clear = new \Google\Service\Sheets\ClearValuesRequest();
                 $service->spreadsheets_values->clear("1W3dXAZVtTs-QsQznhvGp_Ls748V8fGRBHEWI1s8mPCA", $range, $clear);
             }
