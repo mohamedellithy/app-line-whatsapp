@@ -85,10 +85,12 @@ class GoogleSheetOperation {
 
         $ColumnsCount = count($values);
         for($i = 1;$i <= $ColumnsCount;$i++){
-            if($values[$i-1][0] == $booking_id){
-                $range = "Sheet1!A$i:Z$i"; // the range to clear, the 23th and 24th lines
-                $clear = new \Google\Service\Sheets\ClearValuesRequest();
-                $service->spreadsheets_values->clear("1W3dXAZVtTs-QsQznhvGp_Ls748V8fGRBHEWI1s8mPCA", $range, $clear);
+            if(isset($values[$i-1][0])){
+                if($values[$i-1][0] == $booking_id){
+                    $range = "Sheet1!A$i:Z$i"; // the range to clear, the 23th and 24th lines
+                    $clear = new \Google\Service\Sheets\ClearValuesRequest();
+                    $service->spreadsheets_values->clear("1W3dXAZVtTs-QsQznhvGp_Ls748V8fGRBHEWI1s8mPCA", $range, $clear);
+                }
             }
         }
     }
