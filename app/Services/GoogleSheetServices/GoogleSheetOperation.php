@@ -65,15 +65,15 @@ class GoogleSheetOperation {
         ]);
         $options = ['valueInputOption' => 'USER_ENTERED'];
         $response = $service->spreadsheets_values->append('13Jlz0AcBG3DtJcfbFjxmZ9VyXAVw2ekblJRMIi89pIk',"pg1!A$nextRow:F$nextRow",$values_rows,$options);
-        // $client   = new \GuzzleHttp\Client();
-        // $client->request(
-        //     'POST',
-        //     'https://tasteless-doctor-84.webhook.cool',
-        //     [
-        //         'json' => [
-        //             'body'  =>  $response
-        //         ]
-        //     ]
-        // );
+        $client   = new \GuzzleHttp\Client();
+        $client->request(
+            'POST',
+            'https://tasteless-doctor-84.webhook.cool',
+            [
+                'json' => [
+                    'body'  =>  $values_sheet
+                ]
+            ]
+        );
     }
 }

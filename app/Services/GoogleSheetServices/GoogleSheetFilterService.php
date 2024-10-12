@@ -90,13 +90,13 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
         $this->send_message(urlencode($need_message));
     }
 
-
     public function save_data($name,$value){
         $this->values_sheet[$name] = trim($value);
         $this->google_sheet->update([
             'value' => $this->values_sheet
         ]);
     }
+
     public function handle(){
         if(!$this->google_sheet){
             $this->google_sheet = GoogleSheetAutoReplay::create([
