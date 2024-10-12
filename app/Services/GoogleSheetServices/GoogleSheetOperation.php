@@ -95,7 +95,7 @@ class GoogleSheetOperation {
                     new \Google\Service\Sheets\UpdateCellsRequest([
                         'range' => $range,
                         'rows' => $values,
-                        'fields' => 'userEnteredValue',
+                        'fields' => 'USER_ENTERED',
                     ])
                 ]);
 
