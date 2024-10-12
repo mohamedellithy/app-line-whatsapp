@@ -70,7 +70,7 @@ class GoogleSheetFilterService {
 
 
     public function save_data($name,$value){
-        $values_sheet = $this->google_sheet?->value ?: [];
+        $values_sheet = $this->google_sheet?->value ? json_decode($this->google_sheet?->value,true): [];
         $values_sheet[$name] = $value;
         $this->google_sheet->update([
             'value' => $values_sheet
