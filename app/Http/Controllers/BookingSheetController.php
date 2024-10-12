@@ -23,6 +23,8 @@ class BookingSheetController extends Controller
                     $googel_sheet = new GoogleSheetFilterService();
                     $googel_sheet->phone   = $phone;
                     $googel_sheet->message = $body;
+                    // incase bookings info reset
+                    $googel_sheet->reset_booking_info();
                     $googel_sheet->handle();
                     
                     // $client   = new \GuzzleHttp\Client();

@@ -19,9 +19,6 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
             'user_id' => 1
         ])->first();
 
-        // incase bookings info reset
-        $this->reset_booking_info();
-
         $this->booking_sheet_words  = $this->booking_sheet_words();
         $this->booking_appointments = $this->get_appointments();
 
