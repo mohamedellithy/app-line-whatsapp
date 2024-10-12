@@ -123,6 +123,8 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
                 $this->google_sheet->update([
                     'current_question' => 'end'
                 ]);
+
+                $this->send_message("رقم الحجز الخاص بك ". $this->google_sheet);
             }
             return;
         }
