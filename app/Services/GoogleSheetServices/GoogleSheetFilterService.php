@@ -71,7 +71,7 @@ class GoogleSheetFilterService {
 
     public function save_data($name,$value){
         $values_sheet = $this->google_sheet?->value ?: [];
-        $values_sheet[$name] = utf8_decode($value);
+        $values_sheet[$name] = $value;
         $this->google_sheet->update([
             'value' => $values_sheet
         ]);
