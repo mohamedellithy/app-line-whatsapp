@@ -19,11 +19,11 @@ class GoogleSheetOperation {
     public function get_appointments(){
         $appointments = Cache::remember('appointments',180, function (){
             $service      = new \Google\Service\Sheets($this->client);
-            $ColumnsA     = $service->spreadsheets_values->get("1xnQe0vsH1fKAliiAWJxPou-7NPu26yMTeMxi7Sq1x3Y","pg1!A:A");
+            $ColumnsA     = $service->spreadsheets_values->get("1xnQe0vsH1fKAliiAWJxPou-7NPu26yMTeMxi7Sq1x3Y","Sheet1!A:A");
             $ColumnsCount = count($ColumnsA->getValues());
             $result       = [];
             for($i = 2;$i <= $ColumnsCount;$i++){
-                $ColumnItem = $service->spreadsheets_values->get("1xnQe0vsH1fKAliiAWJxPou-7NPu26yMTeMxi7Sq1x3Y","pg1!".$i.":".$i);
+                $ColumnItem = $service->spreadsheets_values->get("1xnQe0vsH1fKAliiAWJxPou-7NPu26yMTeMxi7Sq1x3Y","Sheet1!".$i.":".$i);
                 $result[]   = $ColumnItem->getValues()[0];
             }
 
@@ -36,7 +36,7 @@ class GoogleSheetOperation {
     public function booking_sheet_words(){
         $booking_sheet_words = Cache::remember('sheet_words',180, function () {
             $service      = new \Google\Service\Sheets($this->client);
-            $ColumnsA     = $service->spreadsheets_values->get("13Jlz0AcBG3DtJcfbFjxmZ9VyXAVw2ekblJRMIi89pIk","pg1!1:1");
+            $ColumnsA     = $service->spreadsheets_values->get("13Jlz0AcBG3DtJcfbFjxmZ9VyXAVw2ekblJRMIi89pIk","Sheet1!1:1");
             return $ColumnsA->getValues();
         });
 
@@ -45,7 +45,7 @@ class GoogleSheetOperation {
 
     public function insert_new_row($values_sheet){
         $service      = new \Google\Service\Sheets($this->client);
-        $response = $service->spreadsheets_values->get("13Jlz0AcBG3DtJcfbFjxmZ9VyXAVw2ekblJRMIi89pIk",'pg1');
+        $response = $service->spreadsheets_values->get("1W3dXAZVtTs-QsQznhvGp_Ls748V8fGRBHEWI1s8mPCA",'Sheet1');
         $values = $response->getValues() ?: [];
         $nextRow = count($values) + 1;
         // Create the row data
@@ -64,7 +64,7 @@ class GoogleSheetOperation {
             'values' => $rowData,
         ]);
         $options = ['valueInputOption' => 'USER_ENTERED'];
-        $response = $service->spreadsheets_values->append('13Jlz0AcBG3DtJcfbFjxmZ9VyXAVw2ekblJRMIi89pIk',"pg1!A$nextRow:F$nextRow",$values_rows,$options);
+        $response = $service->spreadsheets_values->append('1W3dXAZVtTs-QsQznhvGp_Ls748V8fGRBHEWI1s8mPCA',"Sheet1!A$nextRow:F$nextRow",$values_rows,$options);
         $client   = new \GuzzleHttp\Client();
         $client->request(
             'POST',
