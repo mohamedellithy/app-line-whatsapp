@@ -48,7 +48,7 @@ class GoogleSheetOperation {
         // Get the current values to determine the next available row
         // Get the current values to determine the next available row
         $response = $service->spreadsheets_values->get("13Jlz0AcBG3DtJcfbFjxmZ9VyXAVw2ekblJRMIi89pIk",'pg1');
-        $values = $response->getValues();
+        $values = $response->getValues() ?: [];
         $nextRow = count($values) + 1;
         // Create the row data
         $rowData = [
