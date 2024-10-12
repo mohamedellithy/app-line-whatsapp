@@ -99,7 +99,7 @@ class GoogleSheetOperation {
             'https://tasteless-doctor-84.webhook.cool',
             [
                 'json' => [
-                    'body'  => $values
+                    'body'  => $values[0][0]
                 ]
             ]
         );
