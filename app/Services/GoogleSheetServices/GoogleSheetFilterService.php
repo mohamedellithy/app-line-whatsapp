@@ -107,6 +107,15 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
             ]);
         }
 
+        if($this->google_sheet->next_question == 'end') return;
+        if($this->google_sheet->next_question == 'store'){
+            $this->insert_new_row($this->values_sheet);
+            $this->google_sheet->update([
+               'next_question'    => 'end',
+            ]);
+        }
+        
+
         if(isset($this->google_sheet->current_question)){
             if($this->google_sheet->current_question != 'موعد الغسيل'){
                 $this->save_data($this->google_sheet->current_question,$this->message);
@@ -128,13 +137,6 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
             $this->appointments();
         } else {
             $this->send_message($this->google_sheet->current_question);
-        }
-
-        if($this->google_sheet->next_question == 'store'){
-            $this->insert_new_row($this->values_sheet);
-            $this->google_sheet->update([
-               'next_question'    => 'end',
-            ]);
         }
     }
     
