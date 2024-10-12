@@ -43,7 +43,7 @@ class GoogleSheetOperation {
         return $booking_sheet_words;
     }
 
-    public function insert_new_row(){
+    public function insert_new_row($values_sheet){
         $service      = new \Google\Service\Sheets($this->client);
         // Get the current values to determine the next available row
         // Get the current values to determine the next available row
@@ -52,7 +52,14 @@ class GoogleSheetOperation {
         $nextRow = count($values) + 1;
         // Create the row data
         $rowData = [
-            ['Value1', 'Value2', 'Value3', 'Value4', 'Value5', 'Value6','Value5', 'Value6'], // Values for each column in the row
+            [
+                $values_sheet['اسم العميل'],
+                $values_sheet['رقم الطلب'],
+                $values_sheet['لوحة السيارة'],
+                $values_sheet['اللوكيشن'],
+                $values_sheet['date'] .' - ' .$values_sheet['day'] .$values_sheet['times'],
+                $values_sheet['رقم السيارة']
+            ], // Values for each column in the row
         ];
         // Prepare the request to insert the row
         $values_rows = new \Google\Service\Sheets\ValueRange([

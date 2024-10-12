@@ -14,15 +14,15 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
 
     public $google_sheet;
     public function __construct(){
-        // $this->google_sheet = GoogleSheetAutoReplay::where([
-        //     'user_id' => 1
-        // ])->first();
-
-        // $this->booking_sheet_words  = $this->booking_sheet_words();
-        // $this->booking_appointments = $this->get_appointments();
-
-        // $this->values_sheet = $this->google_sheet?->value ? json_decode($this->google_sheet?->value,true): [];
         parent::__construct();
+        $this->google_sheet = GoogleSheetAutoReplay::where([
+            'user_id' => 1
+        ])->first();
+
+        $this->booking_sheet_words  = $this->booking_sheet_words();
+        $this->booking_appointments = $this->get_appointments();
+
+        $this->values_sheet = $this->google_sheet?->value ? json_decode($this->google_sheet?->value,true): [];
         $this->insert_new_row();
     }
 
