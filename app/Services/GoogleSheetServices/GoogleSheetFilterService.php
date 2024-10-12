@@ -19,6 +19,9 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
             'user_id' => 1
         ])->first();
 
+        // incase bookings info reset
+        $this->reset_booking_info();
+
         $this->booking_sheet_words  = $this->booking_sheet_words();
         $this->booking_appointments = $this->get_appointments();
 
@@ -148,6 +151,14 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
             'current_question' => $this->booking_sheet_words[0][$this->google_sheet->next_question],
             'next_question'    => $check_if_have_question,
         ]);
+    }
+
+    public function reset_booking_info(){
+        if($this->message == 'اعادة الحجز'){
+            if($this->google_sheet){
+                $this->google_sheet->delete();
+            }
+        }
     }
 
     public function send_message($message){
