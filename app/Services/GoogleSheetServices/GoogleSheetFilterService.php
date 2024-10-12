@@ -49,7 +49,7 @@ class GoogleSheetFilterService {
             ]);
 
             // reback to all section
-            $this->appointments();
+            $this->next_question();
             $this->send_message($this->google_sheet->current_question);
         }
 
