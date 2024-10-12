@@ -50,7 +50,7 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
                 }
             endforeach;
             $this->google_sheet->update([
-                'next_appointment'    => 'end'
+                'next_appointment'    => 'store'
             ]);
 
             // reback to all section
