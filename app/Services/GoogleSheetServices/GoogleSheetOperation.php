@@ -41,7 +41,7 @@ class GoogleSheetOperation {
         $client->setDeveloperKey("AIzaSyAtm5AUR8D0_Zvq5O0eF7WgkMXojeMnYgQ");
         $client->setApplicationName('Google Sheets API');
         $client->setScopes([\Google\Service\Sheets::SPREADSHEETS]);
-        $client->setAccessType('offline');
+        $client->setAccessType('online');
         // credentials.json is the key file we downloaded while setting up our Google Sheets API
         $path = 'whats-line-438413-1fd6b70cfd16.json';
         $client->setAuthConfig(app()->basePath('public/'.$path));
