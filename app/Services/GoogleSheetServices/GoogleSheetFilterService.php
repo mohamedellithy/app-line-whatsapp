@@ -17,6 +17,10 @@ class GoogleSheetFilterService {
     }
 
     public function appointments(){
+        if(isset($this->google_sheet->next_appointment)){
+            $this->save_data($this->google_sheet->next_appointment,$this->message);
+        }
+
         if(!isset($this->google_sheet->next_appointment)){
             $this->google_sheet->update([
                 'next_appointment'    => 'date',
@@ -83,6 +87,12 @@ class GoogleSheetFilterService {
         }
 
         if(!isset($this->google_sheet->current_question)){
+            if($this->google_sheet->current_question != 'موعد الغسيل'){
+                $this->save_data($this->google_sheet->current_question,$this->message);
+            }
+        }
+
+        if(!isset($this->google_sheet->current_question)){
             $this->google_sheet->update([
                 'current_question' => $this->booking_sheet_words[0][0],
                 'next_question'    => 1,
@@ -107,7 +117,6 @@ class GoogleSheetFilterService {
             'current_question' => $this->booking_sheet_words[0][$this->google_sheet->next_question],
             'next_question'    => $check_if_have_question,
         ]);
-        \Log::info('b');
     }
 
     public function send_message($message){
