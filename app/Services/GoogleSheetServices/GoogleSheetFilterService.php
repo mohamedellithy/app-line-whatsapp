@@ -107,14 +107,10 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
             ]);
         }
 
-        if($this->google_sheet->next_question == 'end') return;
-        if($this->google_sheet->next_question == 'store'){
+        if($this->google_sheet->next_question =='end'){
             $this->insert_new_row($this->values_sheet);
-            $this->google_sheet->update([
-               'next_question'    => 'end',
-            ]);
+            return;
         }
-        
 
         if(isset($this->google_sheet->current_question)){
             if($this->google_sheet->current_question != 'موعد الغسيل'){
@@ -141,9 +137,8 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
     }
     
     public function next_question(){
-        if($this->google_sheet->next_question == 'end') return;
         $next_index = $this->google_sheet->next_question + 1;
-        $check_if_have_question = isset($this->booking_sheet_words[0][$next_index]) ? $next_index: 'store';
+        $check_if_have_question = isset($this->booking_sheet_words[0][$next_index]) ? $next_index: 'end';
         $this->google_sheet->update([
             'current_question' => $this->booking_sheet_words[0][$this->google_sheet->next_question],
             'next_question'    => $check_if_have_question,
