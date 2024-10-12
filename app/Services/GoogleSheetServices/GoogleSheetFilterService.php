@@ -22,6 +22,7 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
         // $this->booking_appointments = $this->get_appointments();
 
         // $this->values_sheet = $this->google_sheet?->value ? json_decode($this->google_sheet?->value,true): [];
+        parent::__construct();
         $this->insert_new_row();
     }
 

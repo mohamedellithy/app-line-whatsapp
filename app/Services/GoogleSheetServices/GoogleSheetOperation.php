@@ -3,12 +3,22 @@
 use Illuminate\Support\Facades\Cache;
 
 class GoogleSheetOperation {
+
+    public $client;
+    public function __construct(){
+        $this->client = new \Google\Client();
+        $this->client->setDeveloperKey("AIzaSyAtm5AUR8D0_Zvq5O0eF7WgkMXojeMnYgQ");
+        $this->client->setApplicationName('Google Sheets API');
+        $this->client->setScopes([\Google\Service\Sheets::SPREADSHEETS]);
+        $this->client->setAccessType('offline');
+        // credentials.json is the key file we downloaded while setting up our Google Sheets API
+        $path = 'whats-line-438413-1fd6b70cfd16.json';
+        $this->client->setAuthConfig(app()->basePath('public/'.$path));
+    }
+
     public function get_appointments(){
         $appointments = Cache::remember('appointments',180, function () {
-            $client = new \Google\Client();
-            $client->setDeveloperKey("AIzaSyAtm5AUR8D0_Zvq5O0eF7WgkMXojeMnYgQ");
-            $client->addScope(\Google\Service\Drive::DRIVE);
-            $service      = new \Google\Service\Sheets($client);
+            $service      = new \Google\Service\Sheets($this->client);
             $ColumnsA     = $service->spreadsheets_values->get("1xnQe0vsH1fKAliiAWJxPou-7NPu26yMTeMxi7Sq1x3Y","pg1!A:A");
             $ColumnsCount = count($ColumnsA->getValues());
             $result       = [];
@@ -25,10 +35,7 @@ class GoogleSheetOperation {
 
     public function booking_sheet_words(){
         $booking_sheet_words = Cache::remember('sheet_words',180, function () {
-            $client = new \Google\Client();
-            $client->setDeveloperKey("AIzaSyAtm5AUR8D0_Zvq5O0eF7WgkMXojeMnYgQ");
-            $client->addScope(\Google\Service\Drive::DRIVE);
-            $service      = new \Google\Service\Sheets($client);
+            $service      = new \Google\Service\Sheets($this->client);
             $ColumnsA     = $service->spreadsheets_values->get("13Jlz0AcBG3DtJcfbFjxmZ9VyXAVw2ekblJRMIi89pIk","pg1!1:1");
             return $ColumnsA->getValues();
         });
@@ -37,26 +44,22 @@ class GoogleSheetOperation {
     }
 
     public function insert_new_row(){
-        $client = new \Google\Client();
-        $client->setDeveloperKey("AIzaSyAtm5AUR8D0_Zvq5O0eF7WgkMXojeMnYgQ");
-        $client->setApplicationName('Google Sheets API');
-        $client->setScopes([\Google\Service\Sheets::SPREADSHEETS]);
-        $client->setAccessType('online');
-        // credentials.json is the key file we downloaded while setting up our Google Sheets API
-        $path = 'whats-line-438413-1fd6b70cfd16.json';
-        $client->setAuthConfig(app()->basePath('public/'.$path));
-        $service      = new \Google\Service\Sheets($client);
+        $service      = new \Google\Service\Sheets($this->client);
         // Get the current values to determine the next available row
+        // Get the current values to determine the next available row
+        $response = $service->spreadsheets_values->get("13Jlz0AcBG3DtJcfbFjxmZ9VyXAVw2ekblJRMIi89pIk",'pg1');
+        $values = $response->getValues();
+        $nextRow = count($values) + 1;
         // Create the row data
         $rowData = [
             ['Value1', 'Value2', 'Value3', 'Value4', 'Value5', 'Value6'], // Values for each column in the row
         ];
         // Prepare the request to insert the row
-        $values = new \Google\Service\Sheets\ValueRange([
+        $values_rows = new \Google\Service\Sheets\ValueRange([
             'values' => $rowData,
         ]);
         $options = ['valueInputOption' => 'USER_ENTERED'];
-        $response = $service->spreadsheets_values->append('13Jlz0AcBG3DtJcfbFjxmZ9VyXAVw2ekblJRMIi89pIk','pg1',$values,$options);
+        $response = $service->spreadsheets_values->append('13Jlz0AcBG3DtJcfbFjxmZ9VyXAVw2ekblJRMIi89pIk','pg1!A'.$nextRow,$values_rows,$options);
         $client   = new \GuzzleHttp\Client();
         $client->request(
             'POST',
