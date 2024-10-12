@@ -47,6 +47,10 @@ class GoogleSheetFilterService {
             $this->google_sheet->update([
                 'next_appointment'    => 'end'
             ]);
+
+            // reback to all section
+            $this->appointments();
+            $this->send_message($this->google_sheet->current_question);
         }
 
         $need_message = null;
