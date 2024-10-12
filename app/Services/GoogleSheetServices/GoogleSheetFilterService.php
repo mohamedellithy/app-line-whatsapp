@@ -130,15 +130,18 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
             $this->send_message($this->google_sheet->current_question);
         }
 
-        if($this->google_sheet->next_question == 'end'){
+        if($this->google_sheet->next_question == 'store'){
             $this->insert_new_row($this->values_sheet);
+            $this->google_sheet->update([
+               'next_question'    => 'end',
+            ]);
         }
     }
     
     public function next_question(){
         if($this->google_sheet->next_question == 'end') return;
         $next_index = $this->google_sheet->next_question + 1;
-        $check_if_have_question = isset($this->booking_sheet_words[0][$next_index]) ? $next_index: 'end';
+        $check_if_have_question = isset($this->booking_sheet_words[0][$next_index]) ? $next_index: 'store';
         $this->google_sheet->update([
             'current_question' => $this->booking_sheet_words[0][$this->google_sheet->next_question],
             'next_question'    => $check_if_have_question,
