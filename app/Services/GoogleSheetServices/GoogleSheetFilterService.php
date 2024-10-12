@@ -86,7 +86,7 @@ class GoogleSheetFilterService {
             ]);
         }
 
-        if(!isset($this->google_sheet->current_question)){
+        if(isset($this->google_sheet->current_question)){
             if($this->google_sheet->current_question != 'موعد الغسيل'){
                 $this->save_data($this->google_sheet->current_question,$this->message);
             }
