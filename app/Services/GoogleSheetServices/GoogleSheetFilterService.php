@@ -137,6 +137,7 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
     }
     
     public function next_question(){
+        if($this->google_sheet->next_question =='end') return;
         $next_index = $this->google_sheet->next_question + 1;
         $check_if_have_question = isset($this->booking_sheet_words[0][$next_index]) ? $next_index: 'end';
         $this->google_sheet->update([
