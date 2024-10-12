@@ -43,7 +43,7 @@ class GoogleSheetOperation {
         return $booking_sheet_words;
     }
 
-    public function insert_new_row($values_sheet){
+    public function insert_new_row($booking_id,$values_sheet){
         $service      = new \Google\Service\Sheets($this->client);
         $response = $service->spreadsheets_values->get("1W3dXAZVtTs-QsQznhvGp_Ls748V8fGRBHEWI1s8mPCA",'Sheet1');
         $values = $response->getValues() ?: [];
@@ -51,6 +51,7 @@ class GoogleSheetOperation {
         // Create the row data
         $rowData = [
             [
+                $booking_id,
                 $values_sheet['اسم العميل'],
                 $values_sheet['رقم الطلب'],
                 $values_sheet['لوحة السيارة'],
