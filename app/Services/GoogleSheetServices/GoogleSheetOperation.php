@@ -57,7 +57,7 @@ class GoogleSheetOperation {
                 $values_sheet['رقم الطلب'],
                 $values_sheet['لوحة السيارة'],
                 $values_sheet['اللوكيشن'],
-                $values_sheet['date'] .' - ' .$values_sheet['day'] .$values_sheet['times'],
+                $values_sheet['date'] .' - ' .$values_sheet['day'].'-'.$values_sheet['times'],
                 $values_sheet['رقم السيارة']
             ], // Values for each column in the row
         ];
