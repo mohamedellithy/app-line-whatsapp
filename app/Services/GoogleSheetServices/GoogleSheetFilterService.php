@@ -9,30 +9,43 @@ class GoogleSheetFilterService {
 
     public $message = null;
 
+    public $values_sheet = null;
+
     public $google_sheet;
     public function __construct(){
         $this->google_sheet = GoogleSheetAutoReplay::where([
             'user_id' => 1
         ])->first();
+
+        $this->values_sheet = $this->google_sheet?->value ? json_decode($this->google_sheet?->value,true): [];
     }
 
     public function appointments(){
-        if(isset($this->google_sheet->next_appointment)){
-            $this->save_data($this->google_sheet->next_appointment,$this->message);
-        }
-
         if(!isset($this->google_sheet->next_appointment)){
             $this->google_sheet->update([
                 'next_appointment'    => 'date',
             ]);
         } elseif($this->google_sheet->next_appointment == 'date'){
+            $this->save_data($this->google_sheet->next_appointment,$this->booking_appointments[$this->message][0]);
             $this->google_sheet->update([
                 'next_appointment'    => 'day'
             ]);
         }
         elseif($this->google_sheet->next_appointment == 'day'){
+            $this->save_data($this->google_sheet->next_appointment,$this->booking_appointments[$this->message][1]);
             $this->google_sheet->update([
                 'next_appointment'    => 'times'
+            ]);
+        }
+        elseif($this->google_sheet->next_appointment == 'times'){
+            foreach($this->booking_appointments as $key => $booking_times):
+                if($booking_times[0] == $this->values_sheet['date']){
+                    $this->save_data($this->google_sheet->next_appointment,$booking_times[$this->message]);
+                    break;
+                }
+            endforeach;
+            $this->google_sheet->update([
+                'next_appointment'    => 'end'
             ]);
         }
 
@@ -70,10 +83,9 @@ class GoogleSheetFilterService {
 
 
     public function save_data($name,$value){
-        $values_sheet = $this->google_sheet?->value ? json_decode($this->google_sheet?->value,true): [];
-        $values_sheet[$name] = $value;
+        $this->values_sheet[$name] = $value;
         $this->google_sheet->update([
-            'value' => $values_sheet
+            'value' => $this->values_sheet
         ]);
     }
     public function handle(){
@@ -98,12 +110,12 @@ class GoogleSheetFilterService {
                 'next_question'    => 1,
             ]);
         } elseif(isset($this->google_sheet->current_question)){
-            if(($this->google_sheet->current_question != 'موعد الغسيل') || ($this->google_sheet->next_appointment == 'times')){
+            if(($this->google_sheet->current_question != 'موعد الغسيل') || ($this->google_sheet->next_appointment == 'end')){
                 $this->next_question();
             }
         }
 
-        if(($this->google_sheet->current_question == 'موعد الغسيل') && ($this->google_sheet->next_appointment != 'times')){
+        if(($this->google_sheet->current_question == 'موعد الغسيل') && ($this->google_sheet->next_appointment != 'end')){
             $this->appointments();
         } else {
             $this->send_message($this->google_sheet->current_question);
