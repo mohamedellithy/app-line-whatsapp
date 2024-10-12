@@ -1,8 +1,9 @@
 <?php namespace App\Services\GoogleSheetServices;
 
 use App\Models\GoogleSheetAutoReplay;
+use App\Services\GoogleSheetServices\GoogleSheetOperation;
 
-class GoogleSheetFilterService {
+class GoogleSheetFilterService extends GoogleSheetOperation {
     public $booking_sheet_words = [];
     public $phone = null;
     public $booking_appointments = [];
@@ -13,11 +14,15 @@ class GoogleSheetFilterService {
 
     public $google_sheet;
     public function __construct(){
-        $this->google_sheet = GoogleSheetAutoReplay::where([
-            'user_id' => 1
-        ])->first();
+        // $this->google_sheet = GoogleSheetAutoReplay::where([
+        //     'user_id' => 1
+        // ])->first();
 
-        $this->values_sheet = $this->google_sheet?->value ? json_decode($this->google_sheet?->value,true): [];
+        // $this->booking_sheet_words  = $this->booking_sheet_words();
+        // $this->booking_appointments = $this->get_appointments();
+
+        // $this->values_sheet = $this->google_sheet?->value ? json_decode($this->google_sheet?->value,true): [];
+        $this->insert_new_row();
     }
 
     public function appointments(){
