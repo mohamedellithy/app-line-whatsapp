@@ -52,7 +52,7 @@ class GoogleSheetOperation {
         $nextRow = count($values) + 1;
         // Create the row data
         $rowData = [
-            ['Value1', 'Value2', 'Value3', 'Value4', 'Value5', 'Value6'], // Values for each column in the row
+            ['Value1', 'Value2', 'Value3', 'Value4', 'Value5', 'Value6','Value5', 'Value6'], // Values for each column in the row
         ];
         // Prepare the request to insert the row
         $values_rows = new \Google\Service\Sheets\ValueRange([
