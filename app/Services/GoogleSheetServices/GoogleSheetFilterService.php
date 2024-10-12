@@ -1,22 +1,21 @@
 <?php namespace App\Services\GoogleSheetServices;
 
 use App\Models\GoogleSheetAutoReplay;
+use App\Servcies\GoogleSheetServices\AccountService;
 use App\Services\GoogleSheetServices\GoogleSheetOperation;
 
 class GoogleSheetFilterService extends GoogleSheetOperation {
+    use AccountService;
     public $booking_sheet_words = [];
     public $phone = null;
     public $booking_appointments = [];
-
     public $message = null;
-
     public $values_sheet = null;
-
     public $google_sheet;
-    public function __construct(){
+    public function __construct(public $user_id){
         parent::__construct();
         $this->google_sheet = GoogleSheetAutoReplay::where([
-            'user_id' => 1
+            'user_id' => $this->user_id
         ])->first();
 
         $this->booking_sheet_words  = $this->booking_sheet_words();
@@ -100,7 +99,7 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
     public function handle(){
         if(!$this->google_sheet){
             $this->google_sheet = GoogleSheetAutoReplay::create([
-                'user_id' => 1,
+                'user_id' => $this->user_id,
                 'phone'   => $this->phone,
                 'current_question' => null,
                 'next_question' => null
@@ -170,8 +169,8 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
         send_message(
             $this->phone,
             $message,
-            "6706972B65F4A",
-            "2032449688RtpEd"
+            $this->get_instance(),
+            $this->get_access_token()
         );
     }
 }

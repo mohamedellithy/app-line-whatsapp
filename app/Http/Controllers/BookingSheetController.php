@@ -13,18 +13,19 @@ use App\Services\GoogleSheetServices\GoogleSheetFilterService;
 class BookingSheetController extends Controller
 {
 
-    public function auto_replay(Request $request){
+    public function auto_replay(Request $request,$user_id){
         $data = $request->all();
         if($data['data']['event'] == 'messages.upsert'){
             foreach($data['data']['data']['messages'] as $message):
                 if($message['key']['fromMe'] == false){
                     $body  = isset($message['message']['conversation']) ? $message['message']['conversation'] : $message['message']['extendedTextMessage']['text'];
                     $phone = intval($message['key']['remoteJid']);
-                    $googel_sheet = new GoogleSheetFilterService();
+                    $googel_sheet = new GoogleSheetFilterService($user_id);
                     $googel_sheet->phone   = $phone;
                     $googel_sheet->message = $body;
                     // incase bookings info reset
                     $googel_sheet->reset_booking_info();
+                    // start booking
                     $googel_sheet->handle();
                     
                     // $client   = new \GuzzleHttp\Client();
