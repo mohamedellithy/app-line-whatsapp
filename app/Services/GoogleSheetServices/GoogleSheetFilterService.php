@@ -152,9 +152,9 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
 
     public function reset_booking_info(){
         if($this->message == 'اعادة الحجز'){
-            \Log::info($this->message);
             if($this->google_sheet){
                 $this->google_sheet->delete();
+                $this->google_sheet = null;
             }
         }
     }
