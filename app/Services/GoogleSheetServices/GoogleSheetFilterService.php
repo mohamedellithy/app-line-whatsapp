@@ -124,7 +124,7 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
                     'current_question' => 'end'
                 ]);
 
-                $this->send_message("رقم الحجز الخاص بك ". $this->google_sheet);
+                $this->send_message("رقم الحجز الخاص بك ". $this->google_sheet?->id);
             }
             return;
         }
