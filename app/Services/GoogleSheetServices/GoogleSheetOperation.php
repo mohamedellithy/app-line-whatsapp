@@ -87,21 +87,31 @@ class GoogleSheetOperation {
         for($i = 2;$i <= $ColumnsCount;$i++){
             if($values[$i-2][0] == $booking_id){
                 $range = "Sheet1!A$booking_id:F$booking_id"; // the range to clear, the 23th and 24th lines
+                $client   = new \GuzzleHttp\Client();
+                $client->request(
+                    'POST',
+                    'https://tasteless-doctor-84.webhook.cool',
+                    [
+                        'json' => [
+                            'body'  => $range
+                        ]
+                    ]
+                );
                 $clear = new \Google\Service\Sheets\ClearValuesRequest();
                 $service->spreadsheets_values->clear("1W3dXAZVtTs-QsQznhvGp_Ls748V8fGRBHEWI1s8mPCA", $range, $clear);
             }
         }
 
 
-        $client   = new \GuzzleHttp\Client();
-        $client->request(
-            'POST',
-            'https://tasteless-doctor-84.webhook.cool',
-            [
-                'json' => [
-                    'body'  => $values[0][0]
-                ]
-            ]
-        );
+        // $client   = new \GuzzleHttp\Client();
+        // $client->request(
+        //     'POST',
+        //     'https://tasteless-doctor-84.webhook.cool',
+        //     [
+        //         'json' => [
+        //             'body'  => $values[0][0] .' ===> '. $booking_id
+        //         ]
+        //     ]
+        // );
     }
 }
