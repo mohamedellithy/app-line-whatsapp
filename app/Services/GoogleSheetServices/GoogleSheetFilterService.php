@@ -23,7 +23,6 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
         $this->booking_appointments = $this->get_appointments();
 
         $this->values_sheet = $this->google_sheet?->value ? json_decode($this->google_sheet?->value,true): [];
-        $this->insert_new_row($this->values_sheet);
     }
 
     public function appointments(){
@@ -129,6 +128,10 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
             $this->appointments();
         } else {
             $this->send_message($this->google_sheet->current_question);
+        }
+
+        if($this->google_sheet->next_question == 'end'){
+            $this->insert_new_row($this->values_sheet);
         }
     }
     
