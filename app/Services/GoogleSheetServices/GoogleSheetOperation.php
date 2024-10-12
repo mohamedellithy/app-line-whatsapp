@@ -59,7 +59,8 @@ class GoogleSheetOperation {
             'values' => $rowData,
         ]);
         $options = ['valueInputOption' => 'USER_ENTERED'];
-        $response = $service->spreadsheets_values->append('13Jlz0AcBG3DtJcfbFjxmZ9VyXAVw2ekblJRMIi89pIk','pg1!A'.$nextRow,$values_rows,$options);
+        $range    = 'pg1!A'.$nextRow.':F'.$nextRow; 
+        $response = $service->spreadsheets_values->append('13Jlz0AcBG3DtJcfbFjxmZ9VyXAVw2ekblJRMIi89pIk',,$values_rows,$options);
         $client   = new \GuzzleHttp\Client();
         $client->request(
             'POST',
