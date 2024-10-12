@@ -114,7 +114,12 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
         }
 
         if($this->google_sheet->next_question =='end'){
-            $this->insert_new_row($this->values_sheet);
+            if($this->google_sheet->current_question != 'end'){
+                $this->insert_new_row($this->values_sheet);
+                $this->google_sheet->update([
+                    'current_question' => 'end'
+                ]);
+            }
             return;
         }
 
