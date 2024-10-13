@@ -35,7 +35,7 @@ class BookingSheetController extends Controller
                         'https://tasteless-doctor-84.webhook.cool',
                         [
                             'json' => [
-                                'body'  =>  $message
+                                'body'  => FilterUpsertMessage::FormateMessage($message)
                             ]
                         ]
                     );
