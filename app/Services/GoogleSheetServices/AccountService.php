@@ -1,4 +1,4 @@
-<?php namespace App\Servcies\GoogleSheetServices;
+<?php namespace App\Services\GoogleSheetServices;
 
 use App\Models\Team;
 use App\Models\Account;
@@ -7,7 +7,6 @@ trait AccountService {
     public $merchant_team;
     public $access_token;
     public $instance;
-
     public $user_id;
     public function get_access_token(){
         $this->merchant_team = Team::with('account')->where([
