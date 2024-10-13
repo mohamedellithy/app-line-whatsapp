@@ -13,12 +13,12 @@ trait AccountService {
             'owner' => $this->user_id
         ])->first();
 
-        $this->access_token = $this->merchant_team->ids;
+        $this->access_token = $this->merchant_team?->ids;
     }
 
     public function get_instance(){
         $account = Account::where([
-            'team_id' => $this->merchant_team->id
+            'team_id' => $this->merchant_team?->ids
         ])->first();
 
         $this->instance = $account->token;
