@@ -1,11 +1,20 @@
 <?php namespace App\Services\GoogleSheetServices;
 
 class FilterUpsertMessage{
-    public function __construct(public $message){
-        if(isset($this->message['message']['conversation'])){
-            return $this->message['message']['conversation'];
+    public static function FormateMessage($message){
+        if(isset($message['message']['conversation'])){
+            return $message['message']['conversation'];
+        } elseif(isset($message['message']['locationMessage'])){
+            return self::location_message($message);
         } else {
-            return $this->message['message']['extendedTextMessage']['text'];
+            return $message['message']['extendedTextMessage']['text'];
         }
+    }
+
+    public static function location_message($message){
+        $message_text  = null;
+        $message_text .= " Lat :  ".$message['message']['locationMessage']['degreesLatitude'];
+        $message_text .= " Long : ".$message['message']['locationMessage']['degreesLongitude'];
+        return $message_text;
     }
 }

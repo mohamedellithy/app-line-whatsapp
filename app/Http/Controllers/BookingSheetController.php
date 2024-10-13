@@ -19,7 +19,7 @@ class BookingSheetController extends Controller
         if($data['data']['event'] == 'messages.upsert'){
             foreach($data['data']['data']['messages'] as $message):
                 if($message['key']['fromMe'] == false){
-                    // $body  = new FilterUpsertMessage($message);
+                    // $body  = FilterUpsertMessage::FormateMessage($message);
                     // $phone = intval($message['key']['remoteJid']);
                     // $googel_sheet = new GoogleSheetFilterService($user_id);
                     // $googel_sheet->phone   = $phone;
