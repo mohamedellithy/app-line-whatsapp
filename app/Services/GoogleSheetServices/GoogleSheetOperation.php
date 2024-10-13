@@ -66,16 +66,16 @@ class GoogleSheetOperation {
         ]);
         $options = ['valueInputOption' => 'USER_ENTERED'];
         $response = $service->spreadsheets_values->append('1W3dXAZVtTs-QsQznhvGp_Ls748V8fGRBHEWI1s8mPCA',"Sheet1!A$nextRow:F$nextRow",$values_rows,$options);
-        $client   = new \GuzzleHttp\Client();
-        $client->request(
-            'POST',
-            'https://tasteless-doctor-84.webhook.cool',
-            [
-                'json' => [
-                    'body'  =>  $values_sheet
-                ]
-            ]
-        );
+        // $client   = new \GuzzleHttp\Client();
+        // $client->request(
+        //     'POST',
+        //     'https://tasteless-doctor-84.webhook.cool',
+        //     [
+        //         'json' => [
+        //             'body'  =>  $values_sheet
+        //         ]
+        //     ]
+        // );
     }
 
     public function delete_selected_row($booking_id){

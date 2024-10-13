@@ -15,6 +15,7 @@ class FilterUpsertMessage{
         $message_text  = null;
         $message_text .= "Lat :  ".$message['message']['locationMessage']['degreesLatitude'];
         $message_text .= " | Long : ".$message['message']['locationMessage']['degreesLongitude'];
+        $message_text .= "https://www.google.com/maps/@$message['message']['locationMessage']['degreesLatitude'],$message['message']['locationMessage']['degreesLongitude']";
         return $message_text;
     }
 }
