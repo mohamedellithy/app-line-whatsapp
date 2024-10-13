@@ -18,7 +18,7 @@ trait AccountService {
 
     public function get_instance(){
         $account = Account::where([
-            'team_id' => $this->merchant_team?->ids
+            'team_id' => $this->merchant_team?->id
         ])->first();
 
         $this->instance = $account->token;
