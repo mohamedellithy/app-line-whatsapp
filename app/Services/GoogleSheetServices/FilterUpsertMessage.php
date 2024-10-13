@@ -13,8 +13,8 @@ class FilterUpsertMessage{
 
     public static function location_message($message){
         $message_text  = null;
-        $message_text .= " Lat :  ".$message['message']['locationMessage']['degreesLatitude'];
-        $message_text .= " Long : ".$message['message']['locationMessage']['degreesLongitude'];
+        $message_text .= "Lat :  ".$message['message']['locationMessage']['degreesLatitude'];
+        $message_text .= "| Long : ".$message['message']['locationMessage']['degreesLongitude'];
         return $message_text;
     }
 }
