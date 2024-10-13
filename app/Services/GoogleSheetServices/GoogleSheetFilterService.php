@@ -166,11 +166,13 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
     }
 
     public function send_message($message){
+        $access_token = $this->get_access_token();
+        $instance_id = $this->get_instance();
         send_message(
             $this->phone,
             $message,
-            $this->get_instance(),
-            $this->get_access_token()
+            $access_token,
+            $instance_id
         );
     }
 }
