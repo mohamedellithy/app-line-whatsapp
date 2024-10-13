@@ -1,7 +1,7 @@
 <?php namespace App\Services\GoogleSheetServices;
 
 use App\Models\GoogleSheetAutoReplay;
-use App\Servcies\GoogleSheetServices\AccountService;
+use App\Services\GoogleSheetServices\AccountService;
 use App\Services\GoogleSheetServices\GoogleSheetOperation;
 
 class GoogleSheetFilterService extends GoogleSheetOperation {
