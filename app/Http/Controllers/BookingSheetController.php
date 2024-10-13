@@ -19,26 +19,15 @@ class BookingSheetController extends Controller
         if($data['data']['event'] == 'messages.upsert'){
             foreach($data['data']['data']['messages'] as $message):
                 if($message['key']['fromMe'] == false){
-                    // $body  = FilterUpsertMessage::FormateMessage($message);
-                    // $phone = intval($message['key']['remoteJid']);
-                    // $googel_sheet = new GoogleSheetFilterService($user_id);
-                    // $googel_sheet->phone   = $phone;
-                    // $googel_sheet->message = $body;
-                    // // incase bookings info reset
-                    // $googel_sheet->reset_booking_info();
-                    // // start booking
-                    // $googel_sheet->handle();
-
-                    $client   = new \GuzzleHttp\Client();
-                    $client->request(
-                        'POST',
-                        'https://tasteless-doctor-84.webhook.cool',
-                        [
-                            'json' => [
-                                'body'  => FilterUpsertMessage::FormateMessage($message)
-                            ]
-                        ]
-                    );
+                    $body  = FilterUpsertMessage::FormateMessage($message);
+                    $phone = intval($message['key']['remoteJid']);
+                    $googel_sheet = new GoogleSheetFilterService($user_id);
+                    $googel_sheet->phone   = $phone;
+                    $googel_sheet->message = $body;
+                    // incase bookings info reset
+                    $googel_sheet->reset_booking_info();
+                    // start booking
+                    $googel_sheet->handle();
                 }
             endforeach;
         }
