@@ -172,6 +172,7 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
     }
 
     public function send_message($message){
+        \Log::info($this->instance_id . ' => '.$this->access_token);
         send_message(
             $this->phone,
             $message,
