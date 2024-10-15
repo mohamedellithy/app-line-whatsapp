@@ -34,8 +34,8 @@ $router->get('/api/booking-sheet','BookingSheetController@booking_sheet');
 
 $router->get('/api/sheet-service/{user_id}','BookingSheetController@booking_sheet');
 
-$router->post('/api/auto-replay/{user_id}','BookingSheetController@auto_replay');
-$router->get('/api/auto-replay/{user_id}','BookingSheetController@auto_replay');
+$router->post('/api/auto-replay/{user_id}/{instance_id}/{access_token}','BookingSheetController@auto_replay');
+$router->get('/api/auto-replay/{user_id}/{instance_id}/{access_token}','BookingSheetController@auto_replay');
 
 // $router->group(['middleware' => 'cors'], function () use ($router) {
 //     $router->get('/api/whatsapp-icon/{storeId}','IconWhatsAppController@icon_whatsapp');

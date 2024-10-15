@@ -14,7 +14,7 @@ use App\Services\GoogleSheetServices\GoogleSheetFilterService;
 class BookingSheetController extends Controller
 {
 
-    public function auto_replay(Request $request,$user_id){
+    public function auto_replay(Request $request,$user_id,$instance_id,$access_token){
         $data = $request->all();
         \Log::info('hi');
         if($data['data']['event'] == 'messages.upsert'){
@@ -22,7 +22,7 @@ class BookingSheetController extends Controller
                 if($message['key']['fromMe'] == false){
                     $body  = FilterUpsertMessage::FormateMessage($message);
                     $phone = intval($message['key']['remoteJid']);
-                    $googel_sheet = new GoogleSheetFilterService($user_id);
+                    $googel_sheet = new GoogleSheetFilterService($user_id,$instance_id,$access_token);
                     $googel_sheet->phone   = $phone;
                     $googel_sheet->message = $body;
                     // incase bookings info reset

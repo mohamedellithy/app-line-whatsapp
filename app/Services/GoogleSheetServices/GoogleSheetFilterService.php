@@ -12,7 +12,7 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
     public $message = null;
     public $values_sheet = null;
     public $google_sheet;
-    public function __construct(public $user_id){
+    public function __construct(public $user_id,public $instance_id,public $access_token){
         parent::__construct();
         $this->google_sheet = GoogleSheetAutoReplay::where([
             'user_id' => $this->user_id
@@ -172,12 +172,10 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
     }
 
     public function send_message($message){
-        $this->get_access_token();
-        $this->get_instance();
         send_message(
             $this->phone,
             $message,
-            $this->instance,
+            $this->instance_id,
             $this->access_token
         );
     }
