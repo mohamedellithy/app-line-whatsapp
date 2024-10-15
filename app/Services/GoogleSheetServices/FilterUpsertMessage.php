@@ -7,7 +7,7 @@ class FilterUpsertMessage{
         } elseif(isset($message['message']['locationMessage'])){
             return self::location_message($message);
         } else {
-            return $message['message']['extendedTextMessage']['text'];
+            return isset($message['message']['extendedTextMessage']) ? $message['message']['extendedTextMessage']['text'] : null;
         }
     }
 
