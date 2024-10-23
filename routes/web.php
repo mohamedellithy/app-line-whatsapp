@@ -20,7 +20,6 @@ use App\Http\Controllers\IconWhatsAppController;
 */
 
 $router->get('/', function () use ($router) {
-    \Log::info('bb');
     return $router->app->version();
 });
 
@@ -29,13 +28,6 @@ $router->post('/app-events', 'AppController@make_event');
 $router->post('/wordpress-subscribers','WordPressController@subscribers');
 
 $router->post('/api/send-status','NodeJsController@status_send_message');
-
-$router->get('/api/booking-sheet','BookingSheetController@booking_sheet');
-
-$router->get('/api/sheet-service/{user_id}','BookingSheetController@booking_sheet');
-
-$router->post('/api/auto-replay/{user_id}/{instance_id}/{access_token}','BookingSheetController@auto_replay');
-$router->get('/api/auto-replay/{user_id}/{instance_id}/{access_token}','BookingSheetController@auto_replay');
 
 // $router->group(['middleware' => 'cors'], function () use ($router) {
 //     $router->get('/api/whatsapp-icon/{storeId}','IconWhatsAppController@icon_whatsapp');
