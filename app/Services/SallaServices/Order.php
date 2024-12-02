@@ -133,7 +133,7 @@ class Order extends AppMerchant implements AppEvent{
                 endif;
 
             endif;
-            $lock->release();
+            // $lock->release();
         }
 
     }
