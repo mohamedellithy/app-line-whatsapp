@@ -75,7 +75,6 @@ class OtpRequest extends AppMerchant implements AppEvent{
         ]);
 
         $attrs['otp_code'] = $this->data['data']['code'];
-
         if(filter_var($this->data['data']['contact'],FILTER_VALIDATE_EMAIL)) return;
 
         if($app_event->status != 'success'):

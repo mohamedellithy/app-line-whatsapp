@@ -5,6 +5,7 @@ use App\Models\Team;
 use App\Models\Account;
 use App\Models\EventStatus;
 use App\Models\MerchantCredential;
+use Illuminate\Support\Facades\Cache;
 use App\Services\AppSettings\AppEvent;
 use App\Services\AppSettings\KarzounRequest;
 
@@ -61,31 +62,34 @@ class ReviewAdded implements AppEvent{
 
         if($this->data['data']['type'] != 'testimonial') return;
         
-        $app_event = EventStatus::updateOrCreate([
-            'unique_number' => $this->data['merchant'],
-            'values'        => json_encode($this->data)
-        ],[
-            'event_from'    => "salla",
-            'type'          => $this->data['event']
-        ]);
-
-        if($app_event->status != 'success'):
-            $message = isset($this->settings['review_added_message']) ? $this->settings['review_added_message'] : '';
-            $filter_message = message_order_params($message, $attrs);
-
-            $result_send_message = send_message(
-                $this->data['data']['customer']['mobile'],
-                $filter_message,
-                $account->token,
-                $this->merchant_team->ids
-            );
-
-            $app_event->update([
-                'status' => $result_send_message
+        $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['id'], 10);
+        if($lock->get()){
+            $app_event = EventStatus::updateOrCreate([
+                'unique_number' => $this->data['merchant'],
+                'values'        => json_encode($this->data)
+            ],[
+                'event_from'    => "salla",
+                'type'          => $this->data['event']
             ]);
 
-            $app_event->increment('count_of_call');
-        endif;
+            if($app_event->status != 'success'):
+                $message = isset($this->settings['review_added_message']) ? $this->settings['review_added_message'] : '';
+                $filter_message = message_order_params($message, $attrs);
+
+                $result_send_message = send_message(
+                    $this->data['data']['customer']['mobile'],
+                    $filter_message,
+                    $account->token,
+                    $this->merchant_team->ids
+                );
+
+                $app_event->update([
+                    'status' => $result_send_message
+                ]);
+
+                $app_event->increment('count_of_call');
+            endif;
+        }
     }
 
 }
