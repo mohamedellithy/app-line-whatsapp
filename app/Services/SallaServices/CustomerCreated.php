@@ -66,7 +66,7 @@ class CustomerCreated implements AppEvent{
         ])->first();
         if( (!$account) || ($account->token == null)) return;
 
-        $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['id'], 10);
+        $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['id'],60);
         if($lock->get()){
             $attrs = formate_customer_details($this->data);
             $app_event = EventStatus::updateOrCreate([
