@@ -62,7 +62,7 @@ class ReviewAdded implements AppEvent{
 
         if($this->data['data']['type'] != 'testimonial') return;
         
-        $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['customer']['id'], 10);
+        $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['customer']['id'], 60);
         if($lock->get()){
             $app_event = EventStatus::updateOrCreate([
                 'unique_number' => $this->data['merchant'],

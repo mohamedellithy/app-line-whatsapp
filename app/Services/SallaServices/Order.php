@@ -90,7 +90,7 @@ class Order extends AppMerchant implements AppEvent{
         //\Log::info('c : '.$account->token);
         if( (!$account) || ($account->token == null)) return 'd';
 
-        $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['id'], 10);
+        $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['id'], 60);
         if($lock->get()){
             $attrs = formate_order_details($this->data);
             $app_event = EventStatus::updateOrCreate([
