@@ -7,6 +7,7 @@ use App\Models\Account;
 use App\Models\EventStatus;
 use App\Models\SuccessTempModel;
 use App\Models\MerchantCredential;
+use Illuminate\Support\Facades\DB;
 use App\Models\FailedMessagesModel;
 use Illuminate\Support\Facades\Cache;
 use App\Services\AppSettings\AppEvent;
@@ -69,30 +70,36 @@ class CustomerCreated implements AppEvent{
         $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['id'],60);
         if($lock->get()){
             $attrs = formate_customer_details($this->data);
-            $app_event = EventStatus::updateOrCreate([
-                'unique_number' => $this->data['merchant'].$this->data['data']['id']
-            ],[
-                'values'        => json_encode($this->data),
-                'event_from'    => "salla",
-                'type'          => $this->data['event']
-            ]);
-
-            if($app_event->status != 'success'):
-                $message = isset($this->settings['new_customer_message']) ? $this->settings['new_customer_message'] : '';
-                $filter_message = message_order_params($message, $attrs);
-                $result_send_message = send_message(
-                    $this->data['data']['mobile_code'].$this->data['data']['mobile'],
-                    $filter_message,
-                    $account->token,
-                    $this->merchant_team->ids
-                );
-
-                $app_event->update([
-                    'status' => $result_send_message
+            DB::beginTransaction();
+            try{
+                $app_event = EventStatus::updateOrCreate([
+                    'unique_number' => $this->data['merchant'].$this->data['data']['id']
+                ],[
+                    'values'        => json_encode($this->data),
+                    'event_from'    => "salla",
+                    'type'          => $this->data['event']
                 ]);
-
-                $app_event->increment('count_of_call');
-            endif;
+    
+                if($app_event->status != 'success'):
+                    $message = isset($this->settings['new_customer_message']) ? $this->settings['new_customer_message'] : '';
+                    $filter_message = message_order_params($message, $attrs);
+                    $result_send_message = send_message(
+                        $this->data['data']['mobile_code'].$this->data['data']['mobile'],
+                        $filter_message,
+                        $account->token,
+                        $this->merchant_team->ids
+                    );
+    
+                    $app_event->update([
+                        'status' => $result_send_message
+                    ]);
+    
+                    $app_event->increment('count_of_call');
+                endif;
+                DB::commit();
+            } catch(\Exception $e){
+                DB::rollBack();
+            }
         }
     }
 }

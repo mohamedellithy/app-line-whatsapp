@@ -5,6 +5,7 @@ use App\Models\Team;
 use App\Models\Account;
 use App\Models\EventStatus;
 use App\Models\MerchantCredential;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use App\Services\AppSettings\AppEvent;
 use App\Services\AppSettings\KarzounRequest;
@@ -67,30 +68,36 @@ class ManualReviewRequest implements AppEvent{
         $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['id'], 60);
         if($lock->get()){
             $attrs = formate_order_details($this->data);
-            $app_event = EventStatus::updateOrCreate([
-                'unique_number' => $this->data['merchant'],
-                'values'        => json_encode($this->data)
-            ],[
-                'type'          => 'request_review',
-                'event_from'    => "salla",
-            ]);
-
-            if($app_event->status != 'success'):
-                $message = isset($this->settings['message_request_review']) ? $this->settings['message_request_review'] : '';
-                $filter_message = message_order_params($message, $attrs);
-                $result_send_message = send_message(
-                    $attrs['customer_phone_number'],
-                    $filter_message,
-                    $account->token,
-                    $this->merchant_team->ids
-                );
-
-                $app_event->update([
-                    'status' => $result_send_message
+            DB::beginTransaction();
+            try {
+                $app_event = EventStatus::updateOrCreate([
+                    'unique_number' => $this->data['merchant'],
+                    'values'        => json_encode($this->data)
+                ],[
+                    'type'          => 'request_review',
+                    'event_from'    => "salla",
                 ]);
-
-                $app_event->increment('count_of_call');
-            endif;
+    
+                if($app_event->status != 'success'):
+                    $message = isset($this->settings['message_request_review']) ? $this->settings['message_request_review'] : '';
+                    $filter_message = message_order_params($message, $attrs);
+                    $result_send_message = send_message(
+                        $attrs['customer_phone_number'],
+                        $filter_message,
+                        $account->token,
+                        $this->merchant_team->ids
+                    );
+    
+                    $app_event->update([
+                        'status' => $result_send_message
+                    ]);
+    
+                    $app_event->increment('count_of_call');
+                endif;
+                DB::commit();
+            } catch(\Exception $e){
+                DB::rollBack();
+            }
         }
     }
 

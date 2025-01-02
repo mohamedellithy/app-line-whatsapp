@@ -7,6 +7,7 @@ use App\Models\Account;
 use App\Models\AbandBaskts;
 use App\Models\EventStatus;
 use App\Models\MerchantCredential;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
 use App\Services\AppSettings\AppEvent;
@@ -69,49 +70,55 @@ class AbandonedCart implements AppEvent{
         $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['id'], 60);
         if($lock->get()){
             $attrs = formate_cart_details($this->data);
-            $app_event = EventStatus::updateOrCreate([
-                'unique_number' => $this->data['merchant'].$this->data['data']['id']
-            ],[
-                'values'        => json_encode($this->data),
-                'event_from'    => "salla",
-                'type'          => $this->data['event']
-            ]);
-
-            // "" ?: $attrs['customer_phone_number']
-            if($app_event->status != 'success'):
-                $app_event->update([
-                    'required_call' => isset($this->settings['count_abandoned_cart_reminder']) ? $this->settings['count_abandoned_cart_reminder'] : 1
+            DB::beginTransaction();
+            try{
+                $app_event = EventStatus::updateOrCreate([
+                    'unique_number' => $this->data['merchant'].$this->data['data']['id']
+                ],[
+                    'values'        => json_encode($this->data),
+                    'event_from'    => "salla",
+                    'type'          => $this->data['event']
                 ]);
 
-                //if($app_event->required_call > 1):
+                // "" ?: $attrs['customer_phone_number']
+                if($app_event->status != 'success'):
                     $app_event->update([
-                        'status' =>'success'
+                        'required_call' => isset($this->settings['count_abandoned_cart_reminder']) ? $this->settings['count_abandoned_cart_reminder'] : 1
                     ]);
-                //endif;
 
-                $message = $this->settings['abandoned_cart_message'] ?: '';
-                $filter_message = message_order_params($message, $attrs);
-                $result_send_message = send_message(
-                    $this->data['data']['customer']['mobile'],
-                    $filter_message,
-                    $account->token,
-                    $this->merchant_team->ids
-                );
-                
-                if($result_send_message == 'success'):
-                    $app_event->increment('count_of_call');
+                    //if($app_event->required_call > 1):
+                        $app_event->update([
+                            'status' =>'success'
+                        ]);
+                    //endif;
 
-                    if($app_event->count_of_call == $app_event->required_call):
+                    $message = $this->settings['abandoned_cart_message'] ?: '';
+                    $filter_message = message_order_params($message, $attrs);
+                    $result_send_message = send_message(
+                        $this->data['data']['customer']['mobile'],
+                        $filter_message,
+                        $account->token,
+                        $this->merchant_team->ids
+                    );
+                    
+                    if($result_send_message == 'success'):
+                        $app_event->increment('count_of_call');
+
+                        if($app_event->count_of_call == $app_event->required_call):
+                            $app_event->update([
+                                'status' => $result_send_message
+                            ]);
+                        endif;
+                    else:
                         $app_event->update([
                             'status' => $result_send_message
                         ]);
                     endif;
-                else:
-                    $app_event->update([
-                        'status' => $result_send_message
-                    ]);
                 endif;
-            endif;
+                DB::commit();
+            } catch(\Exception $e){
+                DB::rollBack();
+            }
         }
     }
 }

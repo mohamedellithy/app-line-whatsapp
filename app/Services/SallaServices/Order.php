@@ -10,6 +10,7 @@ use App\Models\ReviewRequest;
 use App\Models\WhatsappSession;
 use App\Models\SuccessTempModel;
 use App\Models\MerchantCredential;
+use Illuminate\Support\Facades\DB;
 use App\Models\FailedMessagesModel;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
@@ -93,46 +94,50 @@ class Order extends AppMerchant implements AppEvent{
         $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['id'], 60);
         if($lock->get()){
             $attrs = formate_order_details($this->data);
-            $app_event = EventStatus::updateOrCreate([
-                'unique_number' => $this->data['merchant'].$this->data['data']['id'],
-                'values'        => json_encode($this->data)
-            ],[
-                'event_from'    => "salla",
-                'type'          => $this->data['event']
-            ]);
-
-
-            // "" ?: $attrs['customer_phone_number']
-            if($app_event->status != 'success'):
-
-                $slug    = isset($this->data['data']['order']['status']['slug']) ? $this->data['data']['order']['status']['slug'] : $this->data['data']['status']['slug'];
-                if($this->data['event'] == 'order.created'):
-                    $message = isset($this->settings['order_created_message']) ? $this->settings['order_created_message'] : $this->settings['order_default_message'];
-                else:
-                    $message = isset($this->settings['order_'.$slug.'_message']) ? $this->settings['order_'.$slug.'_message'] : $this->settings['order_default_message'];
-                endif;
-
-                $filter_message = message_order_params($message, $attrs);
-
-                $result_send_message = send_message(
-                    $attrs['customer_phone_number'],
-                    $filter_message,
-                    $account->token,
-                    $this->merchant_team->ids
-                );
-
-                $app_event->update([
-                    'status' => $result_send_message
+            DB::beginTransaction();
+            try {
+                $app_event = EventStatus::updateOrCreate([
+                    'unique_number' => $this->data['merchant'].$this->data['data']['id'],
+                    'values'        => json_encode($this->data)
+                ],[
+                    'event_from'    => "salla",
+                    'type'          => $this->data['event']
                 ]);
-
-
-                $app_event->increment('count_of_call');
-
-                if($slug == 'delivered'):
-                    $this->request_review();
+    
+                // "" ?: $attrs['customer_phone_number']
+                if($app_event->status != 'success'):
+                    $slug    = isset($this->data['data']['order']['status']['slug']) ? $this->data['data']['order']['status']['slug'] : $this->data['data']['status']['slug'];
+                    if($this->data['event'] == 'order.created'):
+                        $message = isset($this->settings['order_created_message']) ? $this->settings['order_created_message'] : $this->settings['order_default_message'];
+                    else:
+                        $message = isset($this->settings['order_'.$slug.'_message']) ? $this->settings['order_'.$slug.'_message'] : $this->settings['order_default_message'];
+                    endif;
+    
+                    $filter_message = message_order_params($message, $attrs);
+    
+                    $result_send_message = send_message(
+                        $attrs['customer_phone_number'],
+                        $filter_message,
+                        $account->token,
+                        $this->merchant_team->ids
+                    );
+    
+                    $app_event->update([
+                        'status' => $result_send_message
+                    ]);
+    
+    
+                    $app_event->increment('count_of_call');
+    
+                    if($slug == 'delivered'):
+                        $this->request_review();
+                    endif;
+    
                 endif;
-
-            endif;
+                DB::commit();
+            } catch(\Exception $e){
+                DB::rollBack();
+            }
             // $lock->release();
         }
 

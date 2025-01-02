@@ -7,6 +7,7 @@ use App\Models\Account;
 use App\Models\EventStatus;
 use App\Models\SuccessTempModel;
 use App\Models\MerchantCredential;
+use Illuminate\Support\Facades\DB;
 use App\Models\FailedMessagesModel;
 use Illuminate\Support\Facades\Http;
 use App\Services\AppSettings\AppEvent;
@@ -65,34 +66,38 @@ class OtpRequest extends AppMerchant implements AppEvent{
         ])->first();
         if( (!$account) || ($account->token == null)) return "d";
 
-
-        $app_event = EventStatus::updateOrCreate([
-            'unique_number' => $this->data['merchant'].$this->data['data']['code'],
-            'values'        => json_encode($this->data)
-        ],[
-            'event_from'    => "salla",
-            'type'          => $this->data['event']
-        ]);
-
-        $attrs['otp_code'] = $this->data['data']['code'];
-        if(filter_var($this->data['data']['contact'],FILTER_VALIDATE_EMAIL)) return;
-
-        if($app_event->status != 'success'):
-            $message = isset($this->settings['otp_message']) ? $this->settings['otp_message'] : '';
-            $filter_message = message_order_params($message, $attrs);
-
-            $result_send_message = send_message(
-                $this->data['data']['contact'],
-                $filter_message,
-                $this->merchant_team->account->token,
-                $this->merchant_team->ids
-            );
-
-            $app_event->update([
-                'status' => $result_send_message
+        DB::beginTransaction();
+        try{
+            $app_event = EventStatus::updateOrCreate([
+                'unique_number' => $this->data['merchant'].$this->data['data']['code'],
+                'values'        => json_encode($this->data)
+            ],[
+                'event_from'    => "salla",
+                'type'          => $this->data['event']
             ]);
-
-            $app_event->increment('count_of_call');
-        endif;
+    
+            $attrs['otp_code'] = $this->data['data']['code'];
+            if(filter_var($this->data['data']['contact'],FILTER_VALIDATE_EMAIL)) return;
+            if($app_event->status != 'success'):
+                $message = isset($this->settings['otp_message']) ? $this->settings['otp_message'] : '';
+                $filter_message = message_order_params($message, $attrs);
+    
+                $result_send_message = send_message(
+                    $this->data['data']['contact'],
+                    $filter_message,
+                    $this->merchant_team->account->token,
+                    $this->merchant_team->ids
+                );
+    
+                $app_event->update([
+                    'status' => $result_send_message
+                ]);
+    
+                $app_event->increment('count_of_call');
+            endif;
+            DB::commit();
+        } catch(\Exception $e){
+            DB::rollBack();
+        }
     }
 }
