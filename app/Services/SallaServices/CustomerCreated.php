@@ -72,6 +72,7 @@ class CustomerCreated implements AppEvent{
             $attrs = formate_customer_details($this->data);
             DB::beginTransaction();
             try{
+                sleep(60);
                 $app_event = EventStatus::updateOrCreate([
                     'unique_number' => $this->data['merchant'].$this->data['data']['id']
                 ],[
@@ -79,7 +80,7 @@ class CustomerCreated implements AppEvent{
                     'event_from'    => "salla",
                     'type'          => $this->data['event']
                 ]);
-    
+
                 if($app_event->status != 'success'):
                     $message = isset($this->settings['new_customer_message']) ? $this->settings['new_customer_message'] : '';
                     $filter_message = message_order_params($message, $attrs);
@@ -89,7 +90,7 @@ class CustomerCreated implements AppEvent{
                         $account->token,
                         $this->merchant_team->ids
                     );
-    
+
                     $app_event->update([
                         'status' => $result_send_message
                     ]);

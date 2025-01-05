@@ -84,6 +84,7 @@ class InvoiceCreated extends AppMerchant implements AppEvent{
             $attrs = formate_invoice_details($this->data);
             DB::beginTransaction();
             try{
+                sleep(60);
                 $app_event = EventStatus::updateOrCreate([
                     'unique_number' => $this->data['merchant'].$this->data['data']['id']
                 ],[

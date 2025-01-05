@@ -96,6 +96,7 @@ class Order extends AppMerchant implements AppEvent{
             $attrs = formate_order_details($this->data);
             DB::beginTransaction();
             try {
+                sleep(60);
                 $app_event = EventStatus::updateOrCreate([
                     'unique_number' => $this->data['merchant'].$this->data['data']['id'],
                     'values'        => json_encode($this->data)
