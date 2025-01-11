@@ -33,8 +33,8 @@ class Subscription implements AppEvent{
 
         // set plans
         $this->plans = [
-            'free'      => 34,
-            'start'     => 2,
+            'Starter'   => 34,
+            'Launch'    => 2,
             'growth'    => 3,
             'Professional'  => 4
         ];
