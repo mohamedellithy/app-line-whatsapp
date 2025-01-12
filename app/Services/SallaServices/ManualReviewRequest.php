@@ -65,12 +65,11 @@ class ManualReviewRequest implements AppEvent{
         ])->first();
         if( (!$account) || ($account->token == null)) return;
 
-        $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['id'], 60);
+        $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['id'], 30);
         if($lock->get()){
             $attrs = formate_order_details($this->data);
             DB::beginTransaction();
             try {
-                sleep(60);
                 $app_event = EventStatus::updateOrCreate([
                     'unique_number' => $this->data['merchant'],
                     'values'        => json_encode($this->data)

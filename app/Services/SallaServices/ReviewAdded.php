@@ -61,11 +61,10 @@ class ReviewAdded implements AppEvent{
         if( (!$account) || ($account->token == null)) return;
 
         if($this->data['data']['type'] != 'testimonial') return;
-        $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['customer']['id'], 60);
+        $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['customer']['id'], 30);
         if($lock->get()){
             DB::beginTransaction();
             try {
-                sleep(60);
                 $app_event = EventStatus::updateOrCreate([
                     'unique_number' => $this->data['merchant'],
                     'values'        => json_encode($this->data)
