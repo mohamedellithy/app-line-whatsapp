@@ -119,7 +119,7 @@ class User{
         $new_account->password        = $user_password;
         $new_account->avatar          = $this->merchant->data->merchant->avatar;
         $new_account->plan            = '34';
-        $new_account->expiration_date = self::add_date_plus(90);
+        $new_account->expiration_date = self::add_date_plus(29);
         $new_account->merchant_id     = $data['merchant'];
         $new_account->timezone        = 'Asia/Riyadh';
         $new_account->login_type      = 'salla';

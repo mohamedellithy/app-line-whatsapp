@@ -36,9 +36,12 @@ class Subscription implements AppEvent{
             'free'      => 34,
             'start'     => 2,
             'Starter'   => 34,
+            'starter'   => 34,
             'Launch'    => 2,
+            'launch'    => 2,
             'growth'    => 3,
-            'Professional'  => 4
+            'Professional'  => 4,
+            'professional'  => 4
         ];
 
         $this->sort_plans = [
