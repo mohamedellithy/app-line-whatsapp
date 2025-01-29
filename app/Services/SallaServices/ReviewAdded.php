@@ -92,6 +92,7 @@ class ReviewAdded implements AppEvent{
                 endif;
                 DB::commit();
             } catch(\Exception $e){
+                \Log::info($e->getMessage());
                 DB::rollBack();
             }
         }
