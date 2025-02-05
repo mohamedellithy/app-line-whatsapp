@@ -137,8 +137,9 @@ class Order extends AppMerchant implements AppEvent{
                 DB::commit();
             } catch(\Exception $e){
                 DB::rollBack();
+            } finally{
+                $lock->release();
             }
-            // $lock->release();
         }
 
     }
