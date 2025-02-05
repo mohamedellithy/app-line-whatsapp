@@ -32,7 +32,18 @@ if(!function_exists('formate_order_details')):
             $attrs['customer_phone_number']  = $attrs['customer']['mobile_code'].$attrs['customer']['mobile'];
             $attrs['order_url']              = $order_details['data']['urls']['customer'];
             $attrs['items']                  = $order_details['data']['items'];
-            $attrs['review_url']             = isset($order_details['data']) ? (isset($order_details['data']['urls']['rating_link']) ? $order_details['data']['urls']['rating_link'] : $order_details['data']['rating_link']) : "";
+            if(isset($order_details['data'])){
+                if(isset($order_details['data']['urls']['rating_link'])){
+                    $attrs['review_url'] = $order_details['data']['urls']['rating_link'];
+                } else {
+                    if(isset($order_details['data']['rating_link'])){
+                        $attrs['review_url'] = $order_details['data']['rating_link'];
+                    } else {
+                        $attrs['review_url'] = "";
+                    }
+                }
+            }
+            // $attrs['review_url']             = isset($order_details['data']) ? (isset($order_details['data']['urls']['rating_link']) ? $order_details['data']['urls']['rating_link'] : $order_details['data']['rating_link']) : "";
             $attrs['tracking_shipment']      = isset($order_details['data']['shipping']['shipment']['tracking_link']) ? $order_details['data']['shipping']['shipment']['tracking_link'] : "";
             $attrs['shipping_company']       = isset($order_details['data']['shipping']['company']) ? $order_details['data']['shipping']['company'] : "";
             // $attrs['bank']                   = $order_details['data']['order']['bank'] ?: $order_details['data']['bank'];
