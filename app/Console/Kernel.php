@@ -46,9 +46,9 @@ class Kernel extends ConsoleKernel
          //->between('8:00', '22:00');
  
          ///////////////////////////////////////////////////////////////////////
-        //  $schedule->call(function () {
-        //      DB::table('event_status')->delete();
-        //  })->name('empty_events_logs')->everyTwoHours();
+         $schedule->call(function () {
+             DB::table('event_status')->truncate();
+         })->name('empty_events_logs')->everyTwoHours();
  
          ///////////////////////////////////////////////////////////////////////
          // $schedule->call(function () {
