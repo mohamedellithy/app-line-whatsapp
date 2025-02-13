@@ -91,13 +91,12 @@ class CustomerCreated implements AppEvent{
                     );
 
                     $app_event->update([
-                        'status' => $result_send_message
+                        'status' => 'success' //$result_send_message
                     ]);
     
                     $app_event->increment('count_of_call');
                 endif;
                 DB::commit();
-                sleep(10);
             } catch(\Exception $e){
                 DB::rollBack();
             } finally {
