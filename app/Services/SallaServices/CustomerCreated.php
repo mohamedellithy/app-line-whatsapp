@@ -97,8 +97,11 @@ class CustomerCreated implements AppEvent{
                     $app_event->increment('count_of_call');
                 endif;
                 DB::commit();
+                sleep(10);
             } catch(\Exception $e){
                 DB::rollBack();
+            } finally {
+                $lock->release();
             }
         }
     }
