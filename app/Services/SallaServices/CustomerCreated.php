@@ -83,17 +83,15 @@ class CustomerCreated implements AppEvent{
                 if($app_event->status != 'success'):
                     $message = isset($this->settings['new_customer_message']) ? $this->settings['new_customer_message'] : '';
                     $filter_message = message_order_params($message, $attrs);
+                    $app_event->update([
+                        'status' => 'success' //$result_send_message
+                    ]);
                     $result_send_message = send_message(
                         $this->data['data']['mobile_code'].$this->data['data']['mobile'],
                         $filter_message,
                         $account->token,
                         $this->merchant_team->ids
                     );
-
-                    $app_event->update([
-                        'status' => 'success' //$result_send_message
-                    ]);
-    
                     $app_event->increment('count_of_call');
                 endif;
                 DB::commit();
