@@ -246,9 +246,8 @@ function message_order_params($message_to_send = '',$attrs = []){
             'نص_التقيم'     =>  isset($attrs["content_review"]) ? $attrs["content_review"] : null,
             'نص_التقييم'    =>  isset($attrs["content_review"]) ? $attrs["content_review"] : null,
             // =================================================================
-            'رابط_التقييم'  =>  isset($attrs["review_url"]) ? $attrs["review_url"] : null,
+            'رابط_التقييم'  =>  isset($attrs["review_url"]) ? $attrs["review_url"] : null
             // =================================================================
-            '' => ''
         ];
 
         if($variable == "كود_المنتج"){
