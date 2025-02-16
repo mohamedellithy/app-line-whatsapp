@@ -266,7 +266,11 @@ function message_order_params($message_to_send = '',$attrs = []){
         if($variable == "رسالة_تأكيد_الطلب_فى_حالة_الدفع_عند_الاستلام"){
             if(isset($attrs['payment_method'])){
                 if($attrs['payment_method'] == "cod"){
-                    $orders_status[$variable] = "نرجوا التفضل بارسال جملة تأكيد الطلب للبدء بتجهيز الطلب. \n";
+                    $orders_status[$variable] = "\n
+                    الرجاء ارسال رسالة التأكيد التالية لنا:
+                    \n
+اتعهد لكم بأنني ساقوم باستلام الطلب وفي حال عدم استلامي له فانه يبقى لكم بذمتي تكاليف الشحن.
+                    \n";
                 } else {
                     $orders_status[$variable] = "";
                 }
