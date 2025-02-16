@@ -267,7 +267,11 @@ function message_order_params($message_to_send = '',$attrs = []){
             if(isset($attrs['payment_method'])){
                 if($attrs['payment_method'] == "cod"){
                     $orders_status[$variable] = "نرجوا التفضل بارسال جملة تأكيد الطلب للبدء بتجهيز الطلب. \n";
+                } else {
+                    $orders_status[$variable] = "";
                 }
+            } else {
+                $orders_status[$variable] = "";
             }
         }
 
