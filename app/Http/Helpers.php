@@ -246,7 +246,9 @@ function message_order_params($message_to_send = '',$attrs = []){
             'نص_التقيم'     =>  isset($attrs["content_review"]) ? $attrs["content_review"] : null,
             'نص_التقييم'    =>  isset($attrs["content_review"]) ? $attrs["content_review"] : null,
             // =================================================================
-            'رابط_التقييم'  =>  isset($attrs["review_url"]) ? $attrs["review_url"] : null
+            'رابط_التقييم'  =>  isset($attrs["review_url"]) ? $attrs["review_url"] : null,
+            // =================================================================
+            '' => ''
         ];
 
         if($variable == "كود_المنتج"){
@@ -260,6 +262,14 @@ function message_order_params($message_to_send = '',$attrs = []){
             }
 
             $orders_status[$variable] = implode(PHP_EOL, $code_list);
+        }
+
+        if($variable == "رسالة_تأكيد_الطلب_فى_حالة_الدفع_عند_الاستلام"){
+            if(isset($attrs['payment_method'])){
+                if($attrs['payment_method'] == "cod"){
+                    $orders_status[$variable] = "نرجوا التفضل بارسال جملة تأكيد الطلب للبدء بتجهيز الطلب. \n";
+                }
+            }
         }
 
         elseif($variable == "تفاصيل_منتجات_الطلبية"){
