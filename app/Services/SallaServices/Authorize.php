@@ -21,7 +21,7 @@ class Authorize implements AppEvent{
         $log = json_encode($this->data, JSON_UNESCAPED_UNICODE) . PHP_EOL;
 
         // set log data
-        \Log::channel('salla_events')->info($log);
+        \Log::info($log);
     }
 
     public function resolve_event(){
