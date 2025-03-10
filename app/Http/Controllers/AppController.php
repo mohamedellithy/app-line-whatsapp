@@ -22,7 +22,7 @@ class AppController extends Controller
         }
         $event_id      = isset($event['data']) ? (isset($event['data']['id']) ? $event['data']['id'] : rand(1,1000)) : rand(1,1000);
         if($event['event'] == 'app.installed'){
-            \Log::info($event['event']);
+            \Log::info($event);
         }
         dispatch(function() use($event){
             $event_call = new AppEvents();
