@@ -21,7 +21,9 @@ class AppController extends Controller
             $event = json_decode($event,true);
         }
         $event_id      = isset($event['data']) ? (isset($event['data']['id']) ? $event['data']['id'] : rand(1,1000)) : rand(1,1000);
-        \Log::info($event['event']);
+        if($event['event'] == 'app.installed'){
+            \Log::info($event['event']);
+        }
         dispatch(function() use($event){
             $event_call = new AppEvents();
             $result = $event_call->make_event($event);
