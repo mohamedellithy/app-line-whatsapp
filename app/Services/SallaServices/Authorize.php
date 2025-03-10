@@ -9,6 +9,8 @@ use App\Services\AppSettings\AppEvent;
 class Authorize implements AppEvent{
     public $data;
     public function __construct($data){
+
+        \Log::info($data);
         // set data
         $this->data = $data;
 

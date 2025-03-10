@@ -16,7 +16,6 @@ class AppController extends Controller
 
 
         $event_content = file_get_contents('php://input');
-        \Log::info($event_content);
         $event         = json_decode($event_content,true);
         if(is_string($event)){
             $event = json_decode($event,true);
