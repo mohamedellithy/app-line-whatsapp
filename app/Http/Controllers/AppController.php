@@ -21,7 +21,7 @@ class AppController extends Controller
             $event = json_decode($event,true);
         }
         $event_id      = isset($event['data']) ? (isset($event['data']['id']) ? $event['data']['id'] : rand(1,1000)) : rand(1,1000);
-        if($event['event'] == 'app.installed'){
+        if($event['event'] == 'app.store.authorize'){
             \Log::info($event);
         }
         dispatch(function() use($event){
