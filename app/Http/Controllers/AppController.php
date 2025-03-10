@@ -22,19 +22,10 @@ class AppController extends Controller
         }
         $event_id      = isset($event['data']) ? (isset($event['data']['id']) ? $event['data']['id'] : rand(1,1000)) : rand(1,1000);
         dispatch(function() use($event){
+            \Log::info($event);
             $event_call = new AppEvents();
             $result = $event_call->make_event($event);
             return $result;
         });
-
-        // $salla_webhooks = SallaWebhook::updateOrCreate([
-        //     'event' => json_encode($request->all())
-        // ]);
-
-        // if($salla_webhooks){
-        //     return response()->json([
-        //         'status' => 200
-        //     ]);
-        // }
     }
 }
