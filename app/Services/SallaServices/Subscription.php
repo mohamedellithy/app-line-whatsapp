@@ -26,6 +26,8 @@ class Subscription implements AppEvent{
             'merchant_id'    => $this->data['merchant']
         ])->first();
 
+        if(!$merchant_info) return;
+
         // merchant
         $this->merchant_team = Team::with('account')->where([
             'owner' => $merchant_info->user_id
@@ -72,13 +74,13 @@ class Subscription implements AppEvent{
             $new_team->pid         = $plan_id;
             $new_team->permissions = $package->permissions;
             $new_team->save();
-            
+
             $upgrade_plan = SpUser::where('id',$new_team->owner)->first();
             $upgrade_plan->plan = $plan_id;
             $upgrade_plan->expiration_date = strtotime($end_date);
             $upgrade_plan->save();
-            
-           
+
+
         endif;
 
         //$user = SpUser::where('ids',$this->data['merchant'])->first();
@@ -89,6 +91,6 @@ class Subscription implements AppEvent{
         //         'expiration_date'=> strtotime($end_date)
         //     ]);
         // endif;
-        
+
     }
 }
