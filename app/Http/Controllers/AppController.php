@@ -16,6 +16,7 @@ class AppController extends Controller
 
 
         $event_content = file_get_contents('php://input');
+        \Log::info($event_content);
         $event         = json_decode($event_content,true);
         if(is_string($event)){
             $event = json_decode($event,true);
@@ -30,7 +31,7 @@ class AppController extends Controller
         // $salla_webhooks = SallaWebhook::updateOrCreate([
         //     'event' => json_encode($request->all())
         // ]);
-        
+
         // if($salla_webhooks){
         //     return response()->json([
         //         'status' => 200
