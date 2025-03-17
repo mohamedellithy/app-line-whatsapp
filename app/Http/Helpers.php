@@ -234,7 +234,7 @@ function message_order_params($message_to_send = '',$attrs = []){
             'تخفيض_على_السلة'      => isset($attrs["cart_total_discount"])  ? $attrs["cart_total_discount"] : null,
             'رابط_الدفع'           => isset($attrs["cart_checkout_url"])     ? $attrs["cart_checkout_url"] : null,
             'تاريخ_انشاء_الطلب'   => isset($attrs["cart_created_at"])        ? $attrs["cart_created_at"] : null,
-            'اسم_الزبون_السلة'    => isset($attrs["cart_customer_name"])     ? $attrs["cart_customer_name"] : null,
+            'اسم_الزبون_السلة'    => isset($attrs["customer_full_name"])     ? $attrs["customer_full_name"] : null,
             'رقم_جوال_زبون_السلة' =>  isset($attrs["cart_customer_mobile"])  ? $attrs["cart_customer_mobile"] : null,
             'دولة_زبون_السلة'     =>  isset($attrs["cart_customer_country"])  ? $attrs["cart_customer_country"] : null,
             'مدينة_زبون_السلة'    => isset($attrs["cart_customer_city"])      ? $attrs["cart_customer_city"] : null,
@@ -297,14 +297,14 @@ function message_order_params($message_to_send = '',$attrs = []){
 
             $orders_status[$variable] = implode(PHP_EOL, $product_url_list);
         }
-        
+
         elseif($variable == "الملفات"){
             $files_url_list = [];
             foreach($attrs["items"] as $item){
                 if(isset($item["files"])){
                     foreach($item["files"] as $file){
                         $files_url_list[] = $file['name'].'  :  '.(isset($file['url']) ? $file['url'] : "-");
-                    }     
+                    }
                 }
             }
 
