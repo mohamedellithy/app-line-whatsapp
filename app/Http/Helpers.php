@@ -79,6 +79,7 @@ if(!function_exists('formate_cart_details')):
         $attrs['cart_customer_mobile']   = $order_details['data']['customer']['mobile'];
         $attrs['cart_customer_country']  = $order_details['data']['customer']['country'];
         $attrs['cart_customer_city']     = $order_details['data']['customer']['city'];
+        $attrs['items']                  = $order_details['data']['items'];
         return $attrs;
     }
 endif;
@@ -263,7 +264,7 @@ function message_order_params($message_to_send = '',$attrs = []){
             $orders_status[$variable] = implode(PHP_EOL, $code_list);
         }
 
-        if($variable == "رسالة_تأكيد_الطلب_فى_حالة_الدفع_عند_الاستلام"){
+        elseif($variable == "رسالة_تأكيد_الطلب_فى_حالة_الدفع_عند_الاستلام"){
             if(isset($attrs['payment_method'])){
                 if($attrs['payment_method'] == "cod"){
                     $orders_status[$variable] = "\n
@@ -281,36 +282,42 @@ function message_order_params($message_to_send = '',$attrs = []){
         }
 
         elseif($variable == "تفاصيل_منتجات_الطلبية"){
-            $product_list = [];
-            foreach ($attrs["items"] as $item){
-                // $total_amount  = isset($item['amounts']) ? $item['amounts']['total']['amount'] : (isset($item['total']['amount']) ?: '');
-                // $total_currency  = isset($item['amounts']) ? $item['amounts']['total']['currency'] : (isset($item['total']['currency']) ?: '');
-                $product_list[] = $item['product_id'].'  :  '.$item['quantity'];
-                //.'  :  '.$total_amount.''.$total_currency;
-            }
+            if(isset($attrs["items"])){
+                $product_list = [];
+                foreach($attrs["items"] as $item){
+                    // $total_amount  = isset($item['amounts']) ? $item['amounts']['total']['amount'] : (isset($item['total']['amount']) ?: '');
+                    // $total_currency  = isset($item['amounts']) ? $item['amounts']['total']['currency'] : (isset($item['total']['currency']) ?: '');
+                    $product_list[] = $item['product_id'].'  :  '.$item['quantity'];
+                    //.'  :  '.$total_amount.''.$total_currency;
+                }
 
-            $orders_status[$variable] = implode(PHP_EOL, $product_list);
+                $orders_status[$variable] = implode(PHP_EOL, $product_list);
+            }
         }
 
         elseif($variable == "روابط_المنتجات"){
-            foreach ($attrs["items"] as $item){
-                $product_url_list[] = $item['name'].'  :  '.(isset($item['product']) ? $item['product']['url'] : "-");
-            }
+            if(isset($attrs["items"])){
+                foreach($attrs["items"] as $item){
+                    $product_url_list[] = $item['name'].'  :  '.(isset($item['product']) ? $item['product']['url'] : "-");
+                }
 
-            $orders_status[$variable] = implode(PHP_EOL, $product_url_list);
+                $orders_status[$variable] = implode(PHP_EOL, $product_url_list);
+            }
         }
 
         elseif($variable == "الملفات"){
-            $files_url_list = [];
-            foreach($attrs["items"] as $item){
-                if(isset($item["files"])){
-                    foreach($item["files"] as $file){
-                        $files_url_list[] = $file['name'].'  :  '.(isset($file['url']) ? $file['url'] : "-");
+            if(isset($attrs["items"])){
+                $files_url_list = [];
+                foreach($attrs["items"] as $item){
+                    if(isset($item["files"])){
+                        foreach($item["files"] as $file){
+                            $files_url_list[] = $file['name'].'  :  '.(isset($file['url']) ? $file['url'] : "-");
+                        }
                     }
                 }
-            }
 
-            $orders_status[$variable] = implode(PHP_EOL, $files_url_list);
+                $orders_status[$variable] = implode(PHP_EOL, $files_url_list);
+            }
         }
 
         $params = isset($orders_status[$variable]) ? $orders_status[$variable] : $variable;
