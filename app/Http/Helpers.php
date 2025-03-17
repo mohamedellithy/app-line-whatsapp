@@ -79,7 +79,6 @@ if(!function_exists('formate_cart_details')):
         $attrs['cart_customer_mobile']   = $order_details['data']['customer']['mobile'];
         $attrs['cart_customer_country']  = $order_details['data']['customer']['country'];
         $attrs['cart_customer_city']     = $order_details['data']['customer']['city'];
-        $attrs['items']                  = $order_details['data']['items'];
         return $attrs;
     }
 endif;
