@@ -284,7 +284,8 @@ function message_order_params($message_to_send = '',$attrs = []){
             foreach ($attrs["items"] as $item){
                 $total_amount  = isset($item['amounts']) ? $item['amounts']['total']['amount'] : (isset($item['total']['amount']) ?: '');
                 $total_currency  = isset($item['amounts']) ? $item['amounts']['total']['currency'] : (isset($item['total']['currency']) ?: '');
-                $product_list[] = $item['name'].'  :  '.$item['quantity'].'  :  '.$total_amount.''.$total_currency;
+                $product_list[] = $item['name'].'  :  '.$item['quantity'];
+                //.'  :  '.$total_amount.''.$total_currency;
             }
 
             $orders_status[$variable] = implode(PHP_EOL, $product_list);
