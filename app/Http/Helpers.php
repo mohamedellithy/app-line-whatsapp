@@ -281,6 +281,7 @@ function message_order_params($message_to_send = '',$attrs = []){
         }
 
         elseif($variable == "تفاصيل_منتجات_الطلبية"){
+            $product_list = [];
             foreach ($attrs["items"] as $item){
                 $total_amount  = isset($item['amounts']) ? $item['amounts']['total']['amount'] : (isset($item['total']['amount']) ?: '');
                 $total_currency  = isset($item['amounts']) ? $item['amounts']['total']['currency'] : (isset($item['total']['currency']) ?: '');
