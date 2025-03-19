@@ -75,6 +75,7 @@ class Subscription implements AppEvent{
             $new_team->permissions = $package->permissions;
             $new_team->save();
             \Log::info($package->permissions);
+            \Log::info($new_team->permissions);
 
             $upgrade_plan = SpUser::where('id',$new_team->owner)->first();
             $upgrade_plan->plan = $plan_id;
