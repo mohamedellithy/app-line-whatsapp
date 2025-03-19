@@ -6,6 +6,7 @@ use App\Models\Team;
 use App\Models\SpPlan;
 use App\Models\SpUser;
 use App\Models\SpPermession;
+use App\Models\SpWhatsAppState;
 use App\Models\MerchantCredential;
 use Illuminate\Support\Facades\Http;
 use App\Services\AppSettings\AppEvent;
@@ -74,13 +75,21 @@ class Subscription implements AppEvent{
             $new_team->pid         = $plan_id;
             $new_team->permissions = $package->permissions;
             $new_team->save();
-            \Log::info($package->permissions);
-            \Log::info($new_team->permissions);
+
+
+            // wa_total_sent_by_month = 0;
+            // wa_autoresponder_count
 
             $upgrade_plan = SpUser::where('id',$new_team->owner)->first();
             $upgrade_plan->plan = $plan_id;
             $upgrade_plan->expiration_date = strtotime($end_date);
             $upgrade_plan->save();
+
+            SpWhatsAppState::where([
+                'team_id' => $new_team->id
+            ])->update([
+                'wa_total_sent_by_month' => 0
+            ]);
 
 
         endif;
