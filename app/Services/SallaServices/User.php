@@ -103,7 +103,7 @@ class User{
         $this->get_store_info($data['data']['access_token']);
 
         /*** generate password to send to clinet ***/
-        $password       = Str::random(5);
+        $password       = rand(100000,999999);
         $user_password  = md5($password);
         $plan_id        = '34';
         $ids            = $data['merchant'].Str::random(5);
@@ -201,7 +201,7 @@ class User{
         $user           = SpUser::whereHas('merchant_info',function($query) use($merchant_id){
             return $query->where('merchant_id',$merchant_id);
         })->first();
-        $password       = Str::random(5);
+        $password       = rand(100000,999999);
         $user_password  = md5($password);
         $user->password = $user_password;
         $user->save();
