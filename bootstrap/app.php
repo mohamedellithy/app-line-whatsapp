@@ -65,7 +65,11 @@ $app->singleton(
 
 
 $app->configure('app');
+
+// class_alias(Illuminate\Support\Facades\Redis::class, 'Redis');
 $app->configure('queue');
+$app->configure('database');
+$app->register(Illuminate\Redis\RedisServiceProvider::class);
 $app->register(Illuminate\Queue\QueueServiceProvider::class);
 
 
