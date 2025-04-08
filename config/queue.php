@@ -9,6 +9,9 @@ return [
             'retry_after' => 90,
             'block_for' => null,
         ],
+        'sync' => [
+            'driver' => 'sync',
+        ],
 
     ],
     'failed' => [
