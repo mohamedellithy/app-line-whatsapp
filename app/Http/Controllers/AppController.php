@@ -27,6 +27,6 @@ class AppController extends Controller
             $event_call = new AppEvents();
             $result = $event_call->make_event($event);
             return $result;
-        });
+        })->onQueue('default');
     }
 }
