@@ -4,6 +4,7 @@ use App\Models\Team;
 use App\Models\SpUser;
 use App\Models\SpWhatsAppState;
 use App\Models\MerchantCredential;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CheckMerchant {
     public static function Validate($data){
@@ -13,7 +14,7 @@ class CheckMerchant {
         ])->first();
 
         // if merchant info is not exist
-        if(!$merchant_info) abort(404);
+        if(!$merchant_info) throw new HttpException(200, "Merchant not found");
 
         // get merchant team
         $merchant_team = Team::with('account')->where([
@@ -21,7 +22,7 @@ class CheckMerchant {
         ])->first();
 
         // if merchant team is not exist
-        if(!$merchant_team) abort(404);
+        if(!$merchant_team) throw new HttpException(200,"Merchant team not found");
 
         // user info not exist
         $user_info = SpUser::where([
@@ -29,19 +30,19 @@ class CheckMerchant {
         ])->whereIn('login_type',['salla'])->first();
 
         // if user is not exist
-        if(!$user_info) abort(404);
+        if(!$user_info) throw new HttpException(200,"User not found");
 
         // is not active 
-        if($user_info->status != 2) abort(404);
+        if($user_info->status != 2) throw new HttpException(200,"User is not active");
 
         // permissions is exist
-        if(!$user_info->permissions) abort(404);
+        if(!$user_info->permissions) throw new HttpException(200,"Permissions not found");
 
         // check user expiration date
         if($user_info->expiration_date != 0){
             // expiration date
             if(strtotime('now') > $user_info->expiration_date){
-                abort(404);
+                throw new HttpException(200,"User is expired");
             }
 
             // whatsapp state
@@ -54,7 +55,7 @@ class CheckMerchant {
 
             // if count messages is less than from limit
             if($SpWhatsAppState->wa_total_sent_by_month > $permission['whatsapp_message_per_month']){
-                abort(404);
+                throw new HttpException(200,"Count messages is less than from limit");
             }
         }
     }
