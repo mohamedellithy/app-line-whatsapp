@@ -8,7 +8,6 @@ use App\Exceptions\MerchantValidateException;
 
 class CheckMerchant {
     public static function Validate($data){
-        \Log::info($data['merchant']);
         // get merchant info
         $merchant_info = MerchantCredential::where([
             'merchant_id'    => $data['merchant']
@@ -38,7 +37,6 @@ class CheckMerchant {
 
         // check user expiration date
         if($user_info->expiration_date != 0){
-            \Log::info($user_info?->expiration_date);
             // expiration date
             if(strtotime('now') > $user_info->expiration_date){
                 throw new MerchantValidateException("User is expired",200);
