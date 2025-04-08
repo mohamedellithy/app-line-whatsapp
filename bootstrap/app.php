@@ -63,7 +63,6 @@ $app->singleton(
 |
 */
 
-class_alias(Illuminate\Support\Facades\Redis::class, 'Redis');
 
 $app->configure('app');
 $app->configure('queue');
