@@ -27,6 +27,7 @@ class_alias('Maatwebsite\Excel\Facades\Excel', 'Excel');
 $app->withFacades();
 $app->withEloquent();
 $app->register('Maatwebsite\Excel\ExcelServiceProvider');
+$app->register(Illuminate\Queue\QueueServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
