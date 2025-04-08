@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Cache;
 use App\Models\SallaWebhook;
 use Illuminate\Http\Request;
+use App\Jobs\SallaEventProcess;
 use Illuminate\Support\Facades\Http;
 use App\Services\SallaServices\AppEvents;
 use App\Services\AppSettings\CheckMerchant;
@@ -22,11 +23,8 @@ class AppController extends Controller
         }
         
         CheckMerchant::Validate($event);
+
         // validate merchant
-        dispatch(function() use($event){
-            $event_call = new AppEvents();
-            $result = $event_call->make_event($event);
-            return $result;
-        });
+        dispatch(new SallaEventProcess($event));
     }
 }
