@@ -13,7 +13,7 @@ class CheckMerchant {
         ])->first();
 
         // if merchant info is not exist
-        if(!$merchant_info) abort(200);
+        if(!$merchant_info) abort(404);
 
         // get merchant team
         $merchant_team = Team::with('account')->where([
@@ -21,7 +21,7 @@ class CheckMerchant {
         ])->first();
 
         // if merchant team is not exist
-        if(!$merchant_team) abort(200);
+        if(!$merchant_team) abort(404);
 
         // user info not exist
         $user_info = SpUser::where([
@@ -29,19 +29,19 @@ class CheckMerchant {
         ])->whereIn('login_type',['salla'])->first();
 
         // if user is not exist
-        if(!$user_info) abort(200);
+        if(!$user_info) abort(404);
 
         // is not active 
-        if($user_info->status != 2) abort(200);
+        if($user_info->status != 2) abort(404);
 
         // permissions is exist
-        if(!$user_info->permissions) abort(200);
+        if(!$user_info->permissions) abort(404);
 
         // check user expiration date
         if($user_info->expiration_date != 0){
             // expiration date
             if(strtotime('now') > $user_info->expiration_date){
-                abort(200);
+                abort(404);
             }
 
             // whatsapp state
@@ -54,7 +54,7 @@ class CheckMerchant {
 
             // if count messages is less than from limit
             if($SpWhatsAppState->wa_total_sent_by_month > $permission['whatsapp_message_per_month']){
-                abort(200);
+                abort(404);
             }
         }
     }
