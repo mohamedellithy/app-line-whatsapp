@@ -76,10 +76,6 @@ class Subscription implements AppEvent{
             $new_team->permissions = $package->permissions;
             $new_team->save();
 
-
-            // wa_total_sent_by_month = 0;
-            // wa_autoresponder_count
-
             $upgrade_plan = SpUser::where('id',$new_team->owner)->first();
             $upgrade_plan->plan = $plan_id;
             $upgrade_plan->expiration_date = strtotime($end_date);
@@ -90,7 +86,6 @@ class Subscription implements AppEvent{
             ])->update([
                 'wa_total_sent_by_month' => 0
             ]);
-
 
         endif;
 
