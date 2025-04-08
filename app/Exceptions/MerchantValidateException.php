@@ -16,10 +16,8 @@ class MerchantValidateException extends Exception
 
     public function render($request)
     {
-        if($request->wantsJson()){
-            return response()->json([
-                'message' => $this->message
-            ],$this->code);
-        }
+        return response()->json([
+            'message' => $this->message
+        ],$this->code);
     }
 }
