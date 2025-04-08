@@ -32,10 +32,12 @@ class SallaEventProcess extends Job implements ShouldQueue
 
     public function handle()
     {
-        try{
+        // try{
             $event_call = new AppEvents();
             $result = $event_call->make_event($this->event);
             return $result;
-        } catch(\Exception $e){};
+        // } catch(\Exception $e){
+
+        // };
     }
 }
