@@ -27,7 +27,7 @@ class_alias('Maatwebsite\Excel\Facades\Excel', 'Excel');
 $app->withFacades();
 $app->withEloquent();
 $app->register('Maatwebsite\Excel\ExcelServiceProvider');
-$app->register(Illuminate\Queue\QueueServiceProvider::class);
+
 
 
 
@@ -63,8 +63,12 @@ $app->singleton(
 |
 */
 
+class_alias(Illuminate\Support\Facades\Redis::class, 'Redis');
+
 $app->configure('app');
 $app->configure('queue');
+$app->register(Illuminate\Queue\QueueServiceProvider::class);
+
 
 /*
 |--------------------------------------------------------------------------
