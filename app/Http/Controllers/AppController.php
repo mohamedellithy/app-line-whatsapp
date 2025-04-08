@@ -16,14 +16,14 @@ class AppController extends Controller
         ini_set('max_execution_time', 0); //0=NOLIMIT
 
         $event_content = file_get_contents('php://input');
-
-        dispatch(function() use($event_content){
-            $event         = json_decode($event_content,true);
-            if(is_string($event)){
-                $event = json_decode($event,true);
-            }
-            // validate merchant
-            CheckMerchant::Validate($event);
+        $event         = json_decode($event_content,true);
+        if(is_string($event)){
+            $event = json_decode($event,true);
+        }
+        
+        CheckMerchant::Validate($event);
+        // validate merchant
+        dispatch(function() use($event){
             $event_call = new AppEvents();
             $result = $event_call->make_event($event);
             return $result;
