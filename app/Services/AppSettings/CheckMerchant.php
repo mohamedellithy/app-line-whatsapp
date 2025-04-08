@@ -55,7 +55,7 @@ class CheckMerchant {
             if(!$merchant_team->permissions) throw new MerchantValidateException("Permissions not found",200);
 
             // formate permissions
-            $permission = json_decode($user_info->permissions,true);
+            $permission = json_decode($merchant_team->permissions,true);
 
             // if count messages is less than from limit
             if($SpWhatsAppState->wa_total_sent_by_month > $permission['whatsapp_message_per_month']){
