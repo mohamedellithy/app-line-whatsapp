@@ -5,10 +5,10 @@ use App\Models\SpUser;
 use App\Models\SpWhatsAppState;
 use App\Models\MerchantCredential;
 use App\Exceptions\MerchantValidateException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CheckMerchant {
     public static function Validate($data){
+        \Log::info($data['merchant']);
         // get merchant info
         $merchant_info = MerchantCredential::where([
             'merchant_id'    => $data['merchant']
