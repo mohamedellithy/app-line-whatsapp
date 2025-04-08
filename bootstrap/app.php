@@ -29,6 +29,8 @@ $app->withEloquent();
 $app->register('Maatwebsite\Excel\ExcelServiceProvider');
 $app->register(Illuminate\Queue\QueueServiceProvider::class);
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -62,6 +64,7 @@ $app->singleton(
 */
 
 $app->configure('app');
+$app->configure('queue');
 
 /*
 |--------------------------------------------------------------------------
