@@ -35,9 +35,6 @@ class CheckMerchant {
         // is not active 
         if($user_info->status != 2) throw new HttpException(200,"User is not active");
 
-        // permissions is exist
-        if(!$user_info->permissions) throw new HttpException(200,"Permissions not found");
-
         // check user expiration date
         if($user_info->expiration_date != 0){
             // expiration date
@@ -49,6 +46,9 @@ class CheckMerchant {
             $SpWhatsAppState = SpWhatsAppState::where([
                 'team_id' => $merchant_team->id
             ])->first();
+
+            // permissions is exist
+            if(!$merchant_team->permissions) throw new HttpException(200,"Permissions not found");
 
             // formate permissions
             $permission = json_decode($user_info->permissions,true);
