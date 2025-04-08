@@ -8,7 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use App\Services\SallaServices\AppEvents;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SallaEventProcess extends Job implements ShouldQueue
+class SallaEventProcess extends Job //implements ShouldQueue
 {
     /*
     |--------------------------------------------------------------------------
@@ -21,7 +21,7 @@ class SallaEventProcess extends Job implements ShouldQueue
     |
     */
 
-    use InteractsWithQueue, Queueable, SerializesModels;
+    // use InteractsWithQueue, Queueable, SerializesModels;
 
     protected $event;
 
