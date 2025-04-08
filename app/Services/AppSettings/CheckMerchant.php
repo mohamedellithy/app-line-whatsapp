@@ -48,6 +48,9 @@ class CheckMerchant {
                 'team_id' => $merchant_team->id
             ])->first();
 
+            // whatsapp state is Not exist
+            if(!$SpWhatsAppState) throw new MerchantValidateException("whatsapp state is Not exist",200);
+
             // permissions is exist
             if(!$merchant_team->permissions) throw new MerchantValidateException("Permissions not found",200);
 
