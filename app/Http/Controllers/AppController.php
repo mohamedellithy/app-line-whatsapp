@@ -21,9 +21,11 @@ class AppController extends Controller
             $event = json_decode($event,true);
         }
 
+        // validate merchant
+        CheckMerchant::Validate($event);
+
         dispatch(function() use($event){
             $event_call = new AppEvents();
-            CheckMerchant::Validate($event);
             $result = $event_call->make_event($event);
             return $result;
         });
