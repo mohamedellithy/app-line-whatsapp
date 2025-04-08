@@ -21,9 +21,8 @@ class AppController extends Controller
         if(is_string($event)){
             $event = json_decode($event,true);
         }
-        
-        CheckMerchant::Validate($event);
 
+        CheckMerchant::Validate($event);
         // validate merchant
         dispatch(new SallaEventProcess($event));
     }
