@@ -22,8 +22,11 @@ class AppController extends Controller
             $event = json_decode($event,true);
         }
 
-        CheckMerchant::Validate($event);
         // validate merchant
+        if(isset($event) && !in_array($event['event'],['app.store.authorize','app.subscription.started','app.subscription.renewed'])){
+            CheckMerchant::Validate($event);
+        }
+
         dispatch(new SallaEventProcess($event));
     }
 }
