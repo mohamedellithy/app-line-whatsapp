@@ -23,7 +23,10 @@ class AppController extends Controller
         }
 
         // validate merchant
-        if(isset($event) && !in_array($event['event'],['app.store.authorize','app.subscription.started','app.subscription.renewed'])){
+        if(isset($event) && !in_array($event['event'],[
+            'app.store.authorize','app.subscription.started',
+            'app.subscription.renewed','app.settings.updated'
+        ])){
             CheckMerchant::Validate($event);
         }
 
