@@ -72,7 +72,7 @@ $app->configure('database');
 $app->register(Illuminate\Redis\RedisServiceProvider::class);
 $app->register(Illuminate\Queue\QueueServiceProvider::class);
 
-
+$app->register(Illuminate\Database\MigrationServiceProvider::class);
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
