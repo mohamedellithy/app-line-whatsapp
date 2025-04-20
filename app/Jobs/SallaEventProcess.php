@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Services\SallaServices\AppEvents;
@@ -33,9 +34,15 @@ class SallaEventProcess extends Job implements ShouldQueue
     public function handle()
     {
         // try{
-            $event_call = new AppEvents();
-            $result = $event_call->make_event($this->event);
-            return $result;
+            $lock = Cache::lock(
+                'event-'.(isset($this->event['event']) ? $this->event['event'] : '').'-'
+                .(isset($this->event['merchant']) ? $this->event['merchant'] : '')
+                .'-'.(isset($this->event['data']['id']) ? $this->event['data']['id'] : ''),120);
+            if($lock->get()){
+                $event_call = new AppEvents();
+                $result = $event_call->make_event($this->event);
+                return $result;
+            }
         // } catch(\Exception $e){
 
         // };
