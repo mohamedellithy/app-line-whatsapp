@@ -33,21 +33,20 @@ class SallaEventProcess extends Job implements ShouldQueue
 
     public function handle()
     {
-        // try{
-            $lock = Cache::lock(
-                'event-'.(isset($this->event['event']) ? $this->event['event'] : '').'-'
-                .(isset($this->event['merchant']) ? $this->event['merchant'] : '')
-                .'-'.(isset($this->event['data']['id']) ? $this->event['data']['id'] : ''),30);
+        $lock = Cache::lock(
+        'event-'.(isset($this->event['event']) ? $this->event['event'] : '').'-'
+        .(isset($this->event['merchant']) ? $this->event['merchant'] : '')
+        .'-'.(isset($this->event['data']['id']) ? $this->event['data']['id'] : ''),30);
+        try{
             if($lock->get()){
-                try{
-                    $event_call = new AppEvents();
-                    $result = $event_call->make_event($this->event);
-                    return $result;
-                } catch(\Exception $e){
-                    \Log::info($e->getMessage());
-                } finally{
-                    $lock->release();
-                }
+                $event_call = new AppEvents();
+                $result = $event_call->make_event($this->event);
+                return $result;
             }
+        } catch(\Exception $e){
+            \Log::info($e->getMessage());
+        } finally{
+            $lock->release();
+        }
     }
 }
