@@ -3,6 +3,5 @@
 Homestead.json
 Homestead.yaml
 .env
-/database/migrations
 .phpunit.result.cache
 /public/whats-line-438413-1fd6b70cfd16.json
