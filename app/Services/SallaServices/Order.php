@@ -34,8 +34,6 @@ class Order extends AppMerchant implements AppEvent{
             'merchant_id'    => $this->data['merchant']
         ])->first();
 
-      
-
         // merchant
         if(!$merchant_info) return;
         $this->merchant_team = Team::with('account')->where([
@@ -56,12 +54,6 @@ class Order extends AppMerchant implements AppEvent{
     public function set_log(){
         // encode log
         $log = json_encode($this->data, JSON_UNESCAPED_UNICODE) . PHP_EOL;
-
-        // set log data
-        // Log::build([
-        //     'driver' => 'single',
-        //     'path' => storage_path('logs/salla_events.log'),
-        // ])->info($log);
     }
 
     public function resolve_event(){
@@ -87,8 +79,6 @@ class Order extends AppMerchant implements AppEvent{
         $account = Account::where([
             'team_id' => $this->merchant_team->id
         ])->first();
-
-        //\Log::info('c : '.$account->token);
         if( (!$account) || ($account->token == null)) return 'd';
 
         $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['id'], 30);
@@ -103,8 +93,7 @@ class Order extends AppMerchant implements AppEvent{
                     'event_from'    => "salla",
                     'type'          => $this->data['event']
                 ]);
-    
-                // "" ?: $attrs['customer_phone_number']
+
                 if($app_event->status != 'success'):
                     $slug    = isset($this->data['data']['order']['status']['slug']) ? $this->data['data']['order']['status']['slug'] : $this->data['data']['status']['slug'];
                     if($this->data['event'] == 'order.created'):

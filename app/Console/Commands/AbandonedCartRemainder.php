@@ -41,6 +41,7 @@ class AbandonedCartRemainder extends Command
             foreach($events as $app_event):
                 try {
                     if($app_event->count_of_call == 0){
+                        \Log::info(\Carbon\Carbon::now()->diffInMinutes($app_event->created_at));
                         if(\Carbon\Carbon::now()->diffInMinutes($app_event->created_at) >= 30){
                             $bandonCart = new AbandonedCartReminder(json_decode($app_event->values,true));
                             $bandonCart->resolve_event($app_event);
