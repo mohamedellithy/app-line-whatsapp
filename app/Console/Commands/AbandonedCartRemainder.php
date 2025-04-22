@@ -40,8 +40,6 @@ class AbandonedCartRemainder extends Command
         ])->whereColumn('count_of_call','!=','required_call')->orderBy('created_at','asc')->chunk(200,function($events){
             foreach($events as $app_event):
                 try {
-                   // \Log::info(\Carbon\Carbon::now()->diffInMinutes($app_event->created_at));
-                    \Log::info($app_event->id);
                     if($app_event->count_of_call == 0){
                         if(\Carbon\Carbon::now()->diffInMinutes($app_event->created_at) >= 30){
                             $bandonCart = new AbandonedCartReminder(json_decode($app_event->values,true));
