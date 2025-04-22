@@ -22,7 +22,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         //
         // SentSallaWebHooks::class,
-        NotificationSubscriptionExpire::class
+        NotificationSubscriptionExpire::class,
+        AbandonedCartRemainder::class
     ];
 
     /**
