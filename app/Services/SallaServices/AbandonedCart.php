@@ -78,7 +78,8 @@ class AbandonedCart implements AppEvent{
                     'values'        => json_encode($this->data),
                     'event_from'    => "salla",
                     'type'          => $this->data['event'],
-                    'status'        => 'progress'
+                    'status'        => 'progress',
+                    'required_call' => $this->settings['count_abandoned_cart_reminder'] ?: 1
                 ]);
 
                 DB::commit();

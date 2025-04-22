@@ -42,7 +42,7 @@ class Kernel extends ConsoleKernel
  
          ///////////////////////////////////////////////////////////////////////
          $schedule->command('abandoned:reminder')
-         ->withoutOverlapping()->timezone('Asia/Riyadh')->everyTwoHours();
+         ->withoutOverlapping()->timezone('Asia/Riyadh');
  
          ///////////////////////////////////////////////////////////////////////
          $schedule->call(function () {

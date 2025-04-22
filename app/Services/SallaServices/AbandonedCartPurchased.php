@@ -67,16 +67,16 @@ class AbandonedCartPurchased implements AppEvent{
         ])->first();
         if( (!$account) || ($account->token == null)) return;
 
-        $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['id'], 60);
-
-        $app_event = EventStatus::where([
-            'unique_number' => $this->data['merchant'].$this->data['data']['id'],
-            'event_from'    => "salla",
-            'type'          => "abandoned.cart"
-        ])->first();
-
-        if($app_event){
-            $app_event->delete();
+        if($this->data['data']['status'] == 'purchased'){
+            $app_event = EventStatus::where([
+                'unique_number' => $this->data['merchant'].$this->data['data']['id'],
+                'event_from'    => "salla",
+                'type'          => "abandoned.cart"
+            ])->first();
+    
+            if($app_event){
+                $app_event->delete();
+            }
         }
     }
 }

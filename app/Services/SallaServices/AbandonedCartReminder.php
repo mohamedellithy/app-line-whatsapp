@@ -55,9 +55,9 @@ class AbandonedCartReminder {
                     ]);
 
                     //if($app_event->required_call > 1):
-                        $app_event->update([
-                            'status' =>'success'
-                        ]);
+                        // $app_event->update([
+                        //     'status' =>'success'
+                        // ]);
                     //endif;
 
                     $message = $this->settings['abandoned_cart_message'] ?: '';
