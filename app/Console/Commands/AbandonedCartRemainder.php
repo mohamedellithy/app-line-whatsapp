@@ -39,7 +39,7 @@ class AbandonedCartRemainder extends Command
             ['required_call','>',1]
         ])->whereColumn('count_of_call','!=','required_call')->orderBy('created_at','asc')->chunk(200,function($events){
             foreach($events as $app_event):
-                try{
+                try {
                     if($app_event->count_of_call == 0){
                         if(\Carbon\Carbon::now()->diffInMinutes($app_event->created_at) >= 30){
                             $bandonCart = new AbandonedCartReminder(json_decode($app_event->values,true));
@@ -50,6 +50,12 @@ class AbandonedCartRemainder extends Command
                             $bandonCart = new AbandonedCartReminder(json_decode($app_event->values,true));
                             $bandonCart->resolve_event($app_event);
                         }
+                    }
+                    $app_event->refresh();
+                    if($app_event->count_of_call == $app_event->required_call){
+                        $app_event->update([
+                            'status' => 'success'
+                        ]);
                     }
                 } catch(Exception $e){
                     \Log::info('Abandoned Cart Reminder: '.$e->getMessage());
