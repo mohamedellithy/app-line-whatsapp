@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 // use App\Models\NotificationUsersPrivate;
 use App\Console\Commands\SentSallaWebHooks;
 use Illuminate\Console\Scheduling\Schedule;
+use App\Console\Commands\AbandonedCartRemainder;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
 use App\Console\Commands\NotificationSubscriptionExpire;
 
