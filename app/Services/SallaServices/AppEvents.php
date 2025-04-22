@@ -12,6 +12,7 @@ class AppEvents extends Events{
           'app.store.authorize'      => 'Authorize',
           // 'app.installed'            => 'Authorize',
           'abandoned.cart'           => 'AbandonedCart',
+          'abandoned.cart.purchased' => 'AbandonedCartPurchased',
           'app.settings.updated'     => 'SettingsUpdate',
           'app.subscription.started' => 'Subscription',
           'app.subscription.renewed' => 'Subscription',

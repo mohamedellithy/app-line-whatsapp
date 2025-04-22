@@ -41,13 +41,15 @@ class Kernel extends ConsoleKernel
  
  
          ///////////////////////////////////////////////////////////////////////
-         // $schedule->command('abandoned:reminder')
-         // ->withoutOverlapping()->timezone('Asia/Riyadh')->everyTwoHours();
-         //->between('8:00', '22:00');
+         $schedule->command('abandoned:reminder')
+         ->withoutOverlapping()->timezone('Asia/Riyadh')->everyTwoHours();
  
          ///////////////////////////////////////////////////////////////////////
          $schedule->call(function () {
-             DB::table('event_status')->truncate();
+             DB::table('event_status')->where([
+                ['type' ,'!=','abandoned.cart'],
+                ['status','!=','progress']
+             ])->truncate();
          })->name('empty_events_logs')->everyTwoHours();
  
          ///////////////////////////////////////////////////////////////////////

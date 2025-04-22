@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Cache;
 use App\Services\AppSettings\AppEvent;
 use App\Services\AppSettings\AbandonedCart as  AbandonedCartSettings;
 
-class AbandonedCart implements AppEvent{
+class AbandonedCartPurchased implements AppEvent{
     public $data;
     protected $merchant_team = null;
 
@@ -68,23 +68,15 @@ class AbandonedCart implements AppEvent{
         if( (!$account) || ($account->token == null)) return;
 
         $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['id'], 60);
-        if($lock->get()){
-            $attrs = formate_cart_details($this->data);
-            DB::beginTransaction();
-            try{
-                $app_event = EventStatus::updateOrCreate([
-                    'unique_number' => $this->data['merchant'].$this->data['data']['id']
-                ],[
-                    'values'        => json_encode($this->data),
-                    'event_from'    => "salla",
-                    'type'          => $this->data['event'],
-                    'status'        => 'progress'
-                ]);
 
-                DB::commit();
-            } catch(\Exception $e){
-                DB::rollBack();
-            }
+        $app_event = EventStatus::where([
+            'unique_number' => $this->data['merchant'].$this->data['data']['id'],
+            'event_from'    => "salla",
+            'type'          => "abandoned.cart"
+        ])->first();
+
+        if($app_event){
+            $app_event->delete();
         }
     }
 }

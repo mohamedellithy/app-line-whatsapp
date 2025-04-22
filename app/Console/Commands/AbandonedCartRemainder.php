@@ -2,11 +2,12 @@
 
 namespace App\Console\Commands;
 
+use Exception;
 use App\Models\EventStatus;
 use Illuminate\Console\Command;
-use App\Services\SallaServices\AppEvents;
-use Exception;
 use Illuminate\Support\Facades\Http;
+use App\Services\SallaServices\AppEvents;
+use App\Services\SallaServices\AbandonedCartReminder;
 
 class AbandonedCartRemainder extends Command
 {
@@ -37,12 +38,13 @@ class AbandonedCartRemainder extends Command
             ['values','!=',null],
             ['required_call','>',1]
         ])->whereColumn('count_of_call','!=','required_call')->orderBy('created_at','asc')->chunk(200,function($events){
-            foreach($events as $event):
+            foreach($events as $app_event):
                 try{
-                    $event_abounded_cart = new AppEvents();
-                    $event_abounded_cart->data = json_decode($event->values,true);
-                    $event_abounded_cart->make_event();
-                } catch(Exception $e){}
+                    $bandonCart = new AbandonedCartReminder(json_decode($app_event->values,true));
+                    $bandonCart->resolve_event($app_event);
+                } catch(Exception $e){
+                    \Log::info('Abandoned Cart Reminder: '.$e->getMessage());
+                }
             endforeach;
         });
 
