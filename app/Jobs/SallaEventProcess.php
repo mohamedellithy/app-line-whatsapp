@@ -26,6 +26,13 @@ class SallaEventProcess extends Job implements ShouldQueue
 
     protected $event;
 
+    /**
+     * The number of seconds the job can run before timing out.
+     *
+     * @var int
+     */
+    public $timeout = 120;
+
     public function __construct($event)
     {
         $this->event = $event;
@@ -33,9 +40,9 @@ class SallaEventProcess extends Job implements ShouldQueue
 
     public function handle()
     {
-        $event_name  = (isset($this->event['event']) ? $this->event['event'] : '');
-        $merchant_id = (isset($this->event['merchant']) ? $this->event['merchant'] : '');
-        $data_id     = (isset($this->event['data']['id']) ? $this->event['data']['id'] : '');
+        // $event_name  = (isset($this->event['event']) ? $this->event['event'] : '');
+        // $merchant_id = (isset($this->event['merchant']) ? $this->event['merchant'] : '');
+        // $data_id     = (isset($this->event['data']['id']) ? $this->event['data']['id'] : '');
        /// Cache::lock( 'event-'.$event_name.'-'.$merchant_id.'-'.$data_id,30)->get(function ()  {
             $event_call = new AppEvents();
             $result = $event_call->make_event($this->event);

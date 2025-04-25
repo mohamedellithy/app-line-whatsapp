@@ -84,7 +84,10 @@ class AbandonedCart implements AppEvent{
 
                 DB::commit();
             } catch(\Exception $e){
+                \Log::info($e->getMessage());
                 DB::rollBack();
+            } finally {
+                $lock->release();
             }
         }
     }
