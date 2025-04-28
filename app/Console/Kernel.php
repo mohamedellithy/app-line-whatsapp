@@ -52,7 +52,7 @@ class Kernel extends ConsoleKernel
                 ['type' ,'!=','abandoned.cart'],
                 ['status','!=','progress']
              ])->truncate();
-         })->name('empty_events_logs')->weekly();
+         })->name('empty_events_logs')->everyTwoHours();
 
          ///////////////////////////////////////////////////////////////////////
          // $schedule->call(function () {
