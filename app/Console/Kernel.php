@@ -40,27 +40,27 @@ class Kernel extends ConsoleKernel
          ///////////////////////////////////////////////////////////////////////
         //  $schedule->command('sent:salla_webhooks')
         //  ->withoutOverlapping()->timezone('Asia/Riyadh')->everyMinute();
- 
- 
+
+
          ///////////////////////////////////////////////////////////////////////
          $schedule->command('abandoned:reminder')
          ->withoutOverlapping()->timezone('Asia/Riyadh');
- 
+
          ///////////////////////////////////////////////////////////////////////
          $schedule->call(function () {
              DB::table('event_status')->where([
                 ['type' ,'!=','abandoned.cart'],
                 ['status','!=','progress']
              ])->truncate();
-         })->name('empty_events_logs')->everyTwoHours();
- 
+         })->name('empty_events_logs')->weekly();
+
          ///////////////////////////////////////////////////////////////////////
          // $schedule->call(function () {
          //     DB::table('event_status')->where(
          //         'type' ,'=','abandoned.cart'
          //     )->where('status','!=','progress')->delete();
          // })->name('empty_event_abandoned_cart_status')->weekly();
- 
+
          ///////////////////////////////////////////////////////////////////////
          $random_minutes = [
              'everyMinute',
@@ -73,22 +73,22 @@ class Kernel extends ConsoleKernel
              'everyThirtyMinutes',
              'hourly'
          ];
- 
+
          $key_nump = array_rand($random_minutes,1);
- 
+
          $random_repeate = $random_minutes[$key_nump];
- 
- 
+
+
         // send notifications for expiration date
         $schedule->command('subscriber:notification')
         ->withoutOverlapping()->timezone('Asia/Riyadh')->$random_repeate()->between('8:00', '23:00');
- 
- 
+
+
          ///////////////////////////////////////////////////////////////////////
          // send notifications for all users that not have token account
          // $schedule->command('merchants:donot-have-a-token')
          // ->withoutOverlapping()->$random_repeate()->between('8:00', '22:00');
-         
+
          ///////////////////////////////////////////////////////////////////////
          // $schedule->call(function(){
          //     $user = SpUser::with('merchant_info')->where('email',"Modern.sa@outlook.sa")->first();
@@ -98,7 +98,7 @@ class Kernel extends ConsoleKernel
          //         $user_password  = md5($password);
          //         $user->password = $user_password;
          //         $user->save();
- 
+
          //         $phone_number = $user->merchant_info()->where('app_name','salla')->value('phone');
          //         // message text
          //         $message = urlencode("عميلنا العزيز \n
@@ -113,10 +113,10 @@ class Kernel extends ConsoleKernel
          //         👈 رابط المنصة : {$platform_link}\n
          //         😀👏 من فضلك لا تبخل علينا فى الاستفسار عن كيفية تفعيل الخدمة على حسابك 😀👏
          //         ");
- 
+
          //         // send message with all info and it was installed succefully
          //         send_message($phone_number,$message);
- 
+
          //         // NotificationSubscriber::create([
          //         //     'user_id' => $user->id,
          //         //     'status'  => 'done'
