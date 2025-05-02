@@ -70,8 +70,8 @@ class OtpRequest extends AppMerchant implements AppEvent{
             DB::beginTransaction();
             $app_event = EventStatus::updateOrCreate([
                 'unique_number' => $this->data['merchant'].$this->data['data']['code'],
+                'values'        => json_encode($this->data)
             ],[
-                'values'        => json_encode($this->data),
                 'event_from'    => "salla",
                 'type'          => $this->data['event']
             ]);
