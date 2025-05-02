@@ -65,11 +65,11 @@ class ManualReviewRequest implements AppEvent{
         ])->first();
         if( (!$account) || ($account->token == null)) return;
 
-        $lock = Cache::lock('event-review-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['id'], 30);
-        if($lock->get()){
+        // $lock = Cache::lock('event-review-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['id'], 30);
+        // if($lock->get()){
             $attrs = formate_order_details($this->data);
-            DB::beginTransaction();
             try {
+                DB::beginTransaction();
                 $app_event = EventStatus::updateOrCreate([
                     'unique_number' => $this->data['merchant'],
                     'values'        => json_encode($this->data)
@@ -77,7 +77,7 @@ class ManualReviewRequest implements AppEvent{
                     'type'          => 'request_review',
                     'event_from'    => "salla"
                 ]);
-    
+
                 if($app_event->status != 'success'):
                     $message = isset($this->settings['message_request_review']) ? $this->settings['message_request_review'] : '';
                     $filter_message = message_order_params($message, $attrs);
@@ -87,18 +87,18 @@ class ManualReviewRequest implements AppEvent{
                         $account->token,
                         $this->merchant_team->ids
                     );
-    
+
                     $app_event->update([
                         'status' => $result_send_message
                     ]);
-    
+
                     $app_event->increment('count_of_call');
                 endif;
                 DB::commit();
             } catch(\Exception $e){
                 DB::rollBack();
             }
-        }
+        //}
     }
 
 }

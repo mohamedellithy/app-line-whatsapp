@@ -67,11 +67,11 @@ class CustomerCreated implements AppEvent{
         ])->first();
         if( (!$account) || ($account->token == null)) return;
 
-        $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['mobile'],30);
-        if($lock->get()){
+        // $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['mobile'],30);
+        // if($lock->get()){
             $attrs = formate_customer_details($this->data);
-            DB::beginTransaction();
-            try{
+            try {
+                DB::beginTransaction();
                 $app_event = EventStatus::updateOrCreate([
                     'unique_number' => $this->data['merchant'].$this->data['data']['id']
                 ],[
@@ -98,9 +98,9 @@ class CustomerCreated implements AppEvent{
             } catch(\Exception $e){
                 DB::rollBack();
             } finally {
-                $lock->release();
+               // $lock->release();
             }
-        }
+        // }
     }
 }
 

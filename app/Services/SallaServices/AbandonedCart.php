@@ -67,8 +67,8 @@ class AbandonedCart implements AppEvent{
         ])->first();
         if( (!$account) || ($account->token == null)) return;
 
-        $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['id'], 60);
-        if($lock->get()){
+        // $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['id'], 60);
+        // if($lock->get()){
             $attrs = formate_cart_details($this->data);
             DB::beginTransaction();
             try{
@@ -87,8 +87,8 @@ class AbandonedCart implements AppEvent{
                 \Log::info($e->getMessage());
                 DB::rollBack();
             } finally {
-                $lock->release();
+               // $lock->release();
             }
-        }
+        // }
     }
 }

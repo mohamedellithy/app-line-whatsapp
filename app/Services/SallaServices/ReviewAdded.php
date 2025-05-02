@@ -61,33 +61,33 @@ class ReviewAdded implements AppEvent{
         if( (!$account) || ($account->token == null)) return;
 
         // if($this->data['data']['type'] != 'testimonial') return;
-        $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['customer']['id'], 30);
-        if($lock->get()){
-            DB::beginTransaction();
+        // $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['customer']['id'], 30);
+        // if($lock->get()){
             try {
+                DB::beginTransaction();
                 $app_event = EventStatus::updateOrCreate([
-                    'unique_number' => $this->data['merchant'],
-                    'values'        => json_encode($this->data)
+                    'unique_number' => $this->data['merchant'].$this->data['data']['customer']['id'].$this->data['data']['product']['id'],
                 ],[
+                    'values'        => json_encode($this->data),
                     'event_from'    => "salla",
                     'type'          => $this->data['event']
                 ]);
-    
+
                 if($app_event->status != 'success'):
                     $message = isset($this->settings['review_added_message']) ? $this->settings['review_added_message'] : '';
                     $filter_message = message_order_params($message, $attrs);
-    
+
                     $result_send_message = send_message(
                         $this->data['data']['customer']['mobile'],
                         $filter_message,
                         $account->token,
                         $this->merchant_team->ids
                     );
-    
+
                     $app_event->update([
                         'status' => $result_send_message
                     ]);
-    
+
                     $app_event->increment('count_of_call');
                 endif;
                 DB::commit();
@@ -95,7 +95,7 @@ class ReviewAdded implements AppEvent{
                 \Log::info($e->getMessage());
                 DB::rollBack();
             }
-        }
+        // }
     }
 
 }

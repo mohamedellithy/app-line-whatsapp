@@ -81,15 +81,15 @@ class Order extends AppMerchant implements AppEvent{
         ])->first();
         if( (!$account) || ($account->token == null)) return 'd';
 
-        $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['id'], 30);
-        if($lock->get()){
+        // $lock = Cache::lock('event-'.$this->data['event'].'-'.$this->data['merchant'].'-'.$this->data['data']['id'], 30);
+        // if($lock->get()){
             $attrs = formate_order_details($this->data);
-            DB::beginTransaction();
             try {
+                DB::beginTransaction();
                 $app_event = EventStatus::updateOrCreate([
                     'unique_number' => $this->data['merchant'].$this->data['data']['id'],
-                    'values'        => json_encode($this->data)
                 ],[
+                    'values'        => json_encode($this->data),
                     'event_from'    => "salla",
                     'type'          => $this->data['event']
                 ]);
@@ -127,9 +127,9 @@ class Order extends AppMerchant implements AppEvent{
             } catch(\Exception $e){
                 DB::rollBack();
             } finally{
-                $lock->release();
+                //$lock->release();
             }
-        }
+        // }
 
     }
 
