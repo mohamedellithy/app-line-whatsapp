@@ -46,13 +46,15 @@ class AbandonedCartRemainder extends Command
                             $bandonCart->resolve_event($app_event);
                         }
                     } elseif($app_event->count_of_call > 0){
-                        if(\Carbon\Carbon::now()->diffInHours($app_event->updated_at) >= 12){
-                            $bandonCart = new AbandonedCartReminder(json_decode($app_event->values,true));
-                            $bandonCart->resolve_event($app_event);
+                        if(($app_event->count_of_call < $app_event->required_call) && ($app_event->status != 'success')){
+                            if(\Carbon\Carbon::now()->diffInHours($app_event->updated_at) >= 12){
+                                $bandonCart = new AbandonedCartReminder(json_decode($app_event->values,true));
+                                $bandonCart->resolve_event($app_event);
+                            }
                         }
                     }
                     $app_event->refresh();
-                    if($app_event->count_of_call == $app_event->required_call){
+                    if($app_event->count_of_call >= $app_event->required_call){
                         $app_event->update([
                             'status' => 'success'
                         ]);
